@@ -14,11 +14,16 @@ os.makedirs(OUT, exist_ok=True)
 items = json.load(open(MAN, encoding='utf-8'))
 todo = [m for m in items if not os.path.exists(os.path.join(OUT, m['id'] + '.mp3'))]
 print(f'المجموع {len(items)} — الناقص {len(todo)}')
+# حذف الملفات القديمة التي لم تعد مستعملة
+keep = {m['id'] + '.mp3' for m in items}
+old = [f for f in os.listdir(OUT) if f.endswith('.mp3') and f not in keep]
+for f in old: os.remove(os.path.join(OUT, f))
+print('حُذف', len(old), 'ملف قديم')
 
 async def one(m, sem):
     async with sem:
         dst = os.path.join(OUT, m['id'] + '.mp3')
-        text = m['text'].replace('...', '، ')
+        text = m['text'].replace('...', '، ').replace('ـ', '')
         for attempt in range(4):
             try:
                 await edge_tts.Communicate(text, m['voice'], rate=m['rate'], pitch=m['pitch']).save(dst + '.tmp')
