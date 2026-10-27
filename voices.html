@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>اختيار صوت الراوية</title>
+<style>
+@font-face{font-family:Baloo;src:url(assets/fonts/baloo-bhaijaan-2-arabic-800-normal.woff2) format('woff2');font-weight:800}
+@font-face{font-family:Naskh;src:url(assets/fonts/noto-naskh-arabic-arabic-700-normal.woff2) format('woff2');font-weight:700}
+:root{--ink:#2b2440;--mu:#6d6890;--line:#e6e2f3;--b:#2bb3a0;--c:#e63973;--bg:#fff6e5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Baloo,system-ui,sans-serif}
+header{background:#fff;border-bottom:2px solid var(--line);padding:14px 16px}
+h1{margin:0 0 6px;font-size:1.35rem}
+p{margin:4px 0;color:var(--mu);line-height:1.6}
+main{padding:12px 16px 40px;display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));max-width:1300px;margin:0 auto}
+.V{background:#fff;border:2px solid var(--line);border-radius:18px;padding:12px 14px}
+.V.ref{border-color:var(--b)}
+.V h2{margin:0 0 8px;font-size:1.15rem}
+.row{display:flex;align-items:center;gap:8px;padding:5px 0;border-top:1px dashed var(--line)}
+.row span{font-family:Naskh;flex:1;font-size:1.05rem;line-height:1.5}
+button{font:inherit;border:0;border-radius:10px;padding:7px 12px;cursor:pointer;color:#fff;background:var(--c);flex:none}
+.ref button{background:var(--b)}
+button.play{outline:3px solid #ffd54a}
+</style>
+</head>
+<body>
+<header>
+  <h1>🎧 اختيار صوت أنثوي للراوية</h1>
+  <p>نفس الجمل بأصوات مختلفة، وبنفس السرعة. قارنها بصوت حامد (الإطار الأخضر)، وقل لي اسم الصوت الذي يعجبك.</p>
+</header>
+<main id="m">جارٍ التحميل…</main>
+<script>
+let cur = null;
+function play(u, b) { if (cur) { cur.a.pause(); cur.b.classList.remove('play'); } const a = new Audio(u); cur = { a, b }; b.classList.add('play'); a.onended = () => b.classList.remove('play'); a.play().catch(() => b.classList.remove('play')); }
+fetch('audio/voice_samples/index.json?t=' + Date.now(), { cache: 'no-store' }).then((r) => r.json()).then((L) => {
+  const M = document.getElementById('m'); M.textContent = '';
+  const by = new Map(); L.forEach((x) => { if (!by.has(x.voice)) by.set(x.voice, { name: x.name, xs: [] }); by.get(x.voice).xs.push(x); });
+  for (const [v, g] of by) {
+    const box = document.createElement('div'); box.className = 'V' + (v === 'ar-SA-HamedNeural' ? ' ref' : '');
+    const h = document.createElement('h2'); h.textContent = g.name; box.append(h);
+    g.xs.forEach((x) => { const r = document.createElement('div'); r.className = 'row'; const s = document.createElement('span'); s.textContent = x.text; const b = document.createElement('button'); b.textContent = '▶'; b.onclick = () => play('audio/voice_samples/' + x.file, b); r.append(s, b); box.append(r); });
+    M.append(box);
+  }
+}).catch(() => { document.getElementById('m').textContent = 'العينات لم تجهز بعد — حدّث الصفحة بعد دقيقتين.'; });
+</script>
+</body>
+</html>

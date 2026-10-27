@@ -1,0 +1,15 @@
+{
+ "texts": ["خَرَجَتْ أُسْرَةُ بَاسِمٍ فِي رِحْلَةٍ إِلَى المَزْرَعَةِ.", "مَاذَا تَقُولُ القِطَّةُ؟", "بُرْتُقَالٌ"],
+ "voices": [
+  {"voice": "ar-SA-HamedNeural", "name": "حامد — السعودية (المعتمد حالياً، للمقارنة)", "rate": "-8%", "pitch": "+4Hz"},
+  {"voice": "ar-SA-ZariyahNeural", "name": "زارية — السعودية (الصوت القديم)", "rate": "-8%"},
+  {"voice": "ar-KW-NouraNeural", "name": "نورة — الكويت", "rate": "-8%"},
+  {"voice": "ar-QA-AmalNeural", "name": "أمل — قطر", "rate": "-8%"},
+  {"voice": "ar-AE-FatimaNeural", "name": "فاطمة — الإمارات", "rate": "-8%"},
+  {"voice": "ar-BH-LailaNeural", "name": "ليلى — البحرين", "rate": "-8%"},
+  {"voice": "ar-OM-AyshaNeural", "name": "عائشة — عُمان", "rate": "-8%"},
+  {"voice": "ar-JO-SanaNeural", "name": "سناء — الأردن", "rate": "-8%"},
+  {"voice": "ar-IQ-RanaNeural", "name": "رنا — العراق", "rate": "-8%"},
+  {"voice": "ar-EG-SalmaNeural", "name": "سلمى — مصر", "rate": "-8%"}
+ ]
+}
