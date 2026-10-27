@@ -29,9 +29,23 @@ def env_db(x, hop=0.01, win=0.03):
     return np.array([10 * np.log10(np.mean(x[i:i + w] ** 2) + 1e-12) for i in range(0, max(1, len(x) - w), hp)])
 
 def trim(x, pre=0.04, post=0.10):
-    d = env_db(x); thr = d.max() - 38
-    on = np.where(d > thr)[0]
-    a = max(0, int((on[0] * 0.01 - pre) * SR)); z = min(len(x), int((on[-1] * 0.01 + 0.03 + post) * SR))
+    """يقص الصمت، ويستبعد النقرات والضجيج المنفصل عن الكلام بأكثر من 0.18 ث."""
+    d = env_db(x); thr = d.max() - 30
+    on = d > thr
+    runs = []; s = None
+    for i, t in enumerate(list(on) + [False]):
+        if t and s is None: s = i
+        if not t and s is not None: runs.append([s, i - 1]); s = None
+    m = int(np.argmax(d)); top = d[m]
+    i0 = next(i for i, r in enumerate(runs) if r[0] <= m <= r[1]); s0, e0 = runs[i0]
+    # ضمّ المقاطع المجاورة فقط إذا كانت قريبة (≤0.15 ث) وقوية (كلام، مثل انفجار حرف ساكن) — لا النقرات والأنفاس
+    for r in runs[i0 + 1:]:
+        if r[0] - e0 <= 15 and d[r[0]:r[1] + 1].max() > top - 24: e0 = r[1]
+        else: break
+    for r in reversed(runs[:i0]):
+        if s0 - r[1] <= 15 and d[r[0]:r[1] + 1].max() > top - 24: s0 = r[0]
+        else: break
+    a = max(0, int((s0 * 0.01 - pre) * SR)); z = min(len(x), int((e0 * 0.01 + 0.03 + post) * SR))
     return x[a:z]
 
 # ---- كاشف الحركة ----
