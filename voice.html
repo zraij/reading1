@@ -74,6 +74,19 @@ Promise.all([getJ('tts/studio.json'), getJ('audio/human/index.json'), getJ('audi
     });
     M.append(box);
   }
+  // تسجيلات إضافية (المقاطع الباقية والكلمات)
+  const baseK = new Set((st.base || []).flatMap((b) => b.items));
+  const more = Object.keys(raw).filter((k) => !baseK.has(k));
+  if (more.length) {
+    const box = document.createElement('div'); box.className = 'L'; box.innerHTML = '<h2>تسجيلات أخرى</h2>';
+    for (const k of more) {
+      const r = document.createElement('div'); r.className = 'row'; r.innerHTML = '<b>' + k.split('|')[1] + '</b><small></small>';
+      const x = document.createElement('button'); x.className = 'r'; x.textContent = '▶ الأصلي'; x.onclick = () => play('audio/human/' + raw[k], x); r.append(x);
+      const c = cl[k]; if (c && c.src === raw[k]) { const y = document.createElement('button'); y.className = 'c'; y.textContent = '▶ المنظَّف'; y.onclick = () => play('audio/human_clean/' + c.f, y); r.append(y); }
+      box.append(r);
+    }
+    M.append(box);
+  }
 });
 </script>
 </body>

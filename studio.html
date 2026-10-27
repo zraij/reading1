@@ -99,21 +99,29 @@ async function load() {
   try { const r = await fetch('tts/keys.json?t=' + Date.now()); if (r.ok) MAN = await r.json(); } catch (_) {}
   for (const [k, v] of await dbAll()) pending.set(k, v);
   const g = $('#grp');
+  const ex = (s.extra || []), exLeft = ex.filter((k) => !HUMAN[k]).length;
   g.innerHTML = `<option value="base">⭐ أصوات الحروف الأساسية (${s.base.reduce((a, b) => a + b.items.length, 0)})</option>` +
+    `<option value="extra">🔤 المقاطع الباقية: تنوين وساكن ومدّ (${exLeft} من ${ex.length})</option>` +
     s.lessons.map((l, i) => `<option value="L${i}">${l.unit.split(':')[0]} — ${l.title} (${l.keys.length})</option>`).join('') +
     `<option value="all-s">كل المقاطع في الكتاب</option><option value="todo">ما لم يُسجَّل بعد من أصوات الحروف</option>`;
   g.onchange = () => setGroup(g.value);
-  setGroup('base');
+  const baseLeft = s.base.some((b) => b.items.some((k) => !HUMAN[k]));
+  g.value = baseLeft ? 'base' : 'extra'; setGroup(g.value);
 }
 function setGroup(v) {
   groupKey = v;
   if (v === 'base') list = STUDIO.base.flatMap((b) => b.items.map((k) => ({ k, L: b.L, tip: b.tip })));
+  else if (v === 'extra') list = (STUDIO.extra || []).map((k) => ({ k }));
   else if (v === 'all-s') { const seen = new Set(); list = []; STUDIO.lessons.forEach((l) => l.keys.forEach((k) => { if (k.startsWith('s|') && !seen.has(k)) { seen.add(k); list.push({ k }); } })); }
   else if (v === 'todo') list = STUDIO.base.flatMap((b) => b.items.map((k) => ({ k, L: b.L, tip: b.tip }))).filter((x) => !HUMAN[x.k] && !pending.has(x.k));
   else { const l = STUDIO.lessons[+v.slice(1)]; list = l.keys.slice().sort((a, b) => (a[0] === 's' ? 0 : 1) - (b[0] === 's' ? 0 : 1)).map((k) => ({ k })); }
   idx = Math.max(0, list.findIndex((x) => !HUMAN[x.k] && !pending.has(x.k))); drawGrid(); show();
 }
 function hintFor(t) {
+  const m = t.match(/^(وَ)?ال(.*)$/);
+  if (m) { const r = m[2]; const say = (!r || r === 'ْ' || /^ل/.test(r)) ? (m[1] ? 'وَلْ' : 'أَلْ') : (m[1] ? 'وَ' : 'أَ') + r; return 'انطقها هكذا: «' + say + '» (بلا توقف)'; }
+  if (/^ا[ء-ي]ْ$/.test(t)) return 'انطقها هكذا: «إِ' + t.slice(1) + '»';
+  if (/[ًٌٍ]/.test(t)) return 'تنوين: نونٌ ساكنة في آخره — ' + t + ' = ' + t.replace(/[ًٌٍ]ا?ى?/, (c) => ({ 'ً': 'َنْ', 'ٌ': 'ُنْ', 'ٍ': 'ِنْ' })[c[0]]);
   if (/^[ء-ي]ْ$/.test(t)) return 'الحرف ساكنًا: بلا حركة، نطقة قصيرة واحدة';
   if (/[اوي]$/.test(t) || /[اوي]ْ?$/.test(t)) return 'مدّ الصوت بمقدار حركتين';
   if (/ْ/.test(t)) return 'مقطع ينتهي بحرف ساكن: انطقه دفعة واحدة';
