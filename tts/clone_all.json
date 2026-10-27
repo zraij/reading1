@@ -1,7 +1,0 @@
-{
- "v": 1,
- "voice": "ar-SA-HamedNeural",
- "pitch": "+4Hz",
- "topk": 4,
- "rates": { "n": "-8%", "w": "-14%", "s": "-12%" }
-}
