@@ -33,7 +33,8 @@ main{padding:12px 16px 40px;display:grid;gap:12px;grid-template-columns:repeat(a
   <h1>🎧 مقارنة الأصوات: التسجيل الأصلي ↔ النسخة المنظَّفة</h1>
   <p>اسمع كل مقطع بالنسختين. <b style="color:var(--b)">المنظَّفة</b>: إزالة ضجيج، قص الصمت، توحيد ارتفاع الصوت، وإطالة المدّ (ا و ي) حتى يكون أطول بوضوح من الحركة القصيرة.</p>
   <div class="mode">الكتاب يستعمل الآن: <span id="st"></span>
-    <button data-m="hamed">🔊 صوت حامد (الافتراضي)</button>
+    <button data-m="auto">⭐ الحروف بتسجيلاتي + الباقي حامد (الافتراضي)</button>
+    <button data-m="hamed">🔊 حامد لكل شيء</button>
     <button data-m="clean">✨ تسجيلاتي المنظَّفة</button>
     <button data-m="raw">🎙 تسجيلاتي الأصلية</button>
   </div>
@@ -44,10 +45,10 @@ main{padding:12px 16px 40px;display:grid;gap:12px;grid-template-columns:repeat(a
 const NAMES = { a: 'فتحة', u: 'ضمة', i: 'كسرة', aa: 'مدّ بالألف', uu: 'مدّ بالواو', ii: 'مدّ بالياء', sk: 'سكون' };
 const FORMS7 = ['a', 'u', 'i', 'aa', 'uu', 'ii', 'sk'], FORMS4 = ['a', 'u', 'i', 'sk'];
 const getJ = (u) => fetch(u + '?t=' + Date.now(), { cache: 'no-store' }).then((r) => r.ok ? r.json() : {}).catch(() => ({}));
-function mode() { try { return localStorage.getItem('reading1.voice') || 'hamed'; } catch (_) { return 'hamed'; } }
+function mode() { try { return localStorage.getItem('reading1.voice') || 'auto'; } catch (_) { return 'auto'; } }
 function paint() {
   const m = mode();
-  document.getElementById('st').textContent = m === 'raw' ? 'تسجيلاتي الأصلية' : m === 'clean' ? 'تسجيلاتي المنظَّفة' : 'صوت حامد';
+  document.getElementById('st').textContent = m === 'raw' ? 'تسجيلاتي الأصلية' : m === 'clean' ? 'تسجيلاتي المنظَّفة' : m === 'hamed' ? 'حامد لكل شيء' : 'الحروف بتسجيلاتي + الباقي حامد';
   document.querySelectorAll('.mode button').forEach((b) => b.classList.toggle('on', b.dataset.m === m));
 }
 document.querySelectorAll('.mode button').forEach((b) => b.onclick = () => { try { localStorage.setItem('reading1.voice', b.dataset.m); } catch (_) {} paint(); });
