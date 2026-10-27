@@ -25,15 +25,18 @@ knn = torch.hub.load('bshall/knn-vc', 'knn_vc', prematched=True, trust_repo=True
 ms = knn.get_matching_set(refs, vad_trigger_level=0)
 print('matching set', tuple(ms.shape), flush=True)
 
-def wav16(p, o): sh('-i', p, '-ac', '1', '-ar', '16000', o); return o
+def wav16(p, o, pad=False):
+    af = ['-af', 'adelay=200:all=1,apad=pad_dur=0.25'] if pad else []
+    sh('-i', p, '-ac', '1', '-ar', '16000', *af, o); return o
 def F(p): return knn.get_features(p, vad_trigger_level=0)   # WavLM (الطبقة السادسة) — ميزات لغوية
 
 items = sorted(src.items())
 if LIMIT: items = items[:LIMIT]
 index = {}; t0 = time.time()
 for n, (k, p) in enumerate(items):
-    w = wav16(p, f"{TMP}/src/{hashlib.sha1(k.encode()).hexdigest()[:10]}.wav")
-    out = knn.match(F(w), ms, topk=4)
+    w = wav16(p, f"{TMP}/src/{hashlib.sha1(k.encode()).hexdigest()[:10]}.wav", pad=True)
+    try: out = knn.match(F(w), ms, topk=4)
+    except Exception as e: print('skip', k, e, flush=True); continue
     name = 'h_' + hashlib.sha1(k.encode()).hexdigest()[:10] + '.mp3'
     o16 = f'{TMP}/o.wav'; torchaudio.save(o16, out[None].cpu(), 16000)
     sh('-i', o16, '-af', 'highpass=f=70,loudnorm=I=-17:TP=-1.5:LRA=11,silenceremove=start_periods=1:start_threshold=-50dB,areverse,silenceremove=start_periods=1:start_threshold=-50dB,areverse,apad=pad_dur=0.1',
@@ -67,7 +70,8 @@ def dist(A, B):
 def check(k, path):
     g = groups.get(shape(k[2:]), [])
     if len(g) < 3: return None
-    X = F(wav16(path, f'{TMP}/chk.wav'))
+    try: X = F(wav16(path, f'{TMP}/chk.wav'))
+    except Exception: return None
     ds = sorted((dist(X, refF(r)), r) for r in g)
     rank = [r for _, r in ds].index(k) + 1
     return {'rank': rank, 'n': len(g), 'best': ds[0][1][2:]}
