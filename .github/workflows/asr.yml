@@ -1,6 +1,8 @@
 name: فحص النطق
 on:
   workflow_dispatch:
+  push:
+    paths: ['tts/asr_check.py', '.github/workflows/asr.yml']
   workflow_run:
     workflows: ['توليد الأصوات']
     types: [completed]
@@ -9,7 +11,7 @@ permissions:
 concurrency: { group: asr, cancel-in-progress: true }
 jobs:
   part:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 240
     strategy:
@@ -20,7 +22,7 @@ jobs:
         with: { ref: main }
       - uses: actions/setup-python@v5
         with: { python-version: '3.11' }
-      - run: pip install faster-whisper==1.0.3
+      - run: pip install faster-whisper==1.0.3 requests
       - run: mkdir -p out/asr && set -o pipefail && python -u tts/asr_check.py ${{ matrix.shard }} 6 2>&1 | tail -c 20000 | tee out/asr/log_${{ matrix.shard }}.txt
       - uses: actions/upload-artifact@v4
         if: always()
