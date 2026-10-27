@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مقارنة محركات النطق</title>
+<style>
+@font-face{font-family:Baloo;src:url(assets/fonts/baloo-bhaijaan-2-arabic-800-normal.woff2) format('woff2');font-weight:800}
+@font-face{font-family:Naskh;src:url(assets/fonts/noto-naskh-arabic-arabic-700-normal.woff2) format('woff2');font-weight:700}
+:root{--ink:#2b2440;--mu:#6d6890;--line:#e6e2f3;--bg:#fff6e5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Baloo,system-ui,sans-serif}
+header{position:sticky;top:0;z-index:2;background:#fff;border-bottom:2px solid var(--line);padding:12px 16px}
+h1{margin:0 0 4px;font-size:1.3rem}p{margin:2px 0;color:var(--mu);line-height:1.6}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}.tabs button{font:inherit;border:2px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;cursor:pointer}.tabs button.on{background:var(--ink);color:#fff}
+table{border-collapse:collapse;margin:10px auto 40px;background:#fff;border-radius:14px;overflow:hidden;max-width:98vw}
+th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:center}
+td.t{font-family:Naskh;font-size:1.5rem;text-align:right;max-width:46vw}
+.p{font:inherit;border:0;border-radius:9px;padding:5px 9px;cursor:pointer;color:#fff;background:#2bb3a0;white-space:nowrap}
+.p.m{background:#ff8a3d}.p.h{background:#8a84a8}.p.play{outline:3px solid #ffd54a}
+.ok{color:#22b573}.no{color:#e63973}
+#sum{font-weight:800}
+</style>
+</head>
+<body>
+<header>
+  <h1>🔬 مقارنة: محرك النطق الحرفي ↔ حامد ↔ تسجيلك</h1>
+  <p>لكل مقطع: <b style="color:#ff8a3d">تسجيلك</b> (المرجع الصحيح)، <b style="color:#8a84a8">حامد الآلي</b>، والمحرك الجديد بأربعة أصوات (٠–٣). ✓ = الفحص الصوتي وجده مطابقاً لتسجيلك.</p>
+  <p id="sum"></p>
+  <div class="tabs"><button data-t="s" class="on">الحروف والمقاطع</button><button data-t="w">كلمات وجمل</button></div>
+</header>
+<table id="tb"></table>
+<script>
+const getJ = (u) => fetch(u + '?t=' + Date.now(), { cache: 'no-store' }).then((r) => r.ok ? r.json() : {}).catch(() => ({}));
+let cur = null, D = {};
+function play(u, b) { if (cur) { cur.a.pause(); cur.b.classList.remove('play'); } const a = new Audio(u); cur = { a, b }; b.classList.add('play'); a.onended = () => b.classList.remove('play'); a.play().catch(() => b.classList.remove('play')); }
+const mk = (cls, label, url) => { const b = document.createElement('button'); b.className = 'p ' + cls; b.textContent = label; b.onclick = () => play(url, b); return b; };
+function draw(t) {
+  const { idx, ver, raw, cl, keys } = D; const tb = document.getElementById('tb'); tb.textContent = '';
+  const spk = ['0', '1', '2', '3'];
+  const hr = tb.insertRow(); ['النص', 'تسجيلك', 'حامد', ...spk.map((s) => 'جديد ' + s)].forEach((x) => { const th = document.createElement('th'); th.textContent = x; hr.append(th); });
+  for (const k in idx) {
+    const isS = k.startsWith('s|'); if ((t === 's') !== isS) continue;
+    const r = tb.insertRow(); const c0 = r.insertCell(); c0.className = 't'; c0.textContent = k.slice(k.indexOf('|') + 1);
+    const c1 = r.insertCell(); if (raw[k]) c1.append(mk('m', '▶', (cl[k] && cl[k].src === raw[k]) ? 'audio/human_clean/' + cl[k].f : 'audio/human/' + raw[k]));
+    const c2 = r.insertCell(); const hid = keys[k]; if (hid) { c2.append(mk('h', '▶', 'audio/' + hid + '.mp3')); const v = ver.hamed_tts && ver.hamed_tts[k]; if (v) { const s = document.createElement('div'); s.className = v.rank === 1 ? 'ok' : 'no'; s.textContent = v.rank === 1 ? '✓' : '✗ ' + v.best; c2.append(s); } }
+    for (const s of spk) { const c = r.insertCell(); const f = idx[k][s]; if (!f) continue; c.append(mk('', '▶', 'audio/ar_tts/' + f)); const v = ver[s] && ver[s][k]; if (v) { const d = document.createElement('div'); d.className = v.rank === 1 ? 'ok' : 'no'; d.textContent = v.rank === 1 ? '✓' : '✗ ' + v.best; c.append(d); } }
+  }
+}
+document.querySelectorAll('.tabs button').forEach((b) => b.onclick = () => { document.querySelectorAll('.tabs button').forEach((x) => x.classList.toggle('on', x === b)); draw(b.dataset.t); });
+Promise.all([getJ('audio/ar_tts/index.json'), getJ('audio/ar_tts/verify.json'), getJ('audio/human/index.json'), getJ('audio/human_clean/index.json'), getJ('tts/keys.json')]).then(([idx, ver, raw, cl, keys]) => {
+  D = { idx, ver, raw, cl, keys };
+  const sm = Object.entries(ver).map(([t, v]) => { const a = Object.values(v).filter(Boolean); return `${t === 'hamed_tts' ? 'حامد' : 'جديد ' + t}: ${a.filter((x) => x.rank === 1).length}/${a.length}`; }).join(' — ');
+  document.getElementById('sum').textContent = 'نتيجة الفحص الصوتي للمقاطع (مطابق/المجموع): ' + sm;
+  draw('s');
+});
+</script>
+</body>
+</html>
