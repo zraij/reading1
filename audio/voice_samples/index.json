@@ -1,0 +1,182 @@
+[
+ {
+  "voice": "ar-SA-HamedNeural",
+  "name": "حامد — السعودية (المعتمد حالياً، للمقارنة)",
+  "text": "خَرَجَتْ أُسْرَةُ بَاسِمٍ فِي رِحْلَةٍ إِلَى المَزْرَعَةِ.",
+  "file": "1085dab891.mp3"
+ },
+ {
+  "voice": "ar-SA-HamedNeural",
+  "name": "حامد — السعودية (المعتمد حالياً، للمقارنة)",
+  "text": "مَاذَا تَقُولُ القِطَّةُ؟",
+  "file": "6db396a3d0.mp3"
+ },
+ {
+  "voice": "ar-SA-HamedNeural",
+  "name": "حامد — السعودية (المعتمد حالياً، للمقارنة)",
+  "text": "بُرْتُقَالٌ",
+  "file": "84eab9316d.mp3"
+ },
+ {
+  "voice": "ar-SA-ZariyahNeural",
+  "name": "زارية — السعودية (الصوت القديم)",
+  "text": "خَرَجَتْ أُسْرَةُ بَاسِمٍ فِي رِحْلَةٍ إِلَى المَزْرَعَةِ.",
+  "file": "b57c78ea52.mp3"
+ },
+ {
+  "voice": "ar-SA-ZariyahNeural",
+  "name": "زارية — السعودية (الصوت القديم)",
+  "text": "مَاذَا تَقُولُ القِطَّةُ؟",
+  "file": "2a9a1f4660.mp3"
+ },
+ {
+  "voice": "ar-SA-ZariyahNeural",
+  "name": "زارية — السعودية (الصوت القديم)",
+  "text": "بُرْتُقَالٌ",
+  "file": "7ec826e262.mp3"
+ },
+ {
+  "voice": "ar-KW-NouraNeural",
+  "name": "نورة — الكويت",
+  "text": "خَرَجَتْ أُسْرَةُ بَاسِمٍ فِي رِحْلَةٍ إِلَى المَزْرَعَةِ.",
+  "file": "e57afc12c1.mp3"
+ },
+ {
+  "voice": "ar-KW-NouraNeural",
+  "name": "نورة — الكويت",
+  "text": "مَاذَا تَقُولُ القِطَّةُ؟",
+  "file": "37ee322c38.mp3"
+ },
+ {
+  "voice": "ar-KW-NouraNeural",
+  "name": "نورة — الكويت",
+  "text": "بُرْتُقَالٌ",
+  "file": "4c47ce607b.mp3"
+ },
+ {
+  "voice": "ar-QA-AmalNeural",
+  "name": "أمل — قطر",
+  "text": "خَرَجَتْ أُسْرَةُ بَاسِمٍ فِي رِحْلَةٍ إِلَى المَزْرَعَةِ.",
+  "file": "fbf6ef6ecf.mp3"
+ },
+ {
+  "voice": "ar-QA-AmalNeural",
+  "name": "أمل — قطر",
+  "text": "مَاذَا تَقُولُ القِطَّةُ؟",
+  "file": "f74d3e762b.mp3"
+ },
+ {
+  "voice": "ar-QA-AmalNeural",
+  "name": "أمل — قطر",
+  "text": "بُرْتُقَالٌ",
+  "file": "ede7089ae7.mp3"
+ },
+ {
+  "voice": "ar-AE-FatimaNeural",
+  "name": "فاطمة — الإمارات",
+  "text": "خَرَجَتْ أُسْرَةُ بَاسِمٍ فِي رِحْلَةٍ إِلَى المَزْرَعَةِ.",
+  "file": "2859385b1c.mp3"
+ },
+ {
+  "voice": "ar-AE-FatimaNeural",
+  "name": "فاطمة — الإمارات",
+  "text": "مَاذَا تَقُولُ القِطَّةُ؟",
+  "file": "07191122fd.mp3"
+ },
+ {
+  "voice": "ar-AE-FatimaNeural",
+  "name": "فاطمة — الإمارات",
+  "text": "بُرْتُقَالٌ",
+  "file": "c2610af68b.mp3"
+ },
+ {
+  "voice": "ar-BH-LailaNeural",
+  "name": "ليلى — البحرين",
+  "text": "خَرَجَتْ أُسْرَةُ بَاسِمٍ فِي رِحْلَةٍ إِلَى المَزْرَعَةِ.",
+  "file": "dfafa226c6.mp3"
+ },
+ {
+  "voice": "ar-BH-LailaNeural",
+  "name": "ليلى — البحرين",
+  "text": "مَاذَا تَقُولُ القِطَّةُ؟",
+  "file": "c56699a56d.mp3"
+ },
+ {
+  "voice": "ar-BH-LailaNeural",
+  "name": "ليلى — البحرين",
+  "text": "بُرْتُقَالٌ",
+  "file": "633ba3c2b6.mp3"
+ },
+ {
+  "voice": "ar-OM-AyshaNeural",
+  "name": "عائشة — عُمان",
+  "text": "خَرَجَتْ أُسْرَةُ بَاسِمٍ فِي رِحْلَةٍ إِلَى المَزْرَعَةِ.",
+  "file": "3d56872328.mp3"
+ },
+ {
+  "voice": "ar-OM-AyshaNeural",
+  "name": "عائشة — عُمان",
+  "text": "مَاذَا تَقُولُ القِطَّةُ؟",
+  "file": "165a5c80c0.mp3"
+ },
+ {
+  "voice": "ar-OM-AyshaNeural",
+  "name": "عائشة — عُمان",
+  "text": "بُرْتُقَالٌ",
+  "file": "b1aabefffc.mp3"
+ },
+ {
+  "voice": "ar-JO-SanaNeural",
+  "name": "سناء — الأردن",
+  "text": "خَرَجَتْ أُسْرَةُ بَاسِمٍ فِي رِحْلَةٍ إِلَى المَزْرَعَةِ.",
+  "file": "2ab1e157c2.mp3"
+ },
+ {
+  "voice": "ar-JO-SanaNeural",
+  "name": "سناء — الأردن",
+  "text": "مَاذَا تَقُولُ القِطَّةُ؟",
+  "file": "2b94e5a80b.mp3"
+ },
+ {
+  "voice": "ar-JO-SanaNeural",
+  "name": "سناء — الأردن",
+  "text": "بُرْتُقَالٌ",
+  "file": "5b6d7903cd.mp3"
+ },
+ {
+  "voice": "ar-IQ-RanaNeural",
+  "name": "رنا — العراق",
+  "text": "خَرَجَتْ أُسْرَةُ بَاسِمٍ فِي رِحْلَةٍ إِلَى المَزْرَعَةِ.",
+  "file": "4e0a151131.mp3"
+ },
+ {
+  "voice": "ar-IQ-RanaNeural",
+  "name": "رنا — العراق",
+  "text": "مَاذَا تَقُولُ القِطَّةُ؟",
+  "file": "2b7d7cb90b.mp3"
+ },
+ {
+  "voice": "ar-IQ-RanaNeural",
+  "name": "رنا — العراق",
+  "text": "بُرْتُقَالٌ",
+  "file": "77999f9e2d.mp3"
+ },
+ {
+  "voice": "ar-EG-SalmaNeural",
+  "name": "سلمى — مصر",
+  "text": "خَرَجَتْ أُسْرَةُ بَاسِمٍ فِي رِحْلَةٍ إِلَى المَزْرَعَةِ.",
+  "file": "b443aecf71.mp3"
+ },
+ {
+  "voice": "ar-EG-SalmaNeural",
+  "name": "سلمى — مصر",
+  "text": "مَاذَا تَقُولُ القِطَّةُ؟",
+  "file": "558341bc12.mp3"
+ },
+ {
+  "voice": "ar-EG-SalmaNeural",
+  "name": "سلمى — مصر",
+  "text": "بُرْتُقَالٌ",
+  "file": "31bc35a278.mp3"
+ }
+]
