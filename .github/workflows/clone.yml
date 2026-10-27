@@ -1,0 +1,25 @@
+name: استنساخ صوت المعلم
+on:
+  workflow_dispatch:
+  push:
+    paths: ['tts/clone_job.json']
+permissions:
+  contents: write
+concurrency: { group: clone-voice, cancel-in-progress: false }
+jobs:
+  clone:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: sudo apt-get update >/dev/null && sudo apt-get install -y ffmpeg >/dev/null
+      - run: pip install torch==2.4.1 torchaudio==2.4.1 --index-url https://download.pytorch.org/whl/cpu && pip install edge-tts numpy scipy soundfile
+      - run: python tts/clone.py
+      - name: حفظ النتائج
+        run: |
+          git config user.name "audio-bot"
+          git config user.email "audio-bot@users.noreply.github.com"
+          git add audio
+          git diff --cached --quiet || (git commit -m "استنساخ الصوت" && git pull --rebase && git push)
