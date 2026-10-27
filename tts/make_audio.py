@@ -26,7 +26,7 @@ def trim(f):
     if not FF: return
     t = f + '.trim.mp3'
     af = 'silenceremove=start_periods=1:start_threshold=-60dB:start_silence=0.06,areverse,silenceremove=start_periods=1:start_threshold=-60dB:start_silence=0.25,areverse,apad=pad_dur=0.08'  # قص لطيف: لا يقطع أواخر الكلمات (مثل الهاء الساكنة)
-    r = subprocess.run([FF, '-v', 'error', '-y', '-i', f, '-af', af, '-ac', '1', '-ar', '24000', '-b:a', '48k', t])
+    r = subprocess.run([FF, '-v', 'error', '-y', '-i', f, '-af', af, '-ac', '1', '-ar', '24000', '-b:a', '64k', t])
     if r.returncode == 0 and os.path.exists(t) and os.path.getsize(t) > 300: os.replace(t, f)
 
 async def one(m, sem):
