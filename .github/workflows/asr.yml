@@ -21,7 +21,7 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: '3.11' }
       - run: pip install faster-whisper==1.0.3
-      - run: python -u tts/asr_check.py ${{ matrix.shard }} 6
+      - run: mkdir -p out/asr && set -o pipefail && python -u tts/asr_check.py ${{ matrix.shard }} 6 2>&1 | tail -c 20000 | tee out/asr/log_${{ matrix.shard }}.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with: { name: 'asr-${{ matrix.shard }}', path: out/asr, if-no-files-found: ignore, retention-days: 3 }
@@ -35,7 +35,8 @@ jobs:
       - uses: actions/download-artifact@v4
         with: { path: parts, pattern: 'asr-*', merge-multiple: true }
       - run: |
-          mkdir -p audio/review
+          mkdir -p audio/review/logs
+          cp parts/log_*.txt audio/review/logs/ 2>/dev/null || true
           python3 -c "
           import json,glob
           r={}
