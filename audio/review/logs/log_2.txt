@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/runner/work/reading1/reading1/tts/asr_check.py", line 6, in <module>
+    from faster_whisper import WhisperModel
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/faster_whisper/__init__.py", line 2, in <module>
+    from faster_whisper.transcribe import WhisperModel
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/faster_whisper/transcribe.py", line 17, in <module>
+    from faster_whisper.utils import download_model, format_timestamp, get_end, get_logger
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/faster_whisper/utils.py", line 8, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
