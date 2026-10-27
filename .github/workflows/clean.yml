@@ -1,0 +1,24 @@
+name: تنظيف التسجيلات البشرية
+on:
+  workflow_dispatch:
+  push:
+    paths: ['audio/human/index.json']
+permissions:
+  contents: write
+concurrency: { group: clean-voice, cancel-in-progress: true }
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: sudo apt-get update >/dev/null && sudo apt-get install -y ffmpeg >/dev/null && pip install numpy scipy
+      - run: ffmpeg -hide_banner -filters | grep -q rubberband
+      - run: python tts/clean_voice.py
+      - name: حفظ النسخة المنظفة
+        run: |
+          git config user.name "audio-bot"
+          git config user.email "audio-bot@users.noreply.github.com"
+          git add audio/human_clean
+          git diff --cached --quiet || (git commit -m "تنظيف التسجيلات البشرية" && git pull --rebase && git push)

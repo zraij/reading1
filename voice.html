@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مقارنة الأصوات — قراءتي الجديدة</title>
+<style>
+@font-face{font-family:Baloo;src:url(assets/fonts/baloo-bhaijaan-2-arabic-800-normal.woff2) format('woff2');font-weight:800}
+@font-face{font-family:Naskh;src:url(assets/fonts/noto-naskh-arabic-arabic-700-normal.woff2) format('woff2');font-weight:700}
+:root{--ink:#2b2440;--mu:#6d6890;--line:#e6e2f3;--a:#ff8a3d;--b:#2bb3a0;--bg:#fff6e5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Baloo,system-ui,sans-serif}
+header{position:sticky;top:0;z-index:2;background:#fff;border-bottom:2px solid var(--line);padding:14px 16px}
+h1{margin:0 0 6px;font-size:1.35rem}
+p{margin:4px 0;color:var(--mu);font-size:.95rem;line-height:1.6}
+.mode{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+.mode button{font:inherit;border:2px solid var(--line);background:#fff;border-radius:999px;padding:8px 16px;cursor:pointer}
+.mode button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+#st{font-weight:800}
+main{padding:12px 16px 40px;display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(330px,1fr))}
+.L{background:#fff;border:2px solid var(--line);border-radius:18px;padding:10px 12px}
+.L h2{margin:0 0 6px;font-family:Naskh;font-size:2rem;line-height:1.2}
+.row{display:flex;align-items:center;gap:8px;padding:5px 0;border-top:1px dashed var(--line)}
+.row b{font-family:Naskh;font-size:1.6rem;min-width:62px}
+.row small{color:var(--mu);flex:1}
+.row button{font:inherit;font-size:.85rem;border:0;border-radius:10px;padding:6px 10px;cursor:pointer;color:#fff}
+.r{background:var(--a)}.c{background:var(--b)}
+.row button.play{outline:3px solid #ffd54a}
+</style>
+</head>
+<body>
+<header>
+  <h1>🎧 مقارنة الأصوات: التسجيل الأصلي ↔ النسخة المنظَّفة</h1>
+  <p>اسمع كل مقطع بالنسختين. <b style="color:var(--b)">المنظَّفة</b>: إزالة ضجيج، قص الصمت، توحيد ارتفاع الصوت، وإطالة المدّ (ا و ي) حتى يكون أطول بوضوح من الحركة القصيرة.</p>
+  <div class="mode">الكتاب يستعمل الآن: <span id="st"></span>
+    <button data-m="clean">✨ النسخة المنظَّفة</button>
+    <button data-m="raw">🎙 التسجيل الأصلي (تراجع)</button>
+  </div>
+  <p>الاختيار يُحفظ على هذا الجهاز ويطبَّق على الكتاب فوراً بعد إعادة فتحه.</p>
+</header>
+<main id="m">جارٍ التحميل…</main>
+<script>
+const NAMES = { a: 'فتحة', u: 'ضمة', i: 'كسرة', aa: 'مدّ بالألف', uu: 'مدّ بالواو', ii: 'مدّ بالياء', sk: 'سكون' };
+const FORMS7 = ['a', 'u', 'i', 'aa', 'uu', 'ii', 'sk'], FORMS4 = ['a', 'u', 'i', 'sk'];
+const getJ = (u) => fetch(u + '?t=' + Date.now(), { cache: 'no-store' }).then((r) => r.ok ? r.json() : {}).catch(() => ({}));
+function mode() { try { return localStorage.getItem('reading1.voice') || 'clean'; } catch (_) { return 'clean'; } }
+function paint() {
+  const m = mode();
+  document.getElementById('st').textContent = m === 'raw' ? 'التسجيل الأصلي' : 'النسخة المنظَّفة';
+  document.querySelectorAll('.mode button').forEach((b) => b.classList.toggle('on', b.dataset.m === m));
+}
+document.querySelectorAll('.mode button').forEach((b) => b.onclick = () => { try { localStorage.setItem('reading1.voice', b.dataset.m); } catch (_) {} paint(); });
+paint();
+let cur = null;
+function play(url, btn) {
+  if (cur) { cur.a.pause(); cur.b.classList.remove('play'); }
+  const a = new Audio(url); cur = { a, b: btn }; btn.classList.add('play');
+  a.onended = () => btn.classList.remove('play'); a.play().catch(() => btn.classList.remove('play'));
+}
+Promise.all([getJ('tts/studio.json'), getJ('audio/human/index.json'), getJ('audio/human_clean/index.json')]).then(([st, raw, cl]) => {
+  const M = document.getElementById('m'); M.textContent = '';
+  for (const b of st.base || []) {
+    const box = document.createElement('div'); box.className = 'L';
+    box.innerHTML = '<h2>' + b.L + '</h2>';
+    const forms = b.items.length === 7 ? FORMS7 : FORMS4;
+    b.items.forEach((k, i) => {
+      const r = document.createElement('div'); r.className = 'row';
+      r.innerHTML = '<b>' + k.split('|')[1] + '</b><small>' + NAMES[forms[i]] + '</small>';
+      if (raw[k]) { const x = document.createElement('button'); x.className = 'r'; x.textContent = '▶ الأصلي'; x.onclick = () => play('audio/human/' + raw[k], x); r.append(x); }
+      const c = cl[k];
+      if (c && c.src === raw[k]) { const y = document.createElement('button'); y.className = 'c'; y.textContent = '▶ المنظَّف'; y.onclick = () => play('audio/human_clean/' + c.f, y); r.append(y); }
+      else if (raw[k]) { const s = document.createElement('small'); s.textContent = '⏳ قيد التنظيف'; r.append(s); }
+      box.append(r);
+    });
+    M.append(box);
+  }
+});
+</script>
+</body>
+</html>
