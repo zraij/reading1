@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>أصوات الحروف</title>
+<style>
+@font-face{font-family:Baloo;src:url(assets/fonts/baloo-bhaijaan-2-arabic-800-normal.woff2) format('woff2');font-weight:800}
+@font-face{font-family:Naskh;src:url(assets/fonts/noto-naskh-arabic-arabic-700-normal.woff2) format('woff2');font-weight:700}
+:root{--ink:#2b2440;--mu:#6d6890;--line:#e6e2f3;--a:#ff8a3d;--b:#2bb3a0;--bad:#e63973;--bg:#fff6e5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Baloo,system-ui,sans-serif}
+header{position:sticky;top:0;z-index:2;background:#fff;border-bottom:2px solid var(--line);padding:12px 16px;display:grid;gap:6px}
+h1{margin:0;font-size:1.3rem}
+p{margin:0;color:var(--mu);line-height:1.6}
+.mode{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.mode button{font:inherit;border:2px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;cursor:pointer}
+.mode button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+#sum{font-weight:800}
+main{padding:12px 16px 40px;display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.c{background:#fff;border:2px solid var(--line);border-radius:14px;padding:8px 10px;display:flex;align-items:center;gap:8px}
+.c.bad{border-color:var(--bad);background:#fff0f4}
+.c b{font-family:Naskh;font-size:1.7rem;min-width:70px}
+.c small{flex:1;color:var(--mu);font-size:.8rem}
+.c button{font:inherit;border:0;border-radius:10px;padding:6px 10px;cursor:pointer;color:#fff}
+.m{background:var(--a)}.h{background:var(--b)}
+button.play{outline:3px solid #ffd54a}
+</style>
+</head>
+<body>
+<header>
+  <h1>🔤 أصوات الحروف: تسجيلك ↔ حامد بنطقك</h1>
+  <p><b style="color:var(--b)">حامد بنطقك</b> = تسجيلك نفسه محوَّل إلى نبرة صوت حامد، ثم فُحص صوتياً: ✓ نطقه مطابق لتسجيلك، ✗ تغيّر النطق (لن يُستعمل أبداً، يبقى تسجيلك).</p>
+  <div class="mode">أصوات الحروف في الكتاب (على هذا الجهاز): <span id="st"></span>
+    <button data-m="mine">🎙 تسجيلي</button><button data-m="hamed">🔊 حامد بنطقي (الناجح في الفحص فقط)</button>
+    <span id="sum"></span></div>
+</header>
+<main id="m">جارٍ التحميل…</main>
+<script>
+const getJ = (u) => fetch(u + '?t=' + Date.now(), { cache: 'no-store' }).then((r) => r.ok ? r.json() : {}).catch(() => ({}));
+function mode() { try { return localStorage.getItem('reading1.syl') || 'mine'; } catch (_) { return 'mine'; } }
+function paint() { document.getElementById('st').textContent = mode() === 'hamed' ? 'حامد بنطقي' : 'تسجيلي'; document.querySelectorAll('.mode button').forEach((b) => b.classList.toggle('on', b.dataset.m === mode())); }
+document.querySelectorAll('.mode button').forEach((b) => b.onclick = () => { try { localStorage.setItem('reading1.syl', b.dataset.m); } catch (_) {} paint(); });
+paint();
+let cur = null;
+function play(u, b) { if (cur) { cur.a.pause(); cur.b.classList.remove('play'); } const a = new Audio(u); cur = { a, b }; b.classList.add('play'); a.onended = () => b.classList.remove('play'); a.play().catch(() => b.classList.remove('play')); }
+Promise.all([getJ('tts/studio.json'), getJ('audio/human/index.json'), getJ('audio/human_clean/index.json'), getJ('audio/hamed_syl/index.json'), getJ('audio/hamed_syl/verify.json')]).then(([st, raw, cl, hi, ver]) => {
+  const M = document.getElementById('m'); M.textContent = '';
+  const keys = (st.base || []).flatMap((b) => b.items).concat(st.extra || []);
+  let ok = 0, bad = 0;
+  for (const k of keys) {
+    if (!raw[k]) continue;
+    const v = ver.conv && ver.conv[k]; const pass = v && v.rank === 1; const has = hi[k] && hi[k].src === raw[k];
+    if (has) pass ? ok++ : bad++;
+    const d = document.createElement('div'); d.className = 'c' + (has && !pass ? ' bad' : '');
+    d.innerHTML = '<b></b><small></small>'; d.querySelector('b').textContent = k.slice(2);
+    d.querySelector('small').textContent = !has ? '' : pass ? '✓ مطابق' : '✗ تغيّر (أقرب إلى «' + (v ? v.best : '?') + '»)';
+    const mine = (cl[k] && cl[k].src === raw[k]) ? 'audio/human_clean/' + cl[k].f : 'audio/human/' + raw[k];
+    const b1 = document.createElement('button'); b1.className = 'm'; b1.textContent = '▶ تسجيلي'; b1.onclick = () => play(mine, b1); d.append(b1);
+    if (has) { const b2 = document.createElement('button'); b2.className = 'h'; b2.textContent = '▶ حامد'; b2.onclick = () => play('audio/hamed_syl/' + hi[k].f, b2); d.append(b2); }
+    M.append(d);
+  }
+  document.getElementById('sum').textContent = (ok + bad) ? `الفحص: ${ok} ✓ — ${bad} ✗` : '(التحويل لم يكتمل بعد)';
+});
+</script>
+</body>
+</html>
