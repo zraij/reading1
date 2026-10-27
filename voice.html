@@ -45,13 +45,13 @@ main{padding:12px 16px 40px;display:grid;gap:12px;grid-template-columns:repeat(a
 const NAMES = { a: 'فتحة', u: 'ضمة', i: 'كسرة', aa: 'مدّ بالألف', uu: 'مدّ بالواو', ii: 'مدّ بالياء', sk: 'سكون' };
 const FORMS7 = ['a', 'u', 'i', 'aa', 'uu', 'ii', 'sk'], FORMS4 = ['a', 'u', 'i', 'sk'];
 const getJ = (u) => fetch(u + '?t=' + Date.now(), { cache: 'no-store' }).then((r) => r.ok ? r.json() : {}).catch(() => ({}));
-function mode() { try { return localStorage.getItem('reading1.voice') || 'auto'; } catch (_) { return 'auto'; } }
+function mode() { try { return localStorage.getItem('reading1.voice2') || 'auto'; } catch (_) { return 'auto'; } }
 function paint() {
   const m = mode();
   document.getElementById('st').textContent = m === 'raw' ? 'تسجيلاتي الأصلية' : m === 'clean' ? 'تسجيلاتي المنظَّفة' : m === 'hamed' ? 'حامد لكل شيء' : 'الحروف بتسجيلاتي + الباقي حامد';
   document.querySelectorAll('.mode button').forEach((b) => b.classList.toggle('on', b.dataset.m === m));
 }
-document.querySelectorAll('.mode button').forEach((b) => b.onclick = () => { try { localStorage.setItem('reading1.voice', b.dataset.m); } catch (_) {} paint(); });
+document.querySelectorAll('.mode button').forEach((b) => b.onclick = () => { try { localStorage.setItem('reading1.voice2', b.dataset.m); } catch (_) {} paint(); });
 paint();
 let cur = null;
 function play(url, btn) {

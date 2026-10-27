@@ -38,9 +38,9 @@ button.play{outline:3px solid #ffd54a}
 <main id="m">جارٍ التحميل…</main>
 <script>
 const getJ = (u) => fetch(u + '?t=' + Date.now(), { cache: 'no-store' }).then((r) => r.ok ? r.json() : {}).catch(() => ({}));
-function mode() { try { return localStorage.getItem('reading1.syl') || 'mine'; } catch (_) { return 'mine'; } }
+function mode() { try { return localStorage.getItem('reading1.syl2') || 'hamed'; } catch (_) { return 'hamed'; } }
 function paint() { document.getElementById('st').textContent = mode() === 'hamed' ? 'حامد بنطقي' : 'تسجيلي'; document.querySelectorAll('.mode button').forEach((b) => b.classList.toggle('on', b.dataset.m === mode())); }
-document.querySelectorAll('.mode button').forEach((b) => b.onclick = () => { try { localStorage.setItem('reading1.syl', b.dataset.m); } catch (_) {} paint(); });
+document.querySelectorAll('.mode button').forEach((b) => b.onclick = () => { try { localStorage.setItem('reading1.syl2', b.dataset.m); } catch (_) {} paint(); });
 paint();
 let cur = null;
 function play(u, b) { if (cur) { cur.a.pause(); cur.b.classList.remove('play'); } const a = new Audio(u); cur = { a, b }; b.classList.add('play'); a.onended = () => b.classList.remove('play'); a.play().catch(() => b.classList.remove('play')); }
