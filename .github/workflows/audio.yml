@@ -1,0 +1,22 @@
+name: توليد الأصوات
+on:
+  workflow_dispatch:
+  push:
+    paths: ['tts/manifest.json', 'tts/make_audio.py']
+permissions:
+  contents: write
+jobs:
+  tts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install edge-tts
+      - run: python tts/make_audio.py
+      - name: حفظ الأصوات
+        run: |
+          git config user.name "audio-bot"
+          git config user.email "audio-bot@users.noreply.github.com"
+          git add audio
+          git diff --cached --quiet || (git commit -m "توليد الأصوات" && git push)
