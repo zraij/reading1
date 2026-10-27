@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>عينات صوتك المستنسخ</title>
+<style>
+@font-face{font-family:Baloo;src:url(assets/fonts/baloo-bhaijaan-2-arabic-800-normal.woff2) format('woff2');font-weight:800}
+@font-face{font-family:Naskh;src:url(assets/fonts/noto-naskh-arabic-arabic-700-normal.woff2) format('woff2');font-weight:700}
+:root{--ink:#2b2440;--mu:#6d6890;--line:#e6e2f3;--a:#8a84a8;--b:#2bb3a0;--c:#e63973;--bg:#fff6e5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Baloo,system-ui,sans-serif}
+header{background:#fff;border-bottom:2px solid var(--line);padding:14px 16px}
+h1{margin:0 0 6px;font-size:1.35rem}
+p{margin:4px 0;color:var(--mu);line-height:1.6}
+main{padding:12px 16px 40px;display:grid;gap:14px;max-width:1100px;margin:0 auto}
+.T{background:#fff;border:2px solid var(--line);border-radius:18px;padding:12px 14px}
+.T h2{margin:0 0 8px;font-family:Naskh;font-size:1.7rem;line-height:1.6}
+.v{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:6px 0;border-top:1px dashed var(--line)}
+.v small{color:var(--mu);min-width:150px}
+button{font:inherit;border:0;border-radius:10px;padding:8px 12px;cursor:pointer;color:#fff}
+.s{background:var(--a)}.k4{background:var(--b)}.k8{background:var(--c)}
+button.play{outline:3px solid #ffd54a}
+</style>
+</head>
+<body>
+<header>
+  <h1>🎙 عينات صوتك المستنسخ</h1>
+  <p>لكل جملة: <b style="color:var(--a)">الصوت الآلي الأصلي</b>، ثم نفسه <b>محوَّلاً إلى صوتك</b> بدرجتين: <b style="color:var(--b)">ك٤</b> (أوضح) و<b style="color:var(--c)">ك٨</b> (أنعم). جرّبنا مصدرين: صوت عراقي (باسل) وصوت سعودي (حامد).</p>
+  <p>اسمعها وقل لي: أيّ مصدر وأيّ درجة أقرب لصوتك وأوضح نطقاً؟</p>
+</header>
+<main id="m">جارٍ التحميل…</main>
+<script>
+const NAMES = { 'ar-IQ-BasselNeural': 'المصدر: باسل (عراقي)', 'ar-SA-HamedNeural': 'المصدر: حامد (سعودي)' };
+let cur = null;
+function play(u, b) { if (cur) { cur.a.pause(); cur.b.classList.remove('play'); } const a = new Audio(u); cur = { a, b }; b.classList.add('play'); a.onended = () => b.classList.remove('play'); a.play().catch(() => b.classList.remove('play')); }
+fetch('audio/clone_samples/index.json?t=' + Date.now(), { cache: 'no-store' }).then((r) => r.json()).then((L) => {
+  const M = document.getElementById('m'); M.textContent = '';
+  const byText = new Map(); L.forEach((x) => { if (!byText.has(x.text)) byText.set(x.text, []); byText.get(x.text).push(x); });
+  for (const [t, xs] of byText) {
+    const box = document.createElement('div'); box.className = 'T'; box.innerHTML = '<h2></h2>'; box.firstChild.textContent = t;
+    const byV = new Map(); xs.forEach((x) => { if (!byV.has(x.voice)) byV.set(x.voice, []); byV.get(x.voice).push(x); });
+    for (const [v, ys] of byV) {
+      const r = document.createElement('div'); r.className = 'v'; r.innerHTML = '<small>' + (NAMES[v] || v) + '</small>';
+      const add = (cls, label, f) => { const b = document.createElement('button'); b.className = cls; b.textContent = label; b.onclick = () => play('audio/clone_samples/' + f, b); r.append(b); };
+      add('s', '▶ الآلي الأصلي', ys[0].src);
+      ys.forEach((y) => add('k' + y.topk, '▶ صوتك (ك' + (y.topk === 4 ? '٤' : '٨') + ')', y.file));
+      box.append(r);
+    }
+    M.append(box);
+  }
+}).catch(() => { document.getElementById('m').textContent = 'العينات لم تجهز بعد — حدّث الصفحة بعد دقائق.'; });
+</script>
+</body>
+</html>
