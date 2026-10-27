@@ -19,7 +19,7 @@ for f in sorted(os.listdir(REF)):
 print('reference clips:', len(refs), flush=True)
 
 knn = torch.hub.load('bshall/knn-vc', 'knn_vc', prematched=True, trust_repo=True, pretrained=True, device='cpu')
-ms = knn.get_matching_set(refs)
+ms = knn.get_matching_set(refs, vad_trigger_level=0)
 print('matching set', tuple(ms.shape), flush=True)
 
 async def tts(text, v, path):
@@ -33,7 +33,7 @@ for it in job['items']:
         src = f'{TMP}/{tag}.mp3'; s16 = f'{TMP}/{tag}.wav'; o16 = f'{TMP}/{tag}_o.wav'
         asyncio.run(tts(text, v, src))
         sh('-i', src, '-ac', '1', '-ar', '16000', '-af', 'silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse', s16)
-        q = knn.get_features(s16)
+        q = knn.get_features(s16, vad_trigger_level=0)
         for topk in job.get('topk', [4]):
             out = knn.match(q, ms, topk=topk)
             torchaudio.save(o16, out[None].cpu(), 16000)
