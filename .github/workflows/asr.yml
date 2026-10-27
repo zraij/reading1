@@ -1,0 +1,48 @@
+name: فحص النطق
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['توليد الأصوات']
+    types: [completed]
+permissions:
+  contents: write
+concurrency: { group: asr, cancel-in-progress: true }
+jobs:
+  part:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix: { shard: [0, 1, 2, 3, 4, 5] }
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: pip install faster-whisper==1.0.3
+      - run: python -u tts/asr_check.py ${{ matrix.shard }} 6
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: 'asr-${{ matrix.shard }}', path: out/asr, if-no-files-found: ignore, retention-days: 3 }
+  merge:
+    needs: part
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main }
+      - uses: actions/download-artifact@v4
+        with: { path: parts, pattern: 'asr-*', merge-multiple: true }
+      - run: |
+          mkdir -p audio/review
+          python3 -c "
+          import json,glob
+          r={}
+          for p in glob.glob('parts/part_*.json'): r.update(json.load(open(p)))
+          json.dump(r,open('audio/review/asr.json','w'),ensure_ascii=False,separators=(',',':'))
+          print('asr',len(r))"
+          git config user.name "audio-bot"
+          git config user.email "audio-bot@users.noreply.github.com"
+          git add audio/review
+          git diff --cached --quiet || (git commit -m "نتائج فحص النطق" && git pull --rebase && git push)

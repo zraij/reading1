@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مراجعة النطق</title>
+<style>
+@font-face{font-family:Baloo;src:url(assets/fonts/baloo-bhaijaan-2-arabic-800-normal.woff2) format('woff2');font-weight:800}
+@font-face{font-family:Naskh;src:url(assets/fonts/noto-naskh-arabic-arabic-700-normal.woff2) format('woff2');font-weight:700}
+:root{--ink:#2b2440;--mu:#6d6890;--line:#e6e2f3;--ok:#2bb3a0;--bad:#e63973;--warn:#ff9f1c;--bg:#fff6e5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Baloo,system-ui,sans-serif}
+header{position:sticky;top:0;z-index:3;background:#fff;border-bottom:2px solid var(--line);padding:10px 16px;display:grid;gap:8px}
+h1{margin:0;font-size:1.3rem}
+p{margin:0;color:var(--mu);line-height:1.6;font-size:.95rem}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.bar button,.bar select,.bar input{font:inherit;border:2px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;cursor:pointer}
+.bar button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+#send{background:var(--ok);color:#fff;border-color:var(--ok)}
+#st{font-weight:800}
+main{padding:10px 16px 60px;max-width:1100px;margin:0 auto;display:grid;gap:8px}
+.r{background:#fff;border:2px solid var(--line);border-radius:14px;padding:8px 12px;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}
+.r.flag{border-color:var(--bad);background:#fff0f4}
+.r .t{font-family:Naskh;font-size:1.35rem;line-height:1.7}
+.r .s{font-size:.85rem;color:var(--mu)}
+.r .h{font-size:.85rem;color:var(--warn)}
+.r button{font:inherit;border:0;border-radius:10px;padding:8px 12px;cursor:pointer;color:#fff}
+.p{background:var(--ok)}.p.play{outline:3px solid #ffd54a}
+.f{background:#c9c4dc}.r.flag .f{background:var(--bad)}
+.who{font-size:.75rem;background:var(--line);border-radius:999px;padding:1px 8px;margin-inline-start:6px;color:var(--ink)}
+@media(max-width:600px){.r{grid-template-columns:auto 1fr}.r .f{grid-column:1/-1}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🔎 مراجعة النطق — كل أصوات الكتاب</h1>
+  <p>اسمع، وإذا وجدت نطقاً غير صحيح اضغط «⚠ خطأ» واكتب الملاحظة (اختياري)، ثم «إرسال الملاحظات». المقاطع التي شكّ فيها الفحص الآلي تظهر أولاً بعلامة 🟠.</p>
+  <div class="bar">
+    <button data-g="s" class="on">الحروف والمقاطع</button>
+    <button data-g="w">الكلمات</button>
+    <button data-g="x">الجمل والأسطر</button>
+    <button data-g="f">⚠ ما أشّرتُه</button>
+    <input id="q" placeholder="بحث…" size="10">
+    <span id="st"></span>
+    <button id="send">📤 إرسال الملاحظات</button>
+    <input id="tok" type="password" placeholder="الصق التوكن (مرة واحدة)" size="18" hidden>
+  </div>
+</header>
+<main id="m">جارٍ التحميل…</main>
+<script>
+const WHO = { n: 'الراوي', w: 'كلمة', s: 'مقطع', basim: 'باسم', maram: 'مرام', mama: 'الأم', baba: 'الأب', jadda: 'الجدة', jadd: 'الجد' };
+const REPO = 'zraij/reading1', FLAGS = 'tts/review_flags.json';
+let M = [], ASR = {}, flags = {}, grp = 's', cur = null;
+try { flags = JSON.parse(localStorage.getItem('reading1.flags') || '{}'); } catch (_) {}
+const save = () => { try { localStorage.setItem('reading1.flags', JSON.stringify(flags)); } catch (_) {} st(); };
+const st = () => { document.getElementById('st').textContent = 'مؤشَّر: ' + Object.keys(flags).length; };
+const group = (m) => m.role === 's' ? 's' : (m.role === 'w' && !/\s/.test(m.show.trim())) ? 'w' : 'x';
+function play(id, b) { if (cur) { cur.a.pause(); cur.b.classList.remove('play'); } const a = new Audio('audio/' + id + '.mp3'); cur = { a, b }; b.classList.add('play'); a.onended = () => b.classList.remove('play'); a.play().catch(() => b.classList.remove('play')); }
+function draw() {
+  const q = document.getElementById('q').value.trim();
+  let L = M.filter((m) => grp === 'f' ? flags[m.id] : group(m) === grp);
+  if (q) L = L.filter((m) => m.show.includes(q) || m.text.includes(q));
+  const sc = (m) => (ASR[m.id] ? ASR[m.id].score : 1);
+  L.sort((a, b) => sc(a) - sc(b));
+  const box = document.getElementById('m'); box.textContent = '';
+  for (const m of L.slice(0, 2500)) {
+    const r = document.createElement('div'); r.className = 'r' + (flags[m.id] ? ' flag' : '');
+    const p = document.createElement('button'); p.className = 'p'; p.textContent = '▶'; p.onclick = () => play(m.id, p);
+    const d = document.createElement('div');
+    const t = document.createElement('div'); t.className = 't'; t.textContent = m.show; const w = document.createElement('span'); w.className = 'who'; w.textContent = WHO[m.role] || m.role; t.append(w); d.append(t);
+    if (m.text.replace(/ـ/g, '') !== m.show.replace(/ـ/g, '').trim()) { const s = document.createElement('div'); s.className = 's'; s.textContent = 'يُنطق: ' + m.text; d.append(s); }
+    const a = ASR[m.id]; if (a && a.score < 0.85) { const h = document.createElement('div'); h.className = 'h'; h.textContent = '🟠 الفحص الآلي سمع: ' + (a.heard || '—'); d.append(h); }
+    if (flags[m.id] && flags[m.id].note) { const n = document.createElement('div'); n.className = 's'; n.textContent = '📝 ' + flags[m.id].note; d.append(n); }
+    const f = document.createElement('button'); f.className = 'f'; f.textContent = flags[m.id] ? '✓ مؤشَّر (إلغاء)' : '⚠ خطأ';
+    f.onclick = () => { if (flags[m.id]) delete flags[m.id]; else { const note = prompt('ما الخطأ؟ (اختياري — مثلاً: يقرأ التاء هاء)') || ''; flags[m.id] = { show: m.show, role: m.role, note, t: Date.now() }; } save(); draw(); };
+    r.append(p, d, f); box.append(r);
+  }
+  if (!L.length) box.textContent = grp === 'f' ? 'لم تؤشّر أي شيء بعد.' : 'لا شيء.';
+}
+document.querySelectorAll('[data-g]').forEach((b) => b.onclick = () => { grp = b.dataset.g; document.querySelectorAll('[data-g]').forEach((x) => x.classList.toggle('on', x === b)); draw(); });
+document.getElementById('q').oninput = () => draw();
+const b64 = (s) => btoa(unescape(encodeURIComponent(s)));
+document.getElementById('send').onclick = async () => {
+  let tok = ''; try { tok = localStorage.getItem('reading1.gh.token') || ''; } catch (_) {}
+  const ti = document.getElementById('tok');
+  if (!tok && ti.value.trim()) { tok = ti.value.trim(); try { localStorage.setItem('reading1.gh.token', tok); } catch (_) {} }
+  if (!tok) { ti.hidden = false; ti.focus(); alert('الصق التوكن في الخانة ثم اضغط «إرسال» مرة ثانية'); return; }
+  const H = { Authorization: 'Bearer ' + tok, Accept: 'application/vnd.github+json' };
+  const url = `https://api.github.com/repos/${REPO}/contents/${FLAGS}`;
+  let sha; const g = await fetch(url, { headers: H }); if (g.ok) sha = (await g.json()).sha;
+  const body = { message: 'ملاحظات مراجعة النطق: ' + Object.keys(flags).length, content: b64(JSON.stringify(flags, null, 1)), ...(sha ? { sha } : {}) };
+  const r = await fetch(url, { method: 'PUT', headers: H, body: JSON.stringify(body) });
+  alert(r.ok ? '✅ وصلت الملاحظات (' + Object.keys(flags).length + ')' : '❌ لم تُرسل: ' + r.status);
+};
+st();
+Promise.all([
+  fetch('tts/manifest.json?t=' + Date.now(), { cache: 'no-store' }).then((r) => r.json()),
+  fetch('audio/review/asr.json?t=' + Date.now(), { cache: 'no-store' }).then((r) => r.ok ? r.json() : {}).catch(() => ({})),
+]).then(([m, a]) => { M = m.map((x) => ({ ...x, show: x.show || x.text })); ASR = a; draw(); });
+</script>
+</body>
+</html>
