@@ -27,12 +27,19 @@ button.play{outline:3px solid #ffd54a}
 <header>
   <h1>🎙 عينات صوتك المستنسخ</h1>
   <p>لكل جملة: <b style="color:var(--a)">الصوت الآلي الأصلي</b>، ثم نفسه <b>محوَّلاً إلى صوتك</b> بدرجتين: <b style="color:var(--b)">ك٤</b> (أوضح) و<b style="color:var(--c)">ك٨</b> (أنعم). جرّبنا مصدرين: صوت عراقي (باسل) وصوت سعودي (حامد).</p>
-  <p>اسمعها وقل لي: أيّ مصدر وأيّ درجة أقرب لصوتك وأوضح نطقاً؟</p>
+  <p>اعتُمد: <b>حامد (سعودي) — ك٤</b>. الكتاب يقرأ الراوي والكلمات بصوتك المستنسخ، وتسجيلاتك الحقيقية لها الأولوية دائماً.</p>
+  <p class="mode">صوتك المستنسخ في الكتاب (على هذا الجهاز): <span id="st"></span>
+    <button class="k4" data-m="on">✅ تشغيل</button> <button class="s" data-m="off">↩ إيقاف (رجوع للصوت الآلي)</button> <small id="cnt"></small></p>
 </header>
 <main id="m">جارٍ التحميل…</main>
 <script>
 const NAMES = { 'ar-IQ-BasselNeural': 'المصدر: باسل (عراقي)', 'ar-SA-HamedNeural': 'المصدر: حامد (سعودي)' };
 let cur = null;
+function cmode() { try { return localStorage.getItem('reading1.clone') || 'on'; } catch (_) { return 'on'; } }
+function paint() { document.getElementById('st').textContent = cmode() === 'off' ? 'متوقف' : 'يعمل'; }
+document.querySelectorAll('.mode button').forEach((b) => b.onclick = () => { try { localStorage.setItem('reading1.clone', b.dataset.m); } catch (_) {} paint(); });
+paint();
+fetch('audio/clone/index.json?t=' + Date.now(), { cache: 'no-store' }).then((r) => r.ok ? r.json() : {}).then((j) => { document.getElementById('cnt').textContent = '— مقاطع جاهزة: ' + Object.keys(j).length; }).catch(() => {});
 function play(u, b) { if (cur) { cur.a.pause(); cur.b.classList.remove('play'); } const a = new Audio(u); cur = { a, b }; b.classList.add('play'); a.onended = () => b.classList.remove('play'); a.play().catch(() => b.classList.remove('play')); }
 fetch('audio/clone_samples/index.json?t=' + Date.now(), { cache: 'no-store' }).then((r) => r.json()).then((L) => {
   const M = document.getElementById('m'); M.textContent = '';
