@@ -1,0 +1,25 @@
+name: تجربة النطق الحرفي
+on:
+  workflow_dispatch:
+  push:
+    paths: ['tts/arab_tts.py']
+permissions:
+  contents: write
+concurrency: { group: arab-tts, cancel-in-progress: true }
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: which ffmpeg || sudo apt-get install -y --no-install-recommends ffmpeg >/dev/null || (sudo apt-get update >/dev/null && sudo apt-get install -y ffmpeg >/dev/null)
+      - run: pip install torch==2.4.1 torchaudio==2.4.1 --index-url https://download.pytorch.org/whl/cpu && pip install numpy scipy soundfile requests "git+https://github.com/nipponjo/tts_arabic.git"
+      - run: mkdir -p audio/ar_tts && set -o pipefail && python -u tts/arab_tts.py 2>&1 | grep -v '%' | tail -c 30000 | tee audio/ar_tts/log.txt
+      - if: always()
+        run: |
+          git config user.name "audio-bot"
+          git config user.email "audio-bot@users.noreply.github.com"
+          git add audio/ar_tts
+          git diff --cached --quiet || (git commit -m "تجربة النطق الحرفي" && git pull --rebase && git push)
