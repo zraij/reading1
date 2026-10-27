@@ -1,0 +1,142 @@
+[
+ {
+  "text": "خَرَجَتْ أُسْرَةُ بَاسِمٍ فِي رِحْلَةٍ إِلَى المَزْرَعَةِ.",
+  "voice": "ar-IQ-BasselNeural",
+  "topk": 4,
+  "file": "5a4488056c_k4.mp3",
+  "src": "5a4488056c_src.mp3"
+ },
+ {
+  "text": "خَرَجَتْ أُسْرَةُ بَاسِمٍ فِي رِحْلَةٍ إِلَى المَزْرَعَةِ.",
+  "voice": "ar-IQ-BasselNeural",
+  "topk": 8,
+  "file": "5a4488056c_k8.mp3",
+  "src": "5a4488056c_src.mp3"
+ },
+ {
+  "text": "خَرَجَتْ أُسْرَةُ بَاسِمٍ فِي رِحْلَةٍ إِلَى المَزْرَعَةِ.",
+  "voice": "ar-SA-HamedNeural",
+  "topk": 4,
+  "file": "04ee53410a_k4.mp3",
+  "src": "04ee53410a_src.mp3"
+ },
+ {
+  "text": "خَرَجَتْ أُسْرَةُ بَاسِمٍ فِي رِحْلَةٍ إِلَى المَزْرَعَةِ.",
+  "voice": "ar-SA-HamedNeural",
+  "topk": 8,
+  "file": "04ee53410a_k8.mp3",
+  "src": "04ee53410a_src.mp3"
+ },
+ {
+  "text": "مَاذَا تَقُولُ القِطَّةُ؟",
+  "voice": "ar-IQ-BasselNeural",
+  "topk": 4,
+  "file": "bedb535a44_k4.mp3",
+  "src": "bedb535a44_src.mp3"
+ },
+ {
+  "text": "مَاذَا تَقُولُ القِطَّةُ؟",
+  "voice": "ar-IQ-BasselNeural",
+  "topk": 8,
+  "file": "bedb535a44_k8.mp3",
+  "src": "bedb535a44_src.mp3"
+ },
+ {
+  "text": "مَاذَا تَقُولُ القِطَّةُ؟",
+  "voice": "ar-SA-HamedNeural",
+  "topk": 4,
+  "file": "ddad2037d3_k4.mp3",
+  "src": "ddad2037d3_src.mp3"
+ },
+ {
+  "text": "مَاذَا تَقُولُ القِطَّةُ؟",
+  "voice": "ar-SA-HamedNeural",
+  "topk": 8,
+  "file": "ddad2037d3_k8.mp3",
+  "src": "ddad2037d3_src.mp3"
+ },
+ {
+  "text": "لَبِسَ بَاسِمٌ وَمَرَامُ مَلَابِسَ المَدْرَسَةِ، وَحَمَلَا حَقِيبَتَيْهِمَا.",
+  "voice": "ar-IQ-BasselNeural",
+  "topk": 4,
+  "file": "462c942629_k4.mp3",
+  "src": "462c942629_src.mp3"
+ },
+ {
+  "text": "لَبِسَ بَاسِمٌ وَمَرَامُ مَلَابِسَ المَدْرَسَةِ، وَحَمَلَا حَقِيبَتَيْهِمَا.",
+  "voice": "ar-IQ-BasselNeural",
+  "topk": 8,
+  "file": "462c942629_k8.mp3",
+  "src": "462c942629_src.mp3"
+ },
+ {
+  "text": "لَبِسَ بَاسِمٌ وَمَرَامُ مَلَابِسَ المَدْرَسَةِ، وَحَمَلَا حَقِيبَتَيْهِمَا.",
+  "voice": "ar-SA-HamedNeural",
+  "topk": 4,
+  "file": "ba9d35b48e_k4.mp3",
+  "src": "ba9d35b48e_src.mp3"
+ },
+ {
+  "text": "لَبِسَ بَاسِمٌ وَمَرَامُ مَلَابِسَ المَدْرَسَةِ، وَحَمَلَا حَقِيبَتَيْهِمَا.",
+  "voice": "ar-SA-HamedNeural",
+  "topk": 8,
+  "file": "ba9d35b48e_k8.mp3",
+  "src": "ba9d35b48e_src.mp3"
+ },
+ {
+  "text": "بُرْتُقَالٌ",
+  "voice": "ar-IQ-BasselNeural",
+  "topk": 4,
+  "file": "70f59cf2b9_k4.mp3",
+  "src": "70f59cf2b9_src.mp3"
+ },
+ {
+  "text": "بُرْتُقَالٌ",
+  "voice": "ar-IQ-BasselNeural",
+  "topk": 8,
+  "file": "70f59cf2b9_k8.mp3",
+  "src": "70f59cf2b9_src.mp3"
+ },
+ {
+  "text": "بُرْتُقَالٌ",
+  "voice": "ar-SA-HamedNeural",
+  "topk": 4,
+  "file": "e6e51c69af_k4.mp3",
+  "src": "e6e51c69af_src.mp3"
+ },
+ {
+  "text": "بُرْتُقَالٌ",
+  "voice": "ar-SA-HamedNeural",
+  "topk": 8,
+  "file": "e6e51c69af_k8.mp3",
+  "src": "e6e51c69af_src.mp3"
+ },
+ {
+  "text": "حَلِيبٌ",
+  "voice": "ar-IQ-BasselNeural",
+  "topk": 4,
+  "file": "1ad4a810e7_k4.mp3",
+  "src": "1ad4a810e7_src.mp3"
+ },
+ {
+  "text": "حَلِيبٌ",
+  "voice": "ar-IQ-BasselNeural",
+  "topk": 8,
+  "file": "1ad4a810e7_k8.mp3",
+  "src": "1ad4a810e7_src.mp3"
+ },
+ {
+  "text": "حَلِيبٌ",
+  "voice": "ar-SA-HamedNeural",
+  "topk": 4,
+  "file": "dc6f78c3ef_k4.mp3",
+  "src": "dc6f78c3ef_src.mp3"
+ },
+ {
+  "text": "حَلِيبٌ",
+  "voice": "ar-SA-HamedNeural",
+  "topk": 8,
+  "file": "dc6f78c3ef_k8.mp3",
+  "src": "dc6f78c3ef_src.mp3"
+ }
+]
