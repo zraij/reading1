@@ -111,7 +111,7 @@ function setGroup(v) {
   else if (v === 'all-s') { const seen = new Set(); list = []; STUDIO.lessons.forEach((l) => l.keys.forEach((k) => { if (k.startsWith('s|') && !seen.has(k)) { seen.add(k); list.push({ k }); } })); }
   else if (v === 'todo') list = STUDIO.base.flatMap((b) => b.items.map((k) => ({ k, L: b.L, tip: b.tip }))).filter((x) => !HUMAN[x.k] && !pending.has(x.k));
   else { const l = STUDIO.lessons[+v.slice(1)]; list = l.keys.slice().sort((a, b) => (a[0] === 's' ? 0 : 1) - (b[0] === 's' ? 0 : 1)).map((k) => ({ k })); }
-  idx = 0; drawGrid(); show();
+  idx = Math.max(0, list.findIndex((x) => !HUMAN[x.k] && !pending.has(x.k))); drawGrid(); show();
 }
 function hintFor(t) {
   if (/^[ء-ي]ْ$/.test(t)) return 'الحرف ساكنًا: بلا حركة، نطقة قصيرة واحدة';
