@@ -27,6 +27,6 @@ self.addEventListener('fetch', (e) => {
     e.respondWith(caches.match(req, { ignoreSearch: true }).then((r) => r || fetch(req).then((res) => { if (res.ok) { const cp = res.clone(); caches.open(p.includes('/audio/') ? MEDIA : CACHE).then((c) => c.put(req, cp)); } return res; })));
     return;
   }
-  e.respondWith(fetch(req).then((res) => { if (res.ok && res.type === 'basic') { const cp = res.clone(); caches.open(CACHE).then((c) => c.put(req, cp)); } return res; })
+  e.respondWith(fetch(req, { cache: 'no-cache' }).then((res) => { if (res.ok && res.type === 'basic') { const cp = res.clone(); caches.open(CACHE).then((c) => c.put(req, cp)); } return res; })
     .catch(() => caches.match(req, { ignoreSearch: true }).then((r) => r || (req.mode === 'navigate' ? caches.match('./index.html') : undefined))));
 });
