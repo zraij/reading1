@@ -1,0 +1,39 @@
+[0;93m2026-10-27 20:33:02.650835228 [W:onnxruntime:Default, device_discovery.cc:95 GetPciBusId] Skipping pci_bus_id for PCI path at "/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0004:00/MSFT1000:00/5620e0c7-8062-4dce-aeb7-520c7ef76171" because filename "5620e0c7-8062-4dce-aeb7-520c7ef76171" did not match expected pattern of [0-9a-f]+:[0-9a-f]+:[0-9a-f]+[.][0-9a-f]+[m
+Downloading...
+From (original): https://drive.google.com/uc?id=1pD210QTN1IL3CTA1D65ldKB7ooZ2hANl
+From (redirected): https://drive.google.com/uc?id=1pD210QTN1IL3CTA1D65ldKB7ooZ2hANl&confirm=t&uuid=ab63120d-60f9-4b15-9d73-4d76f0a8650c
+To: /opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/tts_arabic/data/fp_ms.onnx
+Downloading...
+From: https://drive.google.com/uc?id=1rZxulMhjrlQDheoGy7xnlWGjFYyjF9Gz
+To: /opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/tts_arabic/data/hifigan.onnx
+Downloading...
+From: https://drive.google.com/uc?id=1XWgV7F7eQdRy-KTvCteyXVXAQoNIRa7z
+To: /opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/tts_arabic/data/denoiser.onnx
+syl 0 533 13s
+syl 50 533 73s
+syl 100 533 133s
+syl 150 533 195s
+syl 200 533 260s
+syl 250 533 323s
+syl 300 533 387s
+syl 350 533 450s
+syl 400 533 510s
+syl 450 533 573s
+syl 500 533 636s
+generated 560 805s
+Downloading: "https://download.pytorch.org/torchaudio/models/wavlm_large.pth" to /home/runner/.cache/torch/hub/checkpoints/wavlm_large.pth
+verify 0
+verify 50
+verify 100
+verify 150
+verify 200
+verify 250
+verify 300
+verify 350
+verify 400
+verify 450
+0 checked 522 top1 153 | flagged top1 22 / 101
+1 checked 522 top1 125 | flagged top1 23 / 101
+2 checked 522 top1 150 | flagged top1 25 / 101
+3 checked 522 top1 138 | flagged top1 25 / 101
+hamed_tts checked 522 top1 149 | flagged top1 15 / 101
