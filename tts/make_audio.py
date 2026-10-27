@@ -42,8 +42,29 @@ async def one(m, sem):
                 await asyncio.sleep(2 + attempt * 3)
         print('فشل:', m['text']); return False
 
+# ===== محرّك النطق الحرفي (tts_arabic) للأصوات 'ar:<متحدث>' =====
+FALLBACK = {'0': 'ar-SA-HamedNeural', '1': 'ar-SA-HamedNeural', '2': 'ar-SA-ZariyahNeural', '3': 'ar-SA-ZariyahNeural'}
+def engine(m):
+    from tts_arabic import tts
+    dst = os.path.join(OUT, m['id'] + '.mp3'); w = dst + '.wav'
+    text = m['text'].replace('...', '، ').replace('ـ', '')
+    tts(text, speaker=int(m['voice'].split(':')[1]), pace=float(m['rate']), pitch_mul=float(m['pitch']),
+        model_id='fastpitch', vocoder_id='hifigan', save_to=w)
+    r = subprocess.run([FF, '-v', 'error', '-y', '-i', w, '-af', 'adelay=60:all=1,silenceremove=start_periods=1:start_threshold=-55dB:start_silence=0.05,areverse,silenceremove=start_periods=1:start_threshold=-55dB:start_silence=0.2,areverse,apad=pad_dur=0.1,loudnorm=I=-17:TP=-1.5:LRA=11',
+                        '-ac', '1', '-ar', '24000', '-b:a', '64k', dst])
+    os.remove(w)
+    if r.returncode != 0 or not os.path.exists(dst): raise RuntimeError('ffmpeg')
+
 async def main():
+    ar = [m for m in todo if m['voice'].startswith('ar:')]; ed = [m for m in todo if not m['voice'].startswith('ar:')]
+    fails = []
+    for i, m in enumerate(ar):
+        try: engine(m)
+        except Exception as e:
+            print('المحرك فشل، صوت احتياطي:', m['text'][:40], e)
+            fails.append(dict(m, voice=FALLBACK[m['voice'].split(':')[1]], rate='-8%', pitch='+0Hz'))
+        if i % 200 == 0: print('محرك', i, len(ar), flush=True)
     sem = asyncio.Semaphore(6)
-    res = await asyncio.gather(*[one(m, sem) for m in todo])
-    print('تم:', sum(res), 'من', len(todo))
+    res = await asyncio.gather(*[one(m, sem) for m in ed + fails])
+    print('تم: المحرك', len(ar) - len(fails), '— احتياطي/آخر', sum(res), 'من', len(ed) + len(fails))
 asyncio.run(main())

@@ -9,12 +9,13 @@ concurrency: { group: tts, cancel-in-progress: true }
 jobs:
   tts:
     runs-on: ubuntu-latest
+    timeout-minutes: 240
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
       - run: which ffmpeg || sudo apt-get install -y --no-install-recommends ffmpeg >/dev/null || (sudo apt-get update >/dev/null && sudo apt-get install -y ffmpeg >/dev/null)
-      - run: pip install edge-tts
+      - run: pip install edge-tts "git+https://github.com/nipponjo/tts_arabic.git"
       - run: python tts/make_audio.py
       - name: حفظ الأصوات
         run: |

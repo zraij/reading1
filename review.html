@@ -113,8 +113,8 @@ Promise.all([
   fetch('audio/hamed_syl/verify.json?t=' + Date.now(), { cache: 'no-store' }).then((r) => r.ok ? r.json() : {}).catch(() => ({})),
 ]).then(([m, a, raw, cl, hi, ver]) => {
   M = m.map((x) => ({ ...x, show: x.show || x.text })); ASR = a;
-  let vm = 'auto', sm = 'mine'; try { vm = localStorage.getItem('reading1.voice2') || 'auto'; sm = localStorage.getItem('reading1.syl2') || 'hamed'; } catch (_) {}
-  if (vm !== 'hamed') for (const k in raw) {
+  let vm = 'auto', sm = 'mine'; try { vm = localStorage.getItem('reading1.voice3') || 'engine'; sm = localStorage.getItem('reading1.syl2') || 'hamed'; } catch (_) {}
+  if (vm !== 'hamed' && vm !== 'engine') for (const k in raw) {
     SRC[k] = (cl[k] && cl[k].src === raw[k] && vm !== 'raw') ? 'audio/human_clean/' + cl[k].f : 'audio/human/' + raw[k];
     if (sm === 'hamed' && hi[k] && hi[k].src === raw[k] && ver.conv && ver.conv[k] && ver.conv[k].rank === 1) SRC[k] = 'audio/hamed_syl/' + hi[k].f;
   }
