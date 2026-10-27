@@ -34,7 +34,7 @@ main{padding:10px 16px 60px;max-width:1100px;margin:0 auto;display:grid;gap:8px}
 <body>
 <header>
   <h1>🔎 مراجعة النطق — كل أصوات الكتاب</h1>
-  <p>اسمع، وإذا وجدت نطقاً غير صحيح اضغط «⚠ خطأ» واكتب الملاحظة (اختياري)، ثم «إرسال الملاحظات». المقاطع التي شكّ فيها الفحص الآلي تظهر أولاً بعلامة 🟠.</p>
+  <p>اسمع، وإذا وجدت نطقاً غير صحيح اضغط «⚠ خطأ» واكتب الملاحظة (اختياري)، ثم «نسخ الملاحظات» والصقها لي في المحادثة. المقاطع التي شكّ فيها الفحص الآلي تظهر أولاً بعلامة 🟠.</p>
   <div class="bar">
     <button data-g="s" class="on">الحروف والمقاطع</button>
     <button data-g="w">الكلمات</button>
@@ -42,14 +42,12 @@ main{padding:10px 16px 60px;max-width:1100px;margin:0 auto;display:grid;gap:8px}
     <button data-g="f">⚠ ما أشّرتُه</button>
     <input id="q" placeholder="بحث…" size="10">
     <span id="st"></span>
-    <button id="send">📤 إرسال الملاحظات</button>
-    <input id="tok" type="password" placeholder="الصق التوكن (مرة واحدة)" size="18" hidden>
+    <button id="send">📋 نسخ الملاحظات</button>
   </div>
 </header>
 <main id="m">جارٍ التحميل…</main>
 <script>
 const WHO = { n: 'الراوي', w: 'كلمة', s: 'مقطع', basim: 'باسم', maram: 'مرام', mama: 'الأم', baba: 'الأب', jadda: 'الجدة', jadd: 'الجد' };
-const REPO = 'zraij/reading1', FLAGS = 'tts/review_flags.json';
 let M = [], ASR = {}, flags = {}, grp = 's', cur = null;
 try { flags = JSON.parse(localStorage.getItem('reading1.flags') || '{}'); } catch (_) {}
 const save = () => { try { localStorage.setItem('reading1.flags', JSON.stringify(flags)); } catch (_) {} st(); };
@@ -90,18 +88,11 @@ function draw() {
 }
 document.querySelectorAll('[data-g]').forEach((b) => b.onclick = () => { grp = b.dataset.g; document.querySelectorAll('[data-g]').forEach((x) => x.classList.toggle('on', x === b)); draw(); });
 document.getElementById('q').oninput = () => draw();
-const b64 = (s) => btoa(unescape(encodeURIComponent(s)));
 document.getElementById('send').onclick = async () => {
-  let tok = ''; try { tok = localStorage.getItem('reading1.gh.token') || ''; } catch (_) {}
-  const ti = document.getElementById('tok');
-  if (!tok && ti.value.trim()) { tok = ti.value.trim(); try { localStorage.setItem('reading1.gh.token', tok); } catch (_) {} }
-  if (!tok) { ti.hidden = false; ti.focus(); alert('الصق التوكن في الخانة ثم اضغط «إرسال» مرة ثانية'); return; }
-  const H = { Authorization: 'Bearer ' + tok, Accept: 'application/vnd.github+json' };
-  const url = `https://api.github.com/repos/${REPO}/contents/${FLAGS}`;
-  let sha; const g = await fetch(url, { headers: H }); if (g.ok) sha = (await g.json()).sha;
-  const body = { message: 'ملاحظات مراجعة النطق: ' + Object.keys(flags).length, content: b64(JSON.stringify(flags, null, 1)), ...(sha ? { sha } : {}) };
-  const r = await fetch(url, { method: 'PUT', headers: H, body: JSON.stringify(body) });
-  alert(r.ok ? '✅ وصلت الملاحظات (' + Object.keys(flags).length + ')' : '❌ لم تُرسل: ' + r.status);
+  const lines = Object.values(flags).map((f) => `${f.show} — ${f.note || 'خطأ'}`).join('\n');
+  if (!lines) { alert('لم تؤشّر شيئاً بعد'); return; }
+  try { await navigator.clipboard.writeText(lines); alert('✅ نُسخت الملاحظات (' + Object.keys(flags).length + ') — الصقها في المحادثة'); }
+  catch (_) { prompt('انسخ الملاحظات من هنا:', lines); }
 };
 st();
 Promise.all([
