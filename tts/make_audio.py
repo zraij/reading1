@@ -44,10 +44,31 @@ async def one(m, sem):
 
 # ===== محرّك النطق الحرفي (tts_arabic) للأصوات 'ar:<متحدث>' =====
 FALLBACK = {'0': 'ar-SA-HamedNeural', '1': 'ar-SA-HamedNeural', '2': 'ar-SA-ZariyahNeural', '3': 'ar-SA-ZariyahNeural'}
+import re
+_PATCHED = False
+def patch_engine():
+    """إصلاح خطأين في محوّل النطق داخل المحرك:
+    ١) جدول الكلمات الثابتة كان يطابق هيكلاً ناقصاً (يحذف حروفاً مثل ق ب ص)، فصارت «قِطَّهْ» و«بَطَّهْ» تُقرأ «طه»،
+       و«بِنْتْ» و«صَنَعَتْ» تُقرأ «نِتْ». الآن لا يُطبَّق الجدول إلا إذا تطابقت حروف الكلمة كلها.
+    ٢) الألف بعد واو أو كاف في أول الكلمة كانت تُقصَّر (وَاضِحْ ← وَضِح، وَالِد ← وَلِد، كَا ← كَ)، فنفصلها بفاصل خفي
+       حين تكون مدّاً حقيقياً (الحرف بعدها متحرك)، ونتركها حين تكون همزة وصل (وَالقَمَرُ، وَالَّتِي)."""
+    global _PATCHED
+    if _PATCHED: return
+    import tts_arabic.text.phonetise_buckwalter as pb
+    orig = pb.isFixedWord
+    def fixed(word, results, orth, prons):
+        if re.sub(u'[aiuoFNK~`]', '', word) != re.sub(u'[^h*Ahn\'>wl}kmyTtfd]', '', word): return results
+        return orig(word, results, orth, prons)
+    pb.isFixedWord = fixed
+    _PATCHED = True
+ZW = re.compile('(^|[\\s،,.؟?!:؛«(])([وك]َ)(ا)(?!ل[َُِ]?ّ)(?=$|[\\s،,.؟?!:؛»)]|[ء-ي]ّ?[َُِ ًٌٍ])')
+def engine_text(t): return ZW.sub(lambda m: m.group(1) + m.group(2) + '\u200d' + m.group(3), t)
+
 def engine(m):
     from tts_arabic import tts
+    patch_engine()
     dst = os.path.join(OUT, m['id'] + '.mp3'); w = dst + '.wav'
-    text = m['text'].replace('...', '، ').replace('ـ', '')
+    text = engine_text(m['text'].replace('...', '، ').replace('ـ', ''))
     tts(text, speaker=int(m['voice'].split(':')[1]), pace=float(m['rate']), pitch_mul=float(m['pitch']),
         model_id='fastpitch', vocoder_id='hifigan', save_to=w)
     r = subprocess.run([FF, '-v', 'error', '-y', '-i', w, '-af', 'adelay=60:all=1,silenceremove=start_periods=1:start_threshold=-55dB:start_silence=0.05,areverse,silenceremove=start_periods=1:start_threshold=-55dB:start_silence=0.2,areverse,apad=pad_dur=0.1,loudnorm=I=-17:TP=-1.5:LRA=11',
