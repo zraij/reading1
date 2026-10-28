@@ -113,7 +113,7 @@ footer{text-align:center;margin:28px auto 0;color:var(--mu);font-size:12px;line-
   var inApp = /FBAN|FBAV|FB_IAB|Instagram|Snapchat|Line\/|WhatsApp|Telegram|TikTok|musical_ly/i.test(ua);
   var iosSafari = isIOS && /Safari/.test(ua) && !/CriOS|FxiOS|EdgiOS|OPiOS|GSA\//.test(ua) && !inApp;
 
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function () {});
+  if ('serviceWorker' in navigator && !(/Safari/.test(navigator.userAgent) && !/Chrome|Chromium|CriOS|Android/.test(navigator.userAgent)) && !/iPhone|iPad|iPod/.test(navigator.userAgent)) navigator.serviceWorker.register('sw.js').catch(function () {});
 
   if (standalone) { show('s-app'); hide('s-open'); return; }
 
