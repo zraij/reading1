@@ -1,8 +1,9 @@
 Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-0 296
-50 296
-100 296
-150 296
-200 296
-250 296
-done 296
+0 306
+50 306
+100 306
+150 306
+200 306
+250 306
+300 306
+done 306
