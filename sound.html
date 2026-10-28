@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>فحص الصوت</title>
+<style>
+body{margin:0;font-family:system-ui,sans-serif;background:#fff6e5;color:#2b2440;padding:18px;line-height:1.7}
+h1{font-size:1.4rem;margin:0 0 8px}
+button{display:block;width:100%;font:inherit;font-size:1.15rem;font-weight:700;border:0;border-radius:14px;padding:14px;margin:10px 0;color:#fff;background:#2bb3a0}
+button.b2{background:#7c5cff}button.b3{background:#ff8a3d}button.fix{background:#e63973}
+#log{background:#fff;border-radius:12px;padding:10px 12px;font-size:.95rem;white-space:pre-wrap;min-height:6rem;direction:rtl}
+small{color:#6d6890}
+</style>
+</head>
+<body>
+<h1>🔊 فحص الصوت على هذا الجهاز</h1>
+<small>اضغط الأزرار بالترتيب، ثم صوّر الشاشة وأرسلها.</small>
+<button id="t1">١) تشغيل صوت مباشر</button>
+<button class="b2" id="t2">٢) تشغيل صوت من الذاكرة</button>
+<button class="b3" id="t3">٣) صوت تنبيه (نغمة)</button>
+<button class="fix" id="fx">🧹 إصلاح: مسح النسخة المحفوظة وإعادة التحميل</button>
+<div id="log"></div>
+<script>
+const L = (m) => { document.getElementById('log').textContent += m + '\n'; };
+const ua = navigator.userAgent;
+L('الجهاز: ' + (/iPhone|iPad/.test(ua) ? 'آيفون/آيباد' : /Android/.test(ua) ? 'أندرويد' : 'حاسبة') + ' — ' + (/CriOS|Chrome/.test(ua) ? 'Chrome' : /Safari/.test(ua) ? 'Safari' : 'متصفح آخر'));
+L('عامل الحفظ: ' + (navigator.serviceWorker && navigator.serviceWorker.controller ? 'يعمل' : 'لا يعمل'));
+let FILE = null;
+fetch('tts/keys.json?t=' + Date.now(), { cache: 'no-store' }).then((r) => r.json()).then((k) => { FILE = 'audio/' + (k['n|مَاذَا تَقُولُ القِطَّةُ؟'] || Object.values(k)[0]) + '.mp3'; L('ملف التجربة: ' + FILE); }).catch((e) => L('❌ لم أستطع قراءة قائمة الأصوات: ' + e));
+const A = new Audio(); A.setAttribute('playsinline', '');
+function run(src, name) {
+  A.onended = () => L('✅ ' + name + ': انتهى التشغيل');
+  A.onerror = () => L('❌ ' + name + ': خطأ ملف ' + (A.error ? A.error.code : '?'));
+  A.src = src;
+  const q = A.play();
+  if (q) q.then(() => L('▶ ' + name + ': بدأ التشغيل')).catch((e) => L('❌ ' + name + ': ' + e.name + ' — ' + e.message));
+}
+document.getElementById('t1').onclick = () => { if (!FILE) return L('انتظر ثانية…'); run(FILE + '?d=' + Date.now(), 'مباشر'); };
+document.getElementById('t2').onclick = () => { if (!FILE) return L('انتظر ثانية…'); fetch(FILE).then((r) => { L('تحميل: ' + r.status + ' ' + (r.headers.get('content-type') || '')); return r.blob(); }).then((b) => run(URL.createObjectURL(new Blob([b], { type: 'audio/mpeg' })), 'من الذاكرة (' + b.size + ' بايت)')).catch((e) => L('❌ تحميل: ' + e)); };
+document.getElementById('t3').onclick = () => { try { const c = new (window.AudioContext || window.webkitAudioContext)(); const o = c.createOscillator(); o.connect(c.destination); o.start(); o.stop(c.currentTime + 0.4); L('🔔 نغمة: الحالة ' + c.state + ' (إذا لم تسمعها: زر الصامت بجانب الآيفون مفعّل)'); } catch (e) { L('❌ نغمة: ' + e); } };
+document.getElementById('fx').onclick = async () => {
+  try { const rs = await navigator.serviceWorker.getRegistrations(); for (const r of rs) await r.unregister(); L('أُلغي عامل الحفظ: ' + rs.length); } catch (e) { L('عامل الحفظ: ' + e); }
+  try { const ks = await caches.keys(); for (const k of ks) await caches.delete(k); L('مُسحت الذاكرة: ' + ks.length); } catch (e) { L('الذاكرة: ' + e); }
+  L('✅ تم. افتح الكتاب من جديد.'); setTimeout(() => { location.href = './'; }, 1500);
+};
+</script>
+</body>
+</html>
