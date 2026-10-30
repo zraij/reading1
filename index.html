@@ -37,7 +37,7 @@ button.ghost{background:var(--p2);color:var(--ink);border:1px solid var(--ln)}bu
 button:disabled{opacity:.55;cursor:wait}
 .err{min-height:22px;margin-top:12px;text-align:center;color:var(--c4);font-size:14px}.ok{color:var(--c6)}
 .shake{animation:sh .35s}@keyframes sh{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
-</style>
+.pwbox{position:relative}.pwbox input{padding-right:50px!important}.pwbox .eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:40px!important;height:40px;margin:0!important;padding:0!important;border:0!important;border-radius:10px;background:transparent!important;box-shadow:none!important;color:inherit;opacity:.6;cursor:pointer;display:grid;place-items:center}.pwbox .eye:hover,.pwbox .eye.on{opacity:1}.pwbox .eye svg{width:22px;height:22px}.pwbox .eye .sl{display:none}.pwbox .eye.on .sl{display:inline}</style>
 <script>
 const AX = (() => {
   const enc = new TextEncoder(), dec = new TextDecoder();
@@ -81,7 +81,7 @@ const AX = (() => {
 <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 14q12-6 24 2q12-8 24-2v38q-12-6-24 2q-12-8-24-2z" fill="#FF8A3D"/><path d="M32 16v38" stroke="#fff" stroke-width="2.5"/><text x="20" y="40" font-size="16" fill="#fff" text-anchor="middle" font-weight="700">ب</text><text x="44" y="40" font-size="16" fill="#fff" text-anchor="middle" font-weight="700">أ</text></svg>
 <h1>قراءتي الجديدة — الأول الابتدائي</h1><p class="s">سجّل الدخول لفتح الكتاب الناطق</p>
 <label for="u">اسم المستخدم</label><input class="ltr" type="text" id="u" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required>
-<label for="p">كلمة المرور</label><input class="ltr" type="password" id="p" name="password" autocomplete="current-password" required>
+<label for="p">كلمة المرور</label><div class="pwbox"><input class="ltr" type="password" id="p" name="password" autocomplete="current-password" required><button type="button" class="eye" tabindex="-1" aria-label="إظهار كلمة المرور" title="إظهار كلمة المرور" onclick="var i=this.previousElementSibling,s=i.type==='password';i.type=s?'text':'password';this.classList.toggle('on',s);this.title=s?'إخفاء كلمة المرور':'إظهار كلمة المرور';i.focus()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="sl" d="M4 4l16 16"/></svg></button></div>
 <label class="rem"><input type="checkbox" id="r" checked> تذكّرني على هذا الجهاز</label>
 <button id="b" type="submit">دخول</button><div class="err" id="e" role="alert"></div>
 <noscript><p class="err">يجب تفعيل JavaScript لفتح الصفحة.</p></noscript>
