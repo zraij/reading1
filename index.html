@@ -114,11 +114,16 @@ function subBlock(x) {
   document.getElementById('subOut').onclick = function () { try { localStorage.removeItem(SK); sessionStorage.removeItem(SK); } catch (_) {} location.reload(); };
 }
 function subBadge(html) {
-  var x = window.__SUBENT, d = subEnd(x); if (!d) return html;
-  var ms = subMs(d) - subNow(), n = Math.max(1, Math.ceil(ms / 864e5)), w = n <= 5;
-  var b = '<div id="__sub" onclick="var s=this.lastChild;s.hidden=!s.hidden" style="position:fixed;left:8px;bottom:34px;z-index:2147483646;max-width:calc(100% - 16px);font:12px/1.7 Cairo,Tahoma,sans-serif;direction:rtl;color:#fff;background:' + (w ? 'rgba(220,60,80,.95)' : 'rgba(23,26,48,.85)') + ';border-radius:14px;padding:3px 12px;box-shadow:0 4px 14px rgba(0,0,0,.3);cursor:pointer;user-select:none">⏳ ' + (x.tr ? 'تجريبي · ' : '') + 'باقي ' + subDays(n)
-    + '<span' + (w ? '' : ' hidden') + '> · ينتهي <span dir="ltr">' + d + '</span> · للتجديد <b dir="ltr">' + SUB_PHONE + '</b></span></div>'
-    + '<script>(function(){var end=' + Math.round(Date.now() + ms) + ';setInterval(function(){if(Date.now()>=end)location.reload();},60000);})();<\/script>';
+  var x = window.__SUBENT, d = subEnd(x), b = '', k = JSON.stringify(SK).replace(/"/g, '&quot;');
+  if (d) {
+    var ms = subMs(d) - subNow(), n = Math.max(1, Math.ceil(ms / 864e5)), w = n <= 5;
+    b = '<div id="__sub" onclick="var s=this.lastChild;s.hidden=!s.hidden" style="color:#fff;background:' + (w ? 'rgba(220,60,80,.95)' : 'rgba(23,26,48,.85)') + ';border-radius:14px;padding:3px 12px;box-shadow:0 4px 14px rgba(0,0,0,.3);cursor:pointer;user-select:none">⏳ ' + (x.tr ? 'تجريبي · ' : '') + 'باقي ' + subDays(n)
+      + '<span' + (w ? '' : ' hidden') + '> · ينتهي <span dir="ltr">' + d + '</span> · للتجديد <b dir="ltr">' + SUB_PHONE + '</b></span></div>'
+      + '<script>(function(){var end=' + Math.round(Date.now() + ms) + ';setInterval(function(){if(Date.now()>=end)location.reload();},60000);})();<\/script>';
+  }
+  // زر تسجيل الخروج: يمسح الجلسة من هذا الجهاز ويرجع لصفحة الدخول
+  var o = '<button id="__out" type="button" onclick="if(confirm(\'تسجيل الخروج من هذا الجهاز؟\')){try{localStorage.removeItem(' + k + ');sessionStorage.removeItem(' + k + ')}catch(e){}location.reload()}" style="font:inherit;color:#fff;background:rgba(23,26,48,.85);border:0;border-radius:14px;padding:3px 12px;margin:0;box-shadow:0 4px 14px rgba(0,0,0,.3);cursor:pointer;white-space:nowrap">🚪 تسجيل خروج</button>';
+  b = '<div id="__subw" style="position:fixed;left:8px;bottom:34px;z-index:2147483646;max-width:calc(100% - 16px);display:flex;gap:6px;align-items:flex-start;font:12px/1.7 Cairo,Tahoma,sans-serif;direction:rtl">' + o + b + '</div>';
   return html.indexOf('</body>') > -1 ? html.replace('</body>', b + '</body>') : html + b;
 }
 
