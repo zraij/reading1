@@ -1,27 +1,27 @@
 <!doctype html>
 <!--
-  إدارة حسابات قراءتي الجديدة — الأول الابتدائي
+  لوحة إدارة حسابات كل الكتب التفاعلية (نفس الملف بكل مستودع)
   تصميم وبرمجة: حسام عبدالمنعم — 07746451098
   حقوق النشر © 2026 حسام عبدالمنعم. جميع الحقوق محفوظة. All Rights Reserved.
   هذا العمل محمي بموجب حقوق النشر والملكية الفكرية.
   يُمنع نسخه أو إعادة نشره أو تعديله أو إزالة حقوق المؤلف دون إذن خطي مسبق.
 -->
 <html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>إدارة الحسابات</title><meta name="robots" content="noindex">
+<title>لوحة إدارة الكتب</title><meta name="robots" content="noindex">
 <style>
 @font-face{font-family:Cairo;src:url(data:font/woff2;base64,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) format('woff2');font-weight:700}
-:root{--bg:#1B1530;--p:#171A30;--p2:#20243F;--ln:#2E3358;--ink:#ECEBFA;--mu:#9A9CC0;--c1:#FF8A3D;--c2:#33C6C6;--c3:#F0A93E;--c4:#FF7389;--c6:#3FCB8A}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%}html{background:#1B1530}
-body{background:radial-gradient(circle at 20% 10%,#FF8A3D22,transparent 40%),radial-gradient(circle at 80% 90%,#33C6C622,transparent 40%),var(--bg);background-attachment:fixed;color:var(--ink);font-family:Cairo,"Segoe UI",Tahoma,sans-serif;padding:16px}
+:root{--bg:#0E1020;--p:#171A30;--p2:#20243F;--ln:#2E3358;--ink:#ECEBFA;--mu:#9A9CC0;--c1:#A58DFF;--c2:#33C6C6;--c3:#F0A93E;--c4:#FF7389;--c6:#3FCB8A}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}html{background:#0E1020}
+body{background:radial-gradient(circle at 20% 10%,#A58DFF22,transparent 40%),radial-gradient(circle at 80% 90%,#33C6C622,transparent 40%),var(--bg);background-attachment:fixed;color:var(--ink);font-family:Cairo,"Segoe UI",Tahoma,sans-serif;padding:16px}
 .card{background:var(--p);border:1px solid var(--ln);border-radius:22px;padding:28px 24px;box-shadow:0 20px 60px #0008}
 .logo{width:60px;height:60px;margin:0 auto 8px;display:block}
 h1{margin:0;text-align:center;font-size:25px}p.s{margin:6px 0 20px;text-align:center;color:var(--mu);font-size:14px}
 label{display:block;font-size:14px;color:var(--mu);margin:12px 0 6px}
 input[type=text],input[type=password]{width:100%;padding:11px 14px;border-radius:12px;border:1px solid var(--ln);background:var(--p2);color:var(--ink);font:inherit;font-size:16px;outline:none}
 input.ltr{direction:ltr;text-align:left}
-input:focus{border-color:var(--c1);box-shadow:0 0 0 3px #FF8A3D33}
+input:focus{border-color:var(--c1);box-shadow:0 0 0 3px #A58DFF33}
 .rem{display:flex;align-items:center;gap:8px;margin:14px 0 4px;font-size:14px;color:var(--mu)}.rem input{width:18px;height:18px;accent-color:var(--c1)}
-button{padding:11px 16px;border:0;border-radius:12px;background:var(--c1);color:#1B1530;font:inherit;font-size:16px;cursor:pointer}
+button{padding:11px 16px;border:0;border-radius:12px;background:var(--c1);color:#0E1020;font:inherit;font-size:16px;cursor:pointer}
 button.ghost{background:var(--p2);color:var(--ink);border:1px solid var(--ln)}button.danger{background:transparent;color:var(--c4);border:1px solid #FF738955}
 button:disabled{opacity:.55;cursor:wait}
 .err{min-height:22px;margin-top:12px;text-align:center;color:var(--c4);font-size:14px}.ok{color:var(--c6)}
@@ -65,17 +65,29 @@ const AU = (() => {
 </script>
 
 <style>
-.wrap{max-width:900px;margin:0 auto}
+[hidden]{display:none!important}
+.wrap{max-width:960px;margin:0 auto}
 #login{max-width:400px;margin:10vh auto 0}#login button{width:100%;margin-top:16px}
-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:6px 0 16px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:6px 0 12px}
 header h1{text-align:right;font-size:24px}header .acts{display:flex;gap:8px;flex-wrap:wrap}
 a{color:var(--c2)}
+.books{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px;padding:10px;background:var(--p);border:1px solid var(--ln);border-radius:18px}
+.books button{padding:8px 14px;font-size:14px;background:var(--p2);color:var(--ink);border:1px solid var(--ln);border-radius:99px;display:flex;align-items:center;gap:6px}
+.books button.on{background:var(--c1);color:#0E1020;border-color:var(--c1)}
+.books button .n{font-size:11px;min-width:18px;padding:0 5px;border-radius:99px;background:var(--c3);color:#0E1020}
+.books button .n.bad{background:var(--c4)}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:760px){.grid{grid-template-columns:1fr}}
 .card{padding:20px}.card h2{margin:0 0 4px;font-size:18px}.card .hint{color:var(--mu);font-size:13px;margin:0 0 6px;line-height:1.7}
-.row{display:flex;gap:8px;align-items:center}.row input{flex:1}
-table{width:100%;border-collapse:collapse;font-size:15px}th,td{padding:10px 8px;border-bottom:1px solid var(--ln);text-align:right}th{color:var(--mu);font-size:13px}
-td.u{direction:ltr;text-align:right;font-family:"Segoe UI",Tahoma,sans-serif}td .tag{font-size:12px;padding:2px 8px;border-radius:99px;background:#FF8A3D33;color:var(--c1)}
+.row{display:flex;gap:8px;align-items:center}.row input,.row select{flex:1}
+select,input[type=date]{width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--ln);background:var(--p2);color:var(--ink);font:inherit;font-size:15px;outline:none;color-scheme:dark}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+table{width:100%;border-collapse:collapse;font-size:15px}th,td{padding:10px 8px;border-bottom:1px solid var(--ln);text-align:right;vertical-align:middle}th{color:var(--mu);font-size:13px}
+td.u{direction:ltr;text-align:right;font-family:"Segoe UI",Tahoma,sans-serif}td .tag{font-size:12px;padding:2px 8px;border-radius:99px;background:#A58DFF33;color:var(--c1);white-space:nowrap}
+td .tag.scr{background:#33C6C633;color:var(--c2)}td .tag.tr{background:#F0A93E33;color:var(--c3)}
 td button{padding:6px 10px;font-size:13px}td.pwc{white-space:nowrap}td .pwin{width:150px;padding:6px 10px;font-size:14px}td .pw{direction:ltr;display:inline-block;font-family:"Segoe UI",Tahoma,sans-serif;min-width:96px;text-align:left}
+td.sub small{display:block;color:var(--mu);font-size:12px}td.sub select,td.sub input{width:auto;padding:6px 8px;font-size:13px;margin:2px 0}
+.st{font-size:13px;padding:2px 9px;border-radius:99px;white-space:nowrap}.st.ok{background:#3FCB8A26;color:var(--c6)}.st.warn{background:#F0A93E2E;color:var(--c3)}.st.bad{background:#FF738929;color:var(--c4)}.st.inf{background:#A58DFF26;color:var(--c1)}
+.sum{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px}
 .bar{position:sticky;bottom:12px;margin-top:16px;display:none;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:var(--p2);border:1px solid var(--c3);border-radius:16px;padding:12px 16px;box-shadow:0 10px 30px #0008}
 .bar.on{display:flex}.bar b{color:var(--c3)}
 .cred{margin-top:12px;background:var(--p2);border:1px dashed var(--c6);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.9;display:none;white-space:pre-line}
@@ -83,16 +95,17 @@ td button{padding:6px 10px;font-size:13px}td.pwc{white-space:nowrap}td .pwin{wid
 ol.steps{margin:6px 0 0;padding-inline-start:20px;color:var(--mu);font-size:13px;line-height:1.9}
 .msg{margin-top:8px;font-size:14px;min-height:20px}.msg.ok{color:var(--c6)}.msg.bad{color:var(--c4)}
 .empty{color:var(--mu);text-align:center;padding:16px}
-td .tag.scr{background:#33C6C633;color:var(--c2)}
-.g3{display:grid;grid-template-columns:1.3fr 1fr 1.2fr;gap:0 12px}@media(max-width:760px){.g3{grid-template-columns:1fr}}
+.okline{color:var(--c6);font-size:14px;margin:8px 0}
+.g3{display:grid;grid-template-columns:1.3fr 1fr 1.2fr 1fr;gap:0 12px}@media(max-width:760px){.g3,.g2{grid-template-columns:1fr}}
 #scrf button[type=submit]{margin-top:14px}
+#lock{max-width:420px;margin:30px auto}#lock button{width:100%;margin-top:14px}
 @media(max-width:600px){thead{display:none}table,tbody,tr,td{display:block}tr{border-bottom:1px solid var(--ln);padding:10px 0}td{border:0;padding:3px 0}td.u{text-align:right}td.pwc{white-space:normal;display:flex;flex-wrap:wrap;gap:6px;align-items:center}td.pwc .pwin{flex:1 1 100%;width:100%}.card{padding:16px}header h1{font-size:20px}.bar{flex-direction:column;align-items:stretch}.bar .row{justify-content:stretch}.bar .row button{flex:1}}
 </style>
 </head><body><div class="wrap">
 
 <form class="card" id="login">
-<svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><path d="M24 6h16M28 6v18L12 52q-3 6 4 6h32q7 0 4-6L36 24V6" fill="none" stroke="#FF8A3D" stroke-width="4" stroke-linejoin="round"/><path d="M18 44h28l5 9q1 3-3 3H16q-4 0-3-3z" fill="#33C6C6"/></svg>
-<h1>إدارة الحسابات</h1><p class="s">خاصة بصاحب الموقع</p>
+<svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="8" width="20" height="48" rx="3" fill="#A58DFF"/><rect x="33" y="8" width="20" height="48" rx="3" fill="#33C6C6"/><path d="M15 18h10M15 24h10M38 18h10M38 24h10" stroke="#0E1020" stroke-width="3" stroke-linecap="round"/><circle cx="50" cy="50" r="10" fill="#F0A93E"/><path d="M50 44v6l4 3" stroke="#0E1020" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+<h1>لوحة إدارة الكتب</h1><p class="s">كل الكتب من مكان واحد · خاصة بصاحب الموقع</p>
 <label for="lu">اسم المستخدم</label><input class="ltr" id="lu" type="text" autocomplete="username" autocapitalize="none" required>
 <label for="lp">كلمة المرور</label><input class="ltr" id="lp" type="password" autocomplete="current-password" required>
 <label class="rem"><input type="checkbox" id="lr" checked> تذكّرني على هذا الجهاز</label>
@@ -100,192 +113,368 @@ td .tag.scr{background:#33C6C633;color:var(--c2)}
 </form>
 
 <main id="panel" hidden>
-<header><h1>إدارة حسابات الأساتذة</h1><div class="acts"><a href="./" target="_blank"><button class="ghost" type="button">فتح الموقع</button></a><button class="ghost" id="out" type="button">خروج</button></div></header>
+<header><h1>لوحة إدارة الكتب</h1><div class="acts"><a id="openSite" href="./" target="_blank"><button class="ghost" type="button">فتح الكتاب</button></a><button class="ghost" id="out" type="button">خروج</button></div></header>
+<nav class="books" id="books"></nav>
+
+<form class="card" id="lock" hidden>
+  <h2>🔒 <span id="lockName"></span></h2>
+  <p class="hint">كلمة المرور اللي دخلت بيها ما فتحت هذا الكتاب. اكتب حساب المدير الخاص بيه.</p>
+  <label for="ku">اسم المستخدم</label><input class="ltr" id="ku" type="text" autocomplete="username" autocapitalize="none" required>
+  <label for="kp">كلمة المرور</label><input class="ltr" id="kp" type="password" autocomplete="current-password" required>
+  <button id="kb" type="submit">فتح الكتاب</button><div class="msg" id="km"></div>
+</form>
+
+<div id="bookUi">
 <div class="grid">
   <form class="card" id="addf">
-    <h2>إضافة أستاذ</h2><p class="hint">بعد الإضافة اضغط «حفظ التغييرات» في الأسفل حتى يتفعّل الحساب.</p>
+    <h2>إضافة حساب — <span class="bn"></span></h2><p class="hint">بعد الإضافة اضغط «حفظ التغييرات» في الأسفل حتى يتفعّل الحساب.</p>
     <label for="an">الاسم</label><input id="an" type="text" required placeholder="مثلاً: أ. علي حسن">
     <label for="au">اسم المستخدم (إنكليزي)</label><input class="ltr" id="au" type="text" required autocapitalize="none" spellcheck="false" placeholder="ali.hassan">
     <label for="ap">كلمة المرور</label><div class="row"><input class="ltr" id="ap" type="text" required minlength="6" spellcheck="false"><button class="ghost" type="button" id="gen">توليد</button></div>
-    <label class="rem"><input type="checkbox" id="aa"> صلاحية مدير (يكدر يدير الحسابات)</label>
+    <div class="g2" id="aplw">
+      <div><label for="apl">مدة الاشتراك</label><select id="apl"></select></div>
+      <div><label for="asd">يبدأ من</label><input id="asd" type="date"></div>
+    </div>
+    <p class="hint" id="aend" style="margin-top:6px"></p>
+    <label class="rem"><input type="checkbox" id="aa"> صلاحية مدير (بدون اشتراك، يكدر يدير الحسابات)</label>
     <button type="submit" style="width:100%;margin-top:12px">إضافة</button>
     <div class="msg" id="am"></div>
     <div class="cred" id="cred"></div>
   </form>
   <div class="card">
     <h2>ربط GitHub للحفظ</h2>
-    <p class="hint">تحتاجه مرة وحدة على هذا الجهاز حتى تنحفظ التغييرات على الموقع مباشرة.</p>
-    <div class="row"><input class="ltr" id="tok" type="password" placeholder="github_pat_…" autocomplete="off"><button class="ghost" type="button" id="tokSave">حفظ</button></div>
+    <div id="tokOk" hidden>
+      <div class="okline">✓ مربوط — توكن واحد لكل الكتب، محفوظ على هذا الجهاز ومحفوظ مشفّر ويّا حسابك، فما تحتاج تجيبه مرة ثانية.</div>
+      <button class="ghost" type="button" id="tokChange">تغيير التوكن</button>
+    </div>
+    <div id="tokForm">
+      <p class="hint">مرة وحدة بس: التوكن ينحفظ على هذا الجهاز، وينحفظ مشفّر ويّا حسابك حتى يرجع تلقائياً إذا دخلت من جهاز ثاني.</p>
+      <div class="row"><input class="ltr" id="tok" type="password" placeholder="github_pat_…" autocomplete="off"><button class="ghost" type="button" id="tokSave">حفظ</button></div>
+      <ol class="steps">
+        <li>افتح <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">صفحة إنشاء التوكن</a>.</li>
+        <li>اكتب أي اسم، وبـ Expiration اختر <b>No expiration</b> (أو أطول مدة موجودة).</li>
+        <li>Repository access ← <b>All repositories</b> (حتى يشتغل لكل الكتب).</li>
+        <li>Permissions ← Contents ← <b>Read and write</b>.</li>
+        <li>Generate token، انسخه والصقه هنا.</li>
+      </ol>
+    </div>
     <div class="msg" id="tm"></div>
-    <ol class="steps">
-      <li>افتح <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">صفحة إنشاء التوكن</a>.</li>
-      <li>اكتب أي اسم، واختر مدة الصلاحية.</li>
-      <li>Repository access ← Only select repositories ← <b>reading1</b>.</li>
-      <li>Permissions ← Contents ← <b>Read and write</b>.</li>
-      <li>Generate token، انسخه والصقه هنا.</li>
-    </ol>
     <h2 style="margin-top:18px">تغيير كلمة مروري</h2>
     <div class="row" style="margin-top:8px"><input class="ltr" id="np" type="password" placeholder="كلمة المرور الجديدة" minlength="8"><button class="ghost" type="button" id="npb">تغيير</button></div>
+    <label class="rem"><input type="checkbox" id="npall" checked> بكل الكتب المفتوحة</label>
     <div class="msg" id="nm"></div>
   </div>
 </div>
 <form class="card" id="scrf" style="margin-top:14px">
-  <h2>🖥️ إضافة شاشة تفاعلية</h2>
+  <h2>🖥️ إضافة شاشة تفاعلية — <span class="bn"></span></h2>
   <p class="hint">حساب خاص بشاشة الصف حتى ما تنقفل حسابات الأساتذة على الشاشة. ينربط بأول شاشة يُفتح عليها، ويبقى مسجّل دخول عليها دائماً. سوّ حساب لكل شاشة.</p>
   <div class="g3">
     <div><label for="sn">اسم الشاشة / القاعة</label><input id="sn" type="text" placeholder="مثلاً: شاشة قاعة 3"></div>
     <div><label for="su">اسم المستخدم</label><input class="ltr" id="su" type="text" autocapitalize="none" spellcheck="false"></div>
     <div><label for="sp">كلمة المرور</label><div class="row"><input class="ltr" id="sp" type="text" spellcheck="false" autocomplete="off"><button class="ghost" type="button" id="sgen">توليد</button></div></div>
+    <div><label for="spl">مدة الاشتراك</label><select id="spl"></select></div>
   </div>
   <button type="submit" style="width:100%">إضافة الشاشة</button>
   <div class="msg" id="smsg"></div>
   <div class="cred" id="scred"></div>
 </form>
 <div class="card" style="margin-top:14px">
-  <h2>الحسابات (<span id="cnt">0</span>)</h2>
-  <p class="hint">حذف الحساب يمنع دخوله، ويخرجه تلقائياً من أي جهاز كان مسجّل عليه بعد ما ينحفظ التغيير.</p>
-  <table><thead><tr><th>الاسم</th><th>اسم المستخدم</th><th>أُضيف</th><th>كلمة المرور</th><th></th></tr></thead><tbody id="list"></tbody></table>
+  <h2>حسابات <span class="bn"></span> (<span id="cnt">0</span>)</h2>
+  <div class="sum" id="sum"></div>
+  <p class="hint">لما ينتهي الاشتراك ينقفل الحساب وتظهر لصاحبه رسالة بيها رقمك حتى يتصل بيك. «تجديد» يضيف المدة من تاريخ الانتهاء (أو من اليوم إذا كان منتهي). حذف الحساب يمنع دخوله بعد ما ينحفظ التغيير.</p>
+  <table><thead><tr><th>الاسم</th><th>اسم المستخدم</th><th>الاشتراك</th><th>كلمة المرور</th><th></th></tr></thead><tbody id="list"></tbody></table>
 </div>
-<div class="bar" id="bar"><span>عندك <b id="pend">0</b> تغيير غير محفوظ</span><div class="row"><button class="ghost" type="button" id="dl">تنزيل الملف</button><button type="button" id="save">حفظ التغييرات على الموقع</button></div><div class="msg" id="sm" style="width:100%"></div></div>
+</div>
+<div class="bar" id="bar"><span id="pendTxt"></span><div class="row"><button class="ghost" type="button" id="dl">تنزيل ملف هذا الكتاب</button><button type="button" id="save">حفظ التغييرات على الموقع</button></div><div class="msg" id="sm" style="width:100%"></div></div>
 </main>
 </div>
 <script>
-const OWNER = 'zraij', REPO = 'reading1', EMB = {"it":150000,"ss":"OEBxKK7CVdOK4avWVn3QDw==","u":[{"i":"9ed7c9459879cfc7f8e5a63a","a":1,"s":"xwHinMUmZQPB0oQ7jQ4BdQ==","v":"SlKVdOqfgbFLzW0i","k":"p6iIHsiQw0nkxh9kcuwrRiV6SU08o0W8RUyKoRgk1BG2TPTT5X1z+3Mb0h91QCWR","m":"gf1VSKbp7toDX4F8.6hv4TLXwOoUy+rec2++3zidUDGGK5tRKCmRN9O7IUmImQL5maa6yPi+iKeax06yvTujzHB/DWyHco+wE4k9pr58=","p":"q/Q8ZpROG+IHJ/Fv.Fv4cnVIi4RhrvHrRO6k22hR0OIhSWh1pKSb7","x":"04wcTxnt4fB9DLR1.vSLKiJSli+WKJawMvOuBUDEhXZYYbx2OW/s2cnI5v1IKa5f2neE/K0AnsMbyFF3w"},{"i":"74f5d40093d5ebcd0fd14fd7","a":0,"s":"oonsjjYP9Lee9AmyhyQKcQ==","v":"JtCM8XOwvwcbiz5T","k":"m/0DRR2+HEU3woi6Yj8vBc8y2cpmX5Eh3IleAYUKIXacJI7FvA7XGmrsAwAb50zj","m":"gDHnd+tp1rPSx9Ni.rYVz4Ru2M063VrtlmXrqhpXJNM+Q2gO8G1KeghW/Oj1KYHnx7d4nxVyefw0thq34gbILhjG340MTCylvh9Vvn8Yp4/mjueB0iMieuRbzRnO8Swj7WtqAVDjgKQM1gKN3","d":1,"p":"dMC76cl/sUdgJ8mA.FoU8VPSzLUo21H9bi39TSqCx/LOIyQ=="}]}, TK = 'reading1.gh.token';
-const API = `https://api.github.com/repos/${OWNER}/${REPO}/contents/users.json`;
-const $ = (s) => document.querySelector(s);
-let U = null, K = null, ME = null, metas = new Map(), pend = 0;
-// Password vault: AK is an admin-only key (wrapped per admin with their own password in entry.x).
-// Each account's password is kept as entry.p = AES-GCM(AK, password). Teachers only ever get K, never AK,
-// so they cannot read anyone's password.
-let AK = null, editing = null; const te = new TextEncoder(), td = new TextDecoder(), shown = new Set();
-async function wk(u, pw, e, use) { const base = await crypto.subtle.importKey('raw', te.encode(u + ':' + pw), 'PBKDF2', false, ['deriveKey']); return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: AU.ub(e.s), iterations: U.it, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, [use]); }
+// لوحة إدارة واحدة لكل الكتب: نفس الملف موجود بكل مستودع، ويفتح افتراضياً على كتاب المستودع اللي انفتح منه.
+const OWNER = 'zraij', PHONE = '07746451098';
+// s = مفتاح جلسة المدير القديم لكل كتاب (حتى تبقى الجلسات المحفوظة شغّالة)، t = مفتاح التوكن القديم، ins = عنده صفحة تثبيت وشاشات
+const BOOKS = [
+  { r: 'chem5', l: 'كيمياء الخامس', n: 'كيمياء الخامس العلمي', s: 'chem5.admin.v1', t: 'chem5.gh.token', ins: 1 },
+  { r: 'chem6', l: 'كيمياء السادس', n: 'كيمياء السادس العلمي', s: 'chem.admin.s', t: 'chem.gh.token', ins: 1 },
+  { r: 'bio5', l: 'أحياء الخامس', n: 'أحياء الخامس العلمي', s: 'bio5.admin.v1', t: 'bio5.gh.token', ins: 1 },
+  { r: 'bio6', l: 'أحياء السادس', n: 'أحياء السادس العلمي', s: 'bio.admin.v1', t: 'bio.gh.token', ins: 1 },
+  { r: 'Mathmatics', l: 'رياضيات السادس', n: 'رياضيات السادس العلمي', s: 'math.admin.v1', t: 'math.gh.token', ins: 0 },
+  { r: 'eng6', l: 'إنكليزي السادس', n: 'English 6 · المدرّس', s: 'eng.admin.v1', t: 'eng.gh.token', ins: 1 },
+  { r: 'sci1', l: 'علوم الأول', n: 'العلوم — الأول الابتدائي', s: 'sci1.admin.v1', t: 'sci1.gh.token', ins: 1 },
+  { r: 'reading1', l: 'قراءتي الأول', n: 'قراءتي الجديدة — الأول الابتدائي', s: 'reading1.admin.s', t: 'reading1.gh.token', ins: 1 },
+];
+// الاشتراك: e = تاريخ الانتهاء (أول يوم ينقفل بيه)، pm = عدد الأشهر، tr = أيام التجربة. الحسابات القديمة بدون e تنتهي في SUB0 (من 2026-11-01 لمدة شهر).
+const SUB0 = '2026-12-01', SOON = 5;
+const PLANS = [{ v: '1', l: 'شهر', m: 1 }, { v: '3', l: '3 أشهر', m: 3 }, { v: '6', l: '6 أشهر', m: 6 }, { v: '9', l: '9 أشهر', m: 9 }, { v: '12', l: 'سنة', m: 12 }, { v: 't3', l: 'تجريبي — 3 أيام', d: 3 }, { v: 't7', l: 'تجريبي — 7 أيام', d: 7 }];
+const TK = 'zraij.gh.token', CK = 'zraij.admin.book';
+const API = (r) => `https://api.github.com/repos/${OWNER}/${r}/contents/users.json`;
+const ROOT = location.href.replace(/[?#].*$/, '').replace(/[^/]*\/[^/]*$/, '');
+const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const te = new TextEncoder(), td = new TextDecoder();
+const msg = (el, t, ok) => { el.textContent = t; el.className = 'msg ' + (ok ? 'ok' : 'bad'); };
+
+// ---- التواريخ ----
+const today = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 10); };
+function addM(s, m) { const [y, mo, d] = s.split('-').map(Number), t = new Date(Date.UTC(y, mo - 1 + m, 1)), last = new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth() + 1, 0)).getUTCDate(); t.setUTCDate(Math.min(d, last)); return t.toISOString().slice(0, 10); }
+function addD(s, n) { const t = new Date(s + 'T00:00:00Z'); t.setUTCDate(t.getUTCDate() + n); return t.toISOString().slice(0, 10); }
+const daysTo = (d) => Math.round((Date.parse(d + 'T00:00:00Z') - Date.parse(today() + 'T00:00:00Z')) / 864e5);
+const dayW = (n) => n === 1 ? 'يوم واحد' : n === 2 ? 'يومين' : n <= 10 ? n + ' أيام' : n + ' يوم';
+const plan = (v) => PLANS.find((p) => p.v === v);
+const planEnd = (start, v) => { const p = plan(v); return p.d ? addD(start, p.d) : addM(start, p.m); };
+function applyPlan(ent, start, v) { const p = plan(v); ent.e = planEnd(start, v); delete ent.pm; delete ent.tr; if (p.d) ent.tr = p.d; else ent.pm = p.m; }
+const endOf = (ent) => ent.a ? null : (ent.e || SUB0);
+function subState(ent) {
+  const e = endOf(ent); if (!e) return { c: 'inf', t: 'دائم', s: '' };
+  const n = daysTo(e);
+  const d = `<span dir="ltr">${e}</span>`;
+  return n <= 0 ? { c: 'bad', t: 'منتهي', s: 'انتهى ' + d, n } : { c: n <= SOON ? 'warn' : 'ok', t: 'باقي ' + dayW(n), s: 'ينتهي ' + d, n };
+}
+const planText = (ent) => ent.tr ? `حساب تجريبي لمدة ${dayW(ent.tr)}` : ent.pm ? (plan(String(ent.pm)) || { l: ent.pm + ' أشهر' }).l : 'شهر';
+const fillPlans = (sel, trial) => { sel.innerHTML = PLANS.filter((p) => trial || !p.d).map((p) => `<option value="${p.v}">${p.l}</option>`).join(''); };
+
+// ---- التشفير (نفس صيغة users.json) ----
+// AK مفتاح خاص بالمدراء (ملفوف بكلمة مرور كل مدير في entry.x)، وكلمات المرور محفوظة entry.p = AES-GCM(AK, password).
+async function wk(b, u, pw, e, use) { const base = await crypto.subtle.importKey('raw', te.encode(u + ':' + pw), 'PBKDF2', false, ['deriveKey']); return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: AU.ub(e.s), iterations: b.U.it, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, [use]); }
 async function seal(key, data, ad) { const iv = AU.rnd(12); return AU.bu(iv) + '.' + AU.bu(await crypto.subtle.encrypt({ name: 'AES-GCM', iv, additionalData: te.encode(ad) }, key, data)); }
 async function unseal(key, str, ad) { const [iv, ct] = str.split('.'); return new Uint8Array(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: AU.ub(iv), additionalData: te.encode(ad) }, key, AU.ub(ct))); }
-const akKey = (use) => crypto.subtle.importKey('raw', AK, 'AES-GCM', false, use);
-async function wrapAK(ent, u, pw) { if (AK) ent.x = await seal(await wk(AU.norm(u), pw, ent, 'encrypt'), AK, ent.i + ':x'); }
-async function setPw(ent, pw) { if (AK) ent.p = await seal(await akKey(['encrypt']), te.encode(pw), ent.i + ':p'); }
-async function getPw(ent) { if (!ent.p || !AK) return null; try { return td.decode(await unseal(await akKey(['decrypt']), ent.p, ent.i + ':p')); } catch (_) { return null; } }
-const siteUrl = () => location.href.replace(/admin\.html.*$/, '').replace(/[?#].*$/, '');
-const credText = (n, u, p, scr) => scr
-  ? `حساب الشاشة التفاعلية «${n}» على موقع «قراءتي الجديدة — الأول الابتدائي»:\nرابط التثبيت: ${siteUrl()}install.html\nاسم المستخدم: ${u}\nكلمة المرور: ${p}\nطريقة التشغيل على الشاشة:\n1) افتح الرابط بمتصفح Chrome على الشاشة واضغط «تثبيت التطبيق».\n2) افتح التطبيق من أيقونته وسجّل الدخول، ويبقى محفوظاً.\nملاحظة: هذا الحساب ينربط بهذه الشاشة فقط، فلا تستخدمه على الموبايل.`
-  : `هلا ${n} 🌷\nهذا حسابك على موقع «قراءتي الجديدة — الأول الابتدائي»:\nرابط التثبيت: ${siteUrl()}install.html\nاسم المستخدم: ${u}\nكلمة المرور: ${p}\nملاحظة: الحساب يشتغل على جهاز واحد فقط. افتح الرابط من الجهاز اللي راح تستعمله، ثبّت التطبيق، ثم سجّل الدخول من داخل التطبيق.`;
-async function copyText(t) { try { await navigator.clipboard.writeText(t); return true; } catch (_) { const a = document.createElement('textarea'); a.value = t; a.style.position = 'fixed'; a.style.opacity = '0'; document.body.appendChild(a); a.select(); let ok = false; try { ok = document.execCommand('copy'); } catch (_) {} a.remove(); return ok; } }
-function showCred(n, u, p, scr, box = '#cred') { const c = $(box), t = credText(n, u, p, scr); c.innerHTML = `${esc(t)}<div style="margin-top:8px"><button class="ghost" type="button">نسخ الرسالة</button></div>`; c.classList.add('on'); const b = c.querySelector('button'); b.onclick = async () => { b.textContent = (await copyText(t)) ? 'انتسخت ✓' : 'انسخها يدوياً'; }; }
+const akKey = (b, use) => crypto.subtle.importKey('raw', b.AK, 'AES-GCM', false, use);
+async function wrapAK(b, ent, u, pw) { if (b.AK) ent.x = await seal(await wk(b, AU.norm(u), pw, ent, 'encrypt'), b.AK, ent.i + ':x'); }
+async function setPw(b, ent, pw) { if (b.AK) ent.p = await seal(await akKey(b, ['encrypt']), te.encode(pw), ent.i + ':p'); }
+async function getPw(b, ent) { if (!ent.p || !b.AK) return null; try { return td.decode(await unseal(await akKey(b, ['decrypt']), ent.p, ent.i + ':p')); } catch (_) { return null; } }
+// ينقل الاشتراك وعلامة الشاشة من الحساب القديم للجديد (عند تغيير كلمة المرور)
+const keepSub = (from, to) => { for (const k of ['d', 'e', 'pm', 'tr']) if (from[k] !== undefined) to[k] = from[k]; return to; };
+
+// ---- التوكن: واحد لكل الكتب، دائمي على الجهاز + نسخة مشفّرة بمفتاح المدير (U.gt) ترجع تلقائياً بأي جهاز ----
 const tok = () => { try { return localStorage.getItem(TK) || ''; } catch (_) { return ''; } };
-const msg = (el, t, ok) => { el.textContent = t; el.className = 'msg ' + (ok ? 'ok' : 'bad'); };
+const setTok = (v) => { try { v ? localStorage.setItem(TK, v) : localStorage.removeItem(TK); } catch (_) {} };
+if (!tok()) { try { for (const bk of BOOKS) { const v = localStorage.getItem(bk.t); if (v) { setTok(v); break; } } } catch (_) {} }
 const gh = (url, opt = {}) => fetch(url, { ...opt, headers: { Authorization: 'Bearer ' + tok(), Accept: 'application/vnd.github+json', ...(opt.headers || {}) } });
-async function loadUsers() {
-  if (tok()) { try { const r = await gh(API + '?ref=main&t=' + Date.now(), { cache: 'no-store' }); if (r.ok) { const j = await r.json(); return JSON.parse(atob(j.content.replace(/\n/g, ''))); } } catch (_) {} }
-  return AU.fetchUsers(EMB);
+async function pullTok(b) { if (tok() || !b.AK || !b.U.gt) return; try { setTok(td.decode(await unseal(await akKey(b, ['decrypt']), b.U.gt, 'gt'))); } catch (_) {} }
+async function sealTok(b) { if (b.AK && tok()) b.U.gt = await seal(await akKey(b, ['encrypt']), te.encode(tok()), 'gt'); }
+
+// ---- حالة كل كتاب ----
+const S = {}; // r → { U, K, AK, ME, metas, pend }
+let CUR = null, B = null, editing = null, renewing = null; const shown = new Set();
+const bookOf = (r) => BOOKS.find((x) => x.r === r);
+const sessOf = (bk) => ({ get() { try { return JSON.parse(localStorage.getItem(bk.s) || sessionStorage.getItem(bk.s)); } catch (_) { return null; } },
+  set(v, keep) { try { (keep ? localStorage : sessionStorage).setItem(bk.s, JSON.stringify(v)); } catch (_) {} },
+  clear() { try { localStorage.removeItem(bk.s); sessionStorage.removeItem(bk.s); } catch (_) {} } });
+async function loadUsers(bk) {
+  if (tok()) { try { const r = await gh(API(bk.r) + '?ref=main&t=' + Date.now(), { cache: 'no-store' }); if (r.ok) { const j = await r.json(); return JSON.parse(atob(j.content.replace(/\n/g, ''))); } } catch (_) {} }
+  try { const r = await fetch(`${ROOT}${bk.r}/users.json?t=${Date.now()}`, { cache: 'no-store' }); if (r.ok) return await r.json(); } catch (_) {}
+  return null;
 }
-$('#login').onsubmit = async (e) => {
-  e.preventDefault(); const b = $('#lb'); b.disabled = true; b.textContent = 'جارِ التحقق…'; $('#le').textContent = '';
-  U = await loadUsers(); const r = await AU.unwrap(U, $('#lu').value, $('#lp').value);
-  b.disabled = false; b.textContent = 'دخول';
-  if (!r) { $('#le').textContent = 'اسم المستخدم أو كلمة المرور غير صحيحة'; return; }
-  if (!r.entry.a) { $('#le').textContent = 'هذا الحساب ما عنده صلاحية إدارة'; return; }
-  K = r.raw; ME = r.entry.i;
-  const lu = AU.norm($('#lu').value), lp = $('#lp').value;
-  if (r.entry.x) { try { AK = await unseal(await wk(lu, lp, r.entry, 'decrypt'), r.entry.x, r.entry.i + ':x'); } catch (_) { AK = null; } }
-  else if (!U.u.some((x) => x.p)) { AK = AU.rnd(32); await wrapAK(r.entry, lu, lp); bump(); }
-  sess.set({ k: AU.bu(K), a: AK ? AU.bu(AK) : '', i: ME }, $('#lr').checked);
-  await openPanel();
-};
-async function openPanel() { $('#login').hidden = true; $('#panel').hidden = false; $('#tok').value = tok() ? '••••••••' : ''; await render(); fillScreen(); }
-// "remember me": the admin's keys stay on this device (localStorage) or this tab only (sessionStorage)
-const SK = 'reading1.admin.s';
-const sess = { get() { try { return JSON.parse(localStorage.getItem(SK) || sessionStorage.getItem(SK)); } catch (_) { return null; } },
-  set(v, keep) { try { (keep ? localStorage : sessionStorage).setItem(SK, JSON.stringify(v)); } catch (_) {} },
-  clear() { try { localStorage.removeItem(SK); sessionStorage.removeItem(SK); } catch (_) {} } };
-(async () => {
-  const st = sess.get(); if (!st || !st.k || !st.i) return;
+async function unlock(bk, user, pw, keep) {
+  const U = await loadUsers(bk); if (!U) return 'net';
+  const r = await AU.unwrap(U, user, pw); if (!r) return 'bad'; if (!r.entry.a) return 'noadmin';
+  const b = { U, K: r.raw, ME: r.entry.i, AK: null, metas: new Map(), pend: 0 }, lu = AU.norm(user);
+  if (r.entry.x) { try { b.AK = await unseal(await wk(b, lu, pw, r.entry, 'decrypt'), r.entry.x, r.entry.i + ':x'); } catch (_) {} }
+  else if (!U.u.some((x) => x.p)) { b.AK = AU.rnd(32); await wrapAK(b, r.entry, lu, pw); b.pend++; }
+  S[bk.r] = b; sessOf(bk).set({ k: AU.bu(b.K), a: b.AK ? AU.bu(b.AK) : '', i: b.ME }, keep); await pullTok(b);
+  return 'ok';
+}
+async function restore(bk) {
+  const st = sessOf(bk).get(); if (!st || !st.k || !st.i) return false;
+  const U = await loadUsers(bk); if (!U) return false;
   try {
-    U = await loadUsers(); const e = U.u.find((x) => x.i === st.i && x.a); if (!e) throw 0;
-    K = AU.ub(st.k); metas.set(e.i, await AU.meta(K, e)); ME = e.i; AK = st.a ? AU.ub(st.a) : null;
-    const probe = U.u.find((x) => x.p); if (AK && probe && (await getPw(probe)) === null) AK = null;
-    await openPanel();
-  } catch (_) { sess.clear(); U = null; K = null; ME = null; AK = null; metas.clear(); }
+    const e = U.u.find((x) => x.i === st.i && x.a); if (!e) throw 0;
+    const b = { U, K: AU.ub(st.k), ME: e.i, AK: st.a ? AU.ub(st.a) : null, metas: new Map(), pend: 0 };
+    b.metas.set(e.i, await AU.meta(b.K, e));
+    const probe = U.u.find((x) => x.p); if (b.AK && probe && (await getPw(b, probe)) === null) b.AK = null;
+    S[bk.r] = b; await pullTok(b); return true;
+  } catch (_) { sessOf(bk).clear(); return false; }
+}
+
+// ---- الدخول ----
+$('#login').onsubmit = async (e) => {
+  e.preventDefault(); const b = $('#lb'); b.disabled = true; b.textContent = 'جارِ فتح الكتب…'; $('#le').textContent = '';
+  const u = $('#lu').value, p = $('#lp').value, keep = $('#lr').checked;
+  const res = await Promise.all(BOOKS.map((bk) => S[bk.r] ? 'ok' : unlock(bk, u, p, keep)));
+  b.disabled = false; b.textContent = 'دخول';
+  if (!res.includes('ok')) { $('#le').textContent = res.every((x) => x === 'net') ? 'تعذّر الاتصال، تأكد من الإنترنت' : res.includes('noadmin') ? 'هذا الحساب ما عنده صلاحية إدارة' : 'اسم المستخدم أو كلمة المرور غير صحيحة'; return; }
+  $('#lp').value = ''; await openPanel();
+};
+$('#lock').onsubmit = async (e) => {
+  e.preventDefault(); const b = $('#kb'), bk = bookOf(CUR); b.disabled = true; b.textContent = 'جارِ التحقق…';
+  const r = await unlock(bk, $('#ku').value, $('#kp').value, true);
+  b.disabled = false; b.textContent = 'فتح الكتاب';
+  if (r !== 'ok') return msg($('#km'), r === 'net' ? 'تعذّر الاتصال' : r === 'noadmin' ? 'هذا الحساب ما عنده صلاحية إدارة' : 'اسم المستخدم أو كلمة المرور غير صحيحة');
+  $('#kp').value = ''; $('#km').textContent = ''; await pick(CUR);
+};
+async function openPanel() {
+  $('#login').hidden = true; $('#panel').hidden = false;
+  const here = (location.pathname.split('/').filter(Boolean)[0] || '').toLowerCase();
+  let last = ''; try { last = localStorage.getItem(CK) || ''; } catch (_) {}
+  const want = [last, here].map((x) => BOOKS.find((bk) => bk.r.toLowerCase() === x.toLowerCase())).find((bk) => bk && S[bk.r]);
+  await pick((want || BOOKS.find((bk) => S[bk.r]) || BOOKS[0]).r);
+}
+(async () => {
+  await Promise.all(BOOKS.map(restore));
+  if (BOOKS.some((bk) => S[bk.r])) await openPanel();
 })();
+
+// ---- التبديل بين الكتب ----
+function drawBooks() {
+  $('#books').innerHTML = BOOKS.map((bk) => { const b = S[bk.r]; let n = '';
+    if (!b) n = '🔒'; else { const x = b.U.u.filter((e) => { const s = subState(e); return s.c === 'bad' || s.c === 'warn'; }).length; if (b.pend) n = `<span class="n">${b.pend}</span>`; else if (x) n = `<span class="n bad">${x}</span>`; }
+    return `<button type="button" data-b="${bk.r}" class="${bk.r === CUR ? 'on' : ''}" title="${esc(bk.n)}">${esc(bk.l)} ${n}</button>`; }).join('');
+  $$('[data-b]').forEach((x) => x.onclick = () => pick(x.dataset.b));
+}
+async function pick(r) {
+  CUR = r; B = S[r] || null; editing = null; renewing = null; try { localStorage.setItem(CK, r); } catch (_) {}
+  const bk = bookOf(r);
+  $$('.bn').forEach((x) => x.textContent = bk.l); $('#openSite').href = ROOT + bk.r + '/'; $('#lockName').textContent = bk.n;
+  $('#lock').hidden = !!B; $('#bookUi').hidden = !B; $('#scrf').hidden = !bk.ins;
+  $('#cred').classList.remove('on'); $('#scred').classList.remove('on'); $('#am').textContent = ''; $('#smsg').textContent = '';
+  if (!B) { const m = Object.values(S).map((b) => b.metas.get(b.ME)).find(Boolean); if (m && !$('#ku').value) $('#ku').value = m.u; drawBooks(); drawBar(); return; }
+  drawTok(); fillScreen(); await render();
+}
+
+// ---- الجدول ----
 async function render() {
-  for (const e of U.u) if (!metas.has(e.i)) { try { metas.set(e.i, await AU.meta(K, e)); } catch (_) { metas.set(e.i, { u: '?', n: '?' }); } }
-  $('#cnt').textContent = U.u.length;
-  const pws = new Map(); for (const e of U.u) pws.set(e.i, await getPw(e));
-  $('#list').innerHTML = U.u.map((e) => { const m = metas.get(e.i), pw = pws.get(e.i), me = e.i === ME;
+  const b = B, bk = bookOf(CUR);
+  for (const e of b.U.u) if (!b.metas.has(e.i)) { try { b.metas.set(e.i, await AU.meta(b.K, e)); } catch (_) { b.metas.set(e.i, { u: '?', n: '?' }); } }
+  if (b !== B) return;
+  $('#cnt').textContent = b.U.u.length;
+  const pws = new Map(); for (const e of b.U.u) pws.set(e.i, await getPw(b, e));
+  const cnt = { ok: 0, warn: 0, bad: 0 }; for (const e of b.U.u) { const c = subState(e).c; if (c in cnt) cnt[c]++; }
+  $('#sum').innerHTML = `<span class="st ok">فعّال ${cnt.ok}</span><span class="st warn">ينتهي خلال ${SOON} أيام: ${cnt.warn}</span><span class="st bad">منتهي ${cnt.bad}</span>`;
+  $('#list').innerHTML = b.U.u.map((e) => { const m = b.metas.get(e.i), pw = pws.get(e.i), me = e.i === b.ME, s = subState(e);
     const pcell = me ? '<span style="color:var(--mu);font-size:13px">—</span>' : pw ? `<span class="pw">${shown.has(e.i) ? esc(pw) : '••••••'}</span> <button class="ghost" data-s="${e.i}">${shown.has(e.i) ? 'إخفاء' : 'إظهار'}</button> <button class="ghost" data-c="${e.i}">نسخ الرسالة</button> <button class="ghost" data-e="${e.i}">تغيير</button>` : `<span style="color:var(--mu);font-size:13px">غير محفوظة</span> <button class="ghost" data-e="${e.i}">تغيير</button>`;
     const ecell = `<input class="ltr pwin" id="pwin" type="text" spellcheck="false" autocomplete="off" minlength="6" value="${esc(pw || '')}" placeholder="كلمة المرور الجديدة"> <button class="ghost" data-g="1">توليد</button> <button data-ps="${e.i}">حفظ</button> <button class="ghost" data-x="1">إلغاء</button>`;
-    return `<tr><td>${esc(m.n)} ${e.a ? '<span class="tag">مدير</span>' : ''}${e.d ? '<span class="tag scr">شاشة</span>' : ''}</td><td class="u">${esc(m.u)}</td><td>${esc(m.t || '')}</td><td class="pwc">${editing === e.i && !me ? ecell : pcell}</td><td>${me ? '<span style="color:var(--mu);font-size:13px">أنت</span>' : `<button class="danger" data-d="${e.i}">حذف</button>`}</td></tr>`; }).join('') || '<tr><td colspan="5" class="empty">لا توجد حسابات</td></tr>';
-  $$('[data-s]').forEach((b) => b.onclick = () => { const i = b.dataset.s; shown.has(i) ? shown.delete(i) : shown.add(i); render(); });
-  $$('[data-c]').forEach((b) => b.onclick = async () => { const m = metas.get(b.dataset.c); b.textContent = (await copyText(credText(m.n, m.u, pws.get(b.dataset.c), (U.u.find((x) => x.i === b.dataset.c) || {}).d))) ? 'انتسخت ✓' : 'تعذّر النسخ'; setTimeout(() => { b.textContent = 'نسخ الرسالة'; }, 2000); });
-  $$('[data-e]').forEach((b) => b.onclick = () => { if (!AK) return msg($('#am'), 'ما تكدر تحفظ كلمات المرور من هذا الحساب'); editing = b.dataset.e; render().then(() => { const i = $('#pwin'); if (i) { i.focus(); i.select(); } }); });
-  $$('[data-x]').forEach((b) => b.onclick = () => { editing = null; render(); });
-  $$('[data-g]').forEach((b) => b.onclick = () => { $('#pwin').value = genPw(); });
-  $$('[data-ps]').forEach((b) => b.onclick = async () => {
-    const old = U.u.find((x) => x.i === b.dataset.ps), m = metas.get(old.i), np = $('#pwin').value.trim();
+    const scell = e.a ? `<span class="st inf">دائم</span>` : renewing === e.i
+      ? `<select id="rpl">${PLANS.filter((p) => !p.d).map((p) => `<option value="${p.v}">${p.l}</option>`).join('')}</select> <input id="rto" type="date"> <button data-rs="${e.i}">تجديد</button> <button class="ghost" data-x="1">إلغاء</button>`
+      : `<span class="st ${s.c}">${s.t}</span> <button class="ghost" data-r="${e.i}">تجديد</button><small>${s.s}${e.tr ? ' · تجريبي' : ''}</small>`;
+    return `<tr><td>${esc(m.n)} ${e.a ? '<span class="tag">مدير</span>' : ''}${e.d ? '<span class="tag scr">شاشة</span>' : ''}${e.tr ? '<span class="tag tr">تجريبي</span>' : ''}</td><td class="u">${esc(m.u)}</td><td class="sub">${scell}</td><td class="pwc">${editing === e.i && !me ? ecell : pcell}</td><td>${me ? '<span style="color:var(--mu);font-size:13px">أنت</span>' : `<button class="danger" data-d="${e.i}">حذف</button>`}</td></tr>`; }).join('') || '<tr><td colspan="5" class="empty">لا توجد حسابات</td></tr>';
+  const ent = (i) => b.U.u.find((x) => x.i === i);
+  $$('[data-s]').forEach((x) => x.onclick = () => { const i = x.dataset.s; shown.has(i) ? shown.delete(i) : shown.add(i); render(); });
+  $$('[data-c]').forEach((x) => x.onclick = async () => { const i = x.dataset.c, m = b.metas.get(i); x.textContent = (await copyText(credText(bk, m.n, m.u, pws.get(i), ent(i)))) ? 'انتسخت ✓' : 'تعذّر النسخ'; setTimeout(() => { x.textContent = 'نسخ الرسالة'; }, 2000); });
+  $$('[data-e]').forEach((x) => x.onclick = () => { if (!b.AK) return msg($('#am'), 'ما تكدر تحفظ كلمات المرور من هذا الحساب'); editing = x.dataset.e; renewing = null; render().then(() => { const i = $('#pwin'); if (i) { i.focus(); i.select(); } }); });
+  $$('[data-x]').forEach((x) => x.onclick = () => { editing = null; renewing = null; render(); });
+  $$('[data-g]').forEach((x) => x.onclick = () => { $('#pwin').value = genPw(); });
+  $$('[data-r]').forEach((x) => x.onclick = () => { renewing = x.dataset.r; editing = null; render(); });
+  if (renewing && $('#rpl')) { const e = ent(renewing), base = () => { const end = endOf(e); return end > today() ? end : today(); }, upd = () => { $('#rto').value = planEnd(base(), $('#rpl').value); }; $('#rpl').onchange = upd; upd(); }
+  $$('[data-rs]').forEach((x) => x.onclick = async () => {
+    const e = ent(x.dataset.rs), m = b.metas.get(e.i), to = $('#rto').value, v = $('#rpl').value;
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(to)) return msg($('#am'), 'اختار تاريخ الانتهاء');
+    e.e = to; e.pm = plan(v).m; delete e.tr; renewing = null; bump(); await render();
+    msg($('#am'), `تجدّد اشتراك ${m.n} لغاية ${to}، اضغط «حفظ التغييرات»`, true); });
+  $$('[data-ps]').forEach((x) => x.onclick = async () => {
+    const old = ent(x.dataset.ps), m = b.metas.get(old.i), np = $('#pwin').value.trim();
     if (np.length < 6) return msg($('#am'), 'كلمة المرور قصيرة (6 أحرف على الأقل)');
     if (np === pws.get(old.i)) { editing = null; return render(); }
-    const ent = await AU.makeEntry(U, K, m.u, np, m.n, old.a); if (old.d) ent.d = 1;
-    await setPw(ent, np); if (ent.a) await wrapAK(ent, m.u, np); U.u[U.u.indexOf(old)] = ent; metas.set(ent.i, { ...m, t: new Date().toISOString().slice(0, 10) }); shown.add(ent.i); editing = null;
-    bump(); await render(); msg($('#am'), `تغيّرت كلمة مرور ${m.n} (القديمة تبطل بعد الحفظ)، اضغط «حفظ التغييرات» ثم أرسلها`, true); showCred(m.n, m.u, np, old.d); });
-  $$('[data-d]').forEach((b) => b.onclick = () => { const m = metas.get(b.dataset.d); if (!b.dataset.c) { b.dataset.c = 1; b.textContent = 'تأكيد الحذف؟'; return; } U.u = U.u.filter((x) => x.i !== b.dataset.d); bump(); render(); msg($('#am'), `حُذف ${m.n}، اضغط حفظ`, true); });
-  $('#pend').textContent = pend; $('#bar').classList.toggle('on', pend > 0);
+    const ne = keepSub(old, await AU.makeEntry(b.U, b.K, m.u, np, m.n, old.a));
+    await setPw(b, ne, np); if (ne.a) await wrapAK(b, ne, m.u, np); b.U.u[b.U.u.indexOf(old)] = ne; b.metas.set(ne.i, { ...m, t: today() }); shown.add(ne.i); editing = null;
+    bump(); await render(); msg($('#am'), `تغيّرت كلمة مرور ${m.n} (القديمة تبطل بعد الحفظ)، اضغط «حفظ التغييرات» ثم أرسلها`, true); showCred(bk, m.n, m.u, np, ne, ne.d ? '#scred' : '#cred'); });
+  $$('[data-d]').forEach((x) => x.onclick = () => { const m = b.metas.get(x.dataset.d); if (!x.dataset.k) { x.dataset.k = 1; x.textContent = 'تأكيد الحذف؟'; return; } b.U.u = b.U.u.filter((y) => y.i !== x.dataset.d); bump(); render(); msg($('#am'), `حُذف ${m.n}، اضغط حفظ`, true); });
+  drawBooks(); drawBar();
 }
-const $$ = (s) => [...document.querySelectorAll(s)];
-const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const bump = () => { pend++; };
+const bump = () => { B.pend++; };
+function drawBar() {
+  const p = BOOKS.filter((bk) => S[bk.r] && S[bk.r].pend);
+  $('#pendTxt').innerHTML = p.length ? `عندك تغييرات غير محفوظة: ${p.map((bk) => `${esc(bk.l)} <b>${S[bk.r].pend}</b>`).join(' · ')}` : '';
+  $('#dl').hidden = !(B && B.pend);
+  if (p.length) $('#bar').classList.add('on'); else if (!$('#sm').textContent) $('#bar').classList.remove('on');
+}
+
+// ---- رسالة الحساب ----
+const siteOf = (bk) => ROOT + bk.r + '/';
+function credText(bk, n, u, p, ent) {
+  const link = bk.ins ? `رابط التثبيت: ${siteOf(bk)}install.html` : `الرابط: ${siteOf(bk)}`;
+  const sub = ent && !ent.a ? `\n${ent.tr ? planText(ent) : 'مدة الاشتراك: ' + planText(ent)} — ينتهي ${endOf(ent)}\nللتجديد: ${PHONE}` : '';
+  return ent && ent.d
+    ? `حساب الشاشة التفاعلية «${n}» على موقع «${bk.n}»:\n${link}\nاسم المستخدم: ${u}\nكلمة المرور: ${p}${sub}\nطريقة التشغيل على الشاشة:\n1) افتح الرابط بمتصفح Chrome على الشاشة واضغط «تثبيت التطبيق».\n2) افتح التطبيق من أيقونته وسجّل الدخول، ويبقى محفوظاً.\nملاحظة: هذا الحساب ينربط بهذه الشاشة فقط، فلا تستخدمه على الموبايل.`
+    : `هلا ${n} 🌷\nهذا حسابك على موقع «${bk.n}»:\n${link}\nاسم المستخدم: ${u}\nكلمة المرور: ${p}${sub}\nملاحظة: الحساب يشتغل على جهاز واحد فقط. ${bk.ins ? 'افتح الرابط من الجهاز اللي راح تستعمله، ثبّت التطبيق، ثم سجّل الدخول من داخل التطبيق.' : 'سجّل الدخول من الجهاز اللي راح تستعمله.'}`;
+}
+async function copyText(t) { try { await navigator.clipboard.writeText(t); return true; } catch (_) { const a = document.createElement('textarea'); a.value = t; a.style.position = 'fixed'; a.style.opacity = '0'; document.body.appendChild(a); a.select(); let ok = false; try { ok = document.execCommand('copy'); } catch (_) {} a.remove(); return ok; } }
+function showCred(bk, n, u, p, ent, box = '#cred') { const c = $(box), t = credText(bk, n, u, p, ent); c.innerHTML = `${esc(t)}<div style="margin-top:8px"><button class="ghost" type="button">نسخ الرسالة</button></div>`; c.classList.add('on'); const x = c.querySelector('button'); x.onclick = async () => { x.textContent = (await copyText(t)) ? 'انتسخت ✓' : 'انسخها يدوياً'; }; }
 function genPw() { const a = 'abcdefghjkmnpqrstuvwxyz23456789'; const r = AU.rnd(10); let s = ''; for (let i = 0; i < 10; i++) s += a[r[i] % a.length]; return s.slice(0, 5) + '-' + s.slice(5); }
+
+// ---- إضافة حساب ----
+fillPlans($('#apl'), true); fillPlans($('#spl'), true); $('#asd').value = today();
+const showEnd = () => { $('#aplw').hidden = $('#aa').checked; $('#aend').textContent = $('#aa').checked ? 'حساب المدير بدون اشتراك.' : `ينتهي بتاريخ ${planEnd($('#asd').value || today(), $('#apl').value)}`; };
+$('#apl').onchange = showEnd; $('#asd').onchange = showEnd; $('#aa').onchange = showEnd; showEnd();
 $('#gen').onclick = () => { $('#ap').value = genPw(); };
+async function addAccount(n, u, p, admin, scr, start, v) {
+  const id = await AU.uidOf(B.U, u); if (B.U.u.some((x) => x.i === id)) return null;
+  const ent = await AU.makeEntry(B.U, B.K, u, p, n, admin); if (scr) ent.d = 1; if (!admin) applyPlan(ent, start, v);
+  await setPw(B, ent, p); if (ent.a) await wrapAK(B, ent, u, p); B.U.u.push(ent); B.metas.set(ent.i, { u, n, t: today() }); bump(); return ent;
+}
 $('#addf').onsubmit = async (e) => {
   e.preventDefault(); const n = $('#an').value.trim(), u = AU.norm($('#au').value), p = $('#ap').value;
   if (!/^[a-z0-9._-]{3,30}$/.test(u)) return msg($('#am'), 'اسم المستخدم لازم يكون إنكليزي (حروف وأرقام و . _ -) من 3 أحرف أو أكثر');
   if (p.length < 6) return msg($('#am'), 'كلمة المرور قصيرة (6 أحرف على الأقل)');
-  const id = await AU.uidOf(U, u); if (U.u.some((x) => x.i === id)) return msg($('#am'), 'اسم المستخدم موجود مسبقاً');
-  const ent = await AU.makeEntry(U, K, u, p, n, $('#aa').checked); await setPw(ent, p); if (ent.a) await wrapAK(ent, u, p); U.u.push(ent); metas.set(ent.i, { u, n, t: new Date().toISOString().slice(0, 10) });
-  bump(); await render(); msg($('#am'), `أُضيف ${n}، لا تنسى تضغط «حفظ التغييرات»`, true);
-  showCred(n, u, p, 0);
-  $('#an').value = ''; $('#au').value = ''; $('#ap').value = ''; $('#aa').checked = false;
+  const ent = await addAccount(n, u, p, $('#aa').checked, 0, $('#asd').value || today(), $('#apl').value);
+  if (!ent) return msg($('#am'), 'اسم المستخدم موجود مسبقاً');
+  await render(); msg($('#am'), `أُضيف ${n}${ent.e ? ' لغاية ' + ent.e : ''}، لا تنسى تضغط «حفظ التغييرات»`, true); showCred(bookOf(CUR), n, u, p, ent);
+  $('#an').value = ''; $('#au').value = ''; $('#ap').value = ''; $('#aa').checked = false; showEnd();
 };
 // حسابات الشاشات التفاعلية: حساب عادي (بدون إدارة) عليه علامة d=1، يبقى مسجّل دخول دائماً على الشاشة
-function nextScreenUser() { let n = 0; for (const m of metas.values()) { const x = /^screen(\d+)$/.exec((m && m.u) || ''); if (x) n = Math.max(n, +x[1]); } return 'screen' + (n + 1); }
-function fillScreen() { if (!$('#su').value) $('#su').value = nextScreenUser(); if (!$('#sp').value) $('#sp').value = genPw(); }
+function nextScreenUser() { let n = 0; for (const m of B.metas.values()) { const x = /^screen(\d+)$/.exec((m && m.u) || ''); if (x) n = Math.max(n, +x[1]); } return 'screen' + (n + 1); }
+function fillScreen() { $('#su').value = nextScreenUser(); if (!$('#sp').value) $('#sp').value = genPw(); }
 $('#sgen').onclick = () => { $('#sp').value = genPw(); };
 $('#scrf').onsubmit = async (e) => {
   e.preventDefault(); const n = $('#sn').value.trim(), u = AU.norm($('#su').value), p = $('#sp').value.trim();
   if (!n) return msg($('#smsg'), 'اكتب اسم الشاشة أو القاعة');
   if (!/^[a-z0-9._-]{3,30}$/.test(u)) return msg($('#smsg'), 'اسم المستخدم لازم يكون إنكليزي (حروف وأرقام و . _ -) من 3 أحرف أو أكثر');
   if (p.length < 6) return msg($('#smsg'), 'كلمة المرور قصيرة (6 أحرف على الأقل)');
-  const id = await AU.uidOf(U, u); if (U.u.some((x) => x.i === id)) return msg($('#smsg'), 'اسم المستخدم موجود مسبقاً');
-  const ent = await AU.makeEntry(U, K, u, p, n, false); ent.d = 1; await setPw(ent, p); U.u.push(ent); metas.set(ent.i, { u, n, t: new Date().toISOString().slice(0, 10) });
-  bump(); await render(); msg($('#smsg'), `أُضيفت ${n}، لا تنسى تضغط «حفظ التغييرات»`, true); showCred(n, u, p, 1, '#scred');
-  $('#sn').value = ''; $('#su').value = ''; $('#sp').value = ''; fillScreen();
+  const ent = await addAccount(n, u, p, false, 1, today(), $('#spl').value);
+  if (!ent) return msg($('#smsg'), 'اسم المستخدم موجود مسبقاً');
+  await render(); msg($('#smsg'), `أُضيفت ${n} لغاية ${ent.e}، لا تنسى تضغط «حفظ التغييرات»`, true); showCred(bookOf(CUR), n, u, p, ent, '#scred');
+  $('#sn').value = ''; $('#sp').value = ''; fillScreen();
 };
+
+// ---- التوكن ----
+function drawTok(show) { const has = !!tok() && !show; $('#tokOk').hidden = !has; $('#tokForm').hidden = has; if (!has) $('#tok').value = ''; }
+$('#tokChange').onclick = () => { drawTok(true); $('#tm').textContent = ''; $('#tok').focus(); };
 $('#tokSave').onclick = async () => {
-  const v = $('#tok').value.trim(); if (!v || v.startsWith('•')) return;
-  try { localStorage.setItem(TK, v); } catch (_) {}
-  const r = await gh(`https://api.github.com/repos/${OWNER}/${REPO}`);
-  if (r.ok && (await r.json()).permissions?.push) { msg($('#tm'), 'تم الربط، تكدر تحفظ التغييرات', true); $('#tok').value = '••••••••'; }
-  else { try { localStorage.removeItem(TK); } catch (_) {} msg($('#tm'), 'التوكن غير صالح أو ما عنده صلاحية كتابة على المستودع'); }
+  const v = $('#tok').value.trim(); if (!v) return; const old = tok(); setTok(v); msg($('#tm'), 'جارِ التحقق…', true);
+  const ok = await Promise.all(BOOKS.map(async (bk) => { try { const r = await gh(`https://api.github.com/repos/${OWNER}/${bk.r}`); return r.ok && !!(await r.json()).permissions?.push; } catch (_) { return false; } }));
+  if (!ok.includes(true)) { setTok(old); return msg($('#tm'), 'التوكن غير صالح أو ما عنده صلاحية كتابة على المستودعات'); }
+  const miss = BOOKS.filter((bk, i) => !ok[i]).map((bk) => bk.l);
+  drawTok(); msg($('#tm'), miss.length ? `تم الربط ✓ بس ما عنده صلاحية على: ${miss.join('، ')} (اختار All repositories)` : 'تم الربط ✓ يشتغل لكل الكتب', !miss.length);
+  // نحفظ نسخة مشفّرة ويّا حسابك بكل كتاب ما بيه تغييرات معلّقة، حتى ترجع تلقائياً بأي جهاز
+  for (const bk of BOOKS) { const b = S[bk.r]; if (b && b.AK && !b.pend && ok[BOOKS.indexOf(bk)]) { try { await saveBook(bk, 'Save admin token (encrypted)'); } catch (_) {} } }
 };
+
+// ---- تغيير كلمة مروري ----
 $('#npb').onclick = async () => {
   const p = $('#np').value; if (p.length < 8) return msg($('#nm'), '8 أحرف على الأقل');
-  const m = metas.get(ME), old = U.u.find((x) => x.i === ME), ent = await AU.makeEntry(U, K, m.u, p, m.n, true);
-  await wrapAK(ent, m.u, p); U.u[U.u.indexOf(old)] = ent; bump(); await render(); $('#np').value = ''; msg($('#nm'), 'تغيّرت، اضغط «حفظ التغييرات» حتى تتفعّل', true);
+  const list = $('#npall').checked ? BOOKS.filter((bk) => S[bk.r]) : [bookOf(CUR)];
+  for (const bk of list) {
+    const b = S[bk.r], old = b.U.u.find((x) => x.i === b.ME); if (!old) continue;
+    let m = b.metas.get(b.ME); if (!m) { m = await AU.meta(b.K, old); b.metas.set(b.ME, m); }
+    const ne = await AU.makeEntry(b.U, b.K, m.u, p, m.n, true); await wrapAK(b, ne, m.u, p);
+    b.U.u[b.U.u.indexOf(old)] = ne; b.metas.set(ne.i, m); b.pend++;
+  }
+  await render(); $('#np').value = ''; msg($('#nm'), `تغيّرت بـ ${list.length} ${list.length === 1 ? 'كتاب' : 'كتب'}، اضغط «حفظ التغييرات» حتى تتفعّل`, true);
 };
-$('#dl').onclick = () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(U)], { type: 'application/json' })); a.download = 'users.json'; a.click(); };
+
+// ---- الحفظ ----
+async function saveBook(bk, message = 'Update accounts') {
+  const b = S[bk.r]; await sealTok(b);
+  const g = await gh(API(bk.r) + '?ref=main&t=' + Date.now(), { cache: 'no-store' }); if (g.status === 401) throw new Error('auth');
+  const sha = g.ok ? (await g.json()).sha : undefined;
+  const r = await gh(API(bk.r), { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message, content: btoa(JSON.stringify(b.U)), sha, branch: 'main' }) });
+  if (r.status === 401) throw new Error('auth');
+  if (!r.ok) throw new Error((await r.json()).message || r.status);
+  b.pend = 0;
+}
+$('#dl').onclick = () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(B.U)], { type: 'application/json' })); a.download = 'users.json'; a.click(); };
 $('#save').onclick = async () => {
-  const sm = $('#sm'), b = $('#save');
-  if (!tok()) return msg(sm, 'اربط GitHub أولاً (الخانة أعلاه)، أو نزّل الملف وارفعه يدوياً على المستودع');
-  b.disabled = true; b.textContent = 'جارِ الحفظ…';
-  try {
-    const g = await gh(API + '?ref=main&t=' + Date.now(), { cache: 'no-store' }); const sha = g.ok ? (await g.json()).sha : undefined;
-    const r = await gh(API, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: 'Update accounts', content: btoa(JSON.stringify(U)), sha, branch: 'main' }) });
-    if (!r.ok) throw new Error((await r.json()).message || r.status);
-    pend = 0; await render(); msg(sm, 'انحفظ ✓ يتفعّل على الموقع خلال دقيقة تقريباً', true); $('#bar').classList.add('on');
-    setTimeout(() => { if (!pend) $('#bar').classList.remove('on'); }, 6000);
-  } catch (x) { msg(sm, 'ما انحفظ: ' + x.message); }
-  b.disabled = false; b.textContent = 'حفظ التغييرات على الموقع';
+  const sm = $('#sm'), x = $('#save');
+  if (!tok()) { drawTok(true); return msg(sm, 'اربط GitHub أولاً (خانة التوكن أعلاه)، أو نزّل الملف وارفعه يدوياً على المستودع'); }
+  x.disabled = true; x.textContent = 'جارِ الحفظ…'; const done = [], bad = [];
+  for (const bk of BOOKS.filter((bk) => S[bk.r] && S[bk.r].pend)) {
+    try { await saveBook(bk); done.push(bk.l); } catch (e) { bad.push(`${bk.l}: ${e.message === 'auth' ? 'التوكن منتهي أو غير صالح' : e.message}`); if (e.message === 'auth') drawTok(true); }
+  }
+  x.disabled = false; x.textContent = 'حفظ التغييرات على الموقع';
+  if (B) await render();
+  msg(sm, bad.length ? 'ما انحفظ: ' + bad.join(' · ') + (done.length ? ` (انحفظ: ${done.join('، ')})` : '') : `انحفظ ✓ ${done.join('، ')} — يتفعّل على الموقع خلال دقيقة تقريباً`, !bad.length);
+  $('#bar').classList.add('on'); setTimeout(() => { sm.textContent = ''; drawBar(); }, 6000);
 };
-$('#out').onclick = () => { if (pend && !confirm('عندك تغييرات غير محفوظة، تطلع؟')) return; pend = 0; sess.clear(); location.reload(); };
-window.addEventListener('beforeunload', (e) => { if (pend) { e.preventDefault(); e.returnValue = ''; } });
+$('#out').onclick = () => { if (BOOKS.some((bk) => S[bk.r] && S[bk.r].pend) && !confirm('عندك تغييرات غير محفوظة، تطلع؟')) return; for (const bk of BOOKS) { if (S[bk.r]) S[bk.r].pend = 0; sessOf(bk).clear(); } location.reload(); };
+window.addEventListener('beforeunload', (e) => { if (BOOKS.some((bk) => S[bk.r] && S[bk.r].pend)) { e.preventDefault(); e.returnValue = ''; } });
 </script>
-<footer style="text-align:center;margin:28px auto 16px;color:#9A9CC0;font-size:12px;line-height:2">تصميم وبرمجة: <b style="color:#FF8A3D">حسام عبدالمنعم</b> · <span dir="ltr">📱 07746451098</span><br>© 2026 — جميع الحقوق محفوظة</footer>
+<footer style="text-align:center;margin:28px auto 16px;color:#9A9CC0;font-size:12px;line-height:2">تصميم وبرمجة: <b style="color:#A58DFF">حسام عبدالمنعم</b> · <span dir="ltr">📱 07746451098</span><br>© 2026 — جميع الحقوق محفوظة</footer>
 </body></html>

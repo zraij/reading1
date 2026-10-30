@@ -92,6 +92,36 @@ const EMB = {"it":150000,"ss":"OEBxKK7CVdOK4avWVn3QDw==","u":[{"i":"9ed7c9459879
 const __st = { get() { try { return JSON.parse(localStorage.getItem(SK) || sessionStorage.getItem(SK)); } catch (_) { return null; } },
   set(v, keep) { try { (keep ? localStorage : sessionStorage).setItem(SK, JSON.stringify(v)); } catch (_) {} },
   clear() { try { localStorage.removeItem(SK); sessionStorage.removeItem(SK); } catch (_) {} } };
+// الاشتراك: كل حساب (عدا المدير) له تاريخ انتهاء e في users.json. الحسابات القديمة بدون تاريخ: من 2026-11-01 لمدة شهر.
+var SUB0 = '2026-12-01', SUB_PHONE = '07746451098', SUB_WA = '9647746451098', __SRV = null;
+async function subFetch(fb) {
+  try { const r = await fetch('users.json?t=' + Date.now(), { cache: 'no-store' }); if (r.ok) { const j = await r.json(), t = Date.parse(r.headers.get('Date') || ''); __SRV = t ? t - Date.now() : 0; try { if (t) localStorage.setItem('sub.seen', String(t)); } catch (_) {} return j; } } catch (_) {}
+  return fb;
+}
+function subNow() { if (__SRV !== null) return Date.now() + __SRV; var s = 0; try { s = +localStorage.getItem('sub.seen') || 0; } catch (_) {} return Math.max(Date.now(), s); }
+function subEnd(x) { if (!x || x.a) return null; var d = x.e || SUB0, k = 'sub.e.' + x.i; try { if (__SRV !== null) localStorage.setItem(k, d); else { var o = localStorage.getItem(k); if (o && o > d) d = o; } } catch (_) {} return d; }
+function subMs(d) { return Date.parse(d + 'T00:00:00+03:00'); }
+function subExpired(x) { var d = subEnd(x); return !!d && subNow() >= subMs(d); }
+function subDays(n) { return n === 1 ? 'يوم واحد' : n === 2 ? 'يومين' : n <= 10 ? n + ' أيام' : n + ' يوم'; }
+function subBlock(x) {
+  var d = subEnd(x), f = document.getElementById('f'), t = encodeURIComponent('مرحبا، أريد تجديد اشتراكي في «' + document.title + '»');
+  f.innerHTML = '<div style="text-align:center"><div style="font-size:48px;line-height:1.2">⏰</div><h1>' + (x.tr ? 'انتهت الفترة التجريبية' : 'انتهى اشتراكك') + '</h1>'
+    + '<p class="s" style="margin-bottom:10px">انتهى بتاريخ <b dir="ltr">' + d + '</b><br>لتجديد الاشتراك تواصل ويانا على الرقم:</p>'
+    + '<a href="tel:' + SUB_PHONE + '" dir="ltr" style="display:block;font-size:32px;font-weight:700;letter-spacing:1px;color:var(--c3,#F0A93E);text-decoration:none;margin:4px 0 16px">' + SUB_PHONE + '</a>'
+    + '<div style="display:flex;gap:8px"><a style="flex:1" href="https://wa.me/' + SUB_WA + '?text=' + t + '" target="_blank" rel="noopener"><button type="button" style="width:100%;background:#25D366;color:#fff">واتساب</button></a>'
+    + '<a style="flex:1" href="tel:' + SUB_PHONE + '"><button type="button" class="ghost" style="width:100%">اتصال</button></a></div>'
+    + '<button type="button" class="ghost" id="subOut" style="width:100%;margin-top:10px">دخول بحساب آخر</button></div>';
+  document.getElementById('subOut').onclick = function () { try { localStorage.removeItem(SK); sessionStorage.removeItem(SK); } catch (_) {} location.reload(); };
+}
+function subBadge(html) {
+  var x = window.__SUBENT, d = subEnd(x); if (!d) return html;
+  var ms = subMs(d) - subNow(), n = Math.max(1, Math.ceil(ms / 864e5)), w = n <= 5;
+  var b = '<div id="__sub" onclick="var s=this.lastChild;s.hidden=!s.hidden" style="position:fixed;left:8px;bottom:34px;z-index:2147483646;max-width:calc(100% - 16px);font:12px/1.7 Cairo,Tahoma,sans-serif;direction:rtl;color:#fff;background:' + (w ? 'rgba(220,60,80,.95)' : 'rgba(23,26,48,.85)') + ';border-radius:14px;padding:3px 12px;box-shadow:0 4px 14px rgba(0,0,0,.3);cursor:pointer;user-select:none">⏳ ' + (x.tr ? 'تجريبي · ' : '') + 'باقي ' + subDays(n)
+    + '<span' + (w ? '' : ' hidden') + '> · ينتهي <span dir="ltr">' + d + '</span> · للتجديد <b dir="ltr">' + SUB_PHONE + '</b></span></div>'
+    + '<script>(function(){var end=' + Math.round(Date.now() + ms) + ';setInterval(function(){if(Date.now()>=end)location.reload();},60000);})();<\/script>';
+  return html.indexOf('</body>') > -1 ? html.replace('</body>', b + '</body>') : html + b;
+}
+
 var LOCK_URL = 'https://script.google.com/macros/s/AKfycbxth4wUujAKFdXIE6ity7lV-F30gheUUI4x06LLWXGGJnDIR8LWKCOwMnCcapWBP9zcuA/exec';
 var EXEMPT_IDS = ["9ed7c9459879cfc7f8e5a63a"];
 function deviceId(){ try{ var k='reading1_dev', v=localStorage.getItem(k); if(!v){ v=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():(Date.now().toString(36)+'-'+Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2)); localStorage.setItem(k,v); } return v; }catch(_){ return 'nostore-'+Math.random().toString(36).slice(2); } }
@@ -114,17 +144,21 @@ async function openWith(raw) {
   const html = await new Response(new Blob([z]).stream().pipeThrough(new DecompressionStream('deflate'))).text();
   var __CR='<div style="position:fixed;left:8px;bottom:4px;z-index:2147483647;font:11px/1.6 Tahoma,sans-serif;color:#6d6890;background:rgba(255,255,255,.75);border-radius:8px;padding:1px 8px;direction:rtl;pointer-events:none">تصميم وبرمجة: <b style=\"color:#e63973\">حسام عبدالمنعم</b> · <span dir=\"ltr\">07746451098</span> · © 2026</div>';
   var __out = html.indexOf('</body>') > -1 ? html.replace('</body>', __CR + '</body>') : html + __CR;
+  __out = subBadge(__out);
   // PWA: نعيد روابط التطبيق (الأيقونة والـ manifest) للصفحة بعد فتح المحتوى حتى يبقى التثبيت متاحاً
   var __PWA = Array.prototype.map.call(document.querySelectorAll('link[rel="manifest"],link[rel="icon"],link[rel="apple-touch-icon"],meta[name="theme-color"],meta[name="mobile-web-app-capable"],meta[name^="apple-mobile-web-app"]'), function (n) { return n.outerHTML; }).join('');
   if (__PWA) __out = /<head[^>]*>/i.test(__out) ? __out.replace(/<head[^>]*>/i, function (h) { return h + __PWA; }) : __PWA + __out;
   document.open(); document.write(__out); document.close();
 }
-const __usersP = AX.fetchUsers(EMB);
+const __usersP = subFetch(EMB);
 (async () => {
   const s = __st.get();
   if (s && s.k && s.i) {
     const U = await __usersP;
-    if (U.u.some((x) => x.i === s.i)) {
+    const __ent = U.u.find((x) => x.i === s.i);
+    if (__ent) {
+      if (subExpired(__ent)) { subBlock(__ent); return; }
+      window.__SUBENT = __ent;
       if (!(await enforceDevice(s.i, ''))) { __st.clear(); document.getElementById('e').textContent = 'هذا الحساب مُستخدم على جهاز آخر. راجع الإدارة لتحريره.'; document.getElementById('u').focus(); return; }
       try { await openWith(AX.ub(s.k)); return; } catch (_) {}
     }
@@ -139,6 +173,8 @@ document.getElementById('f').onsubmit = async (ev) => {
   try {
     const r = await AX.unwrap(await __usersP, document.getElementById('u').value, document.getElementById('p').value);
     if (!r) { er.textContent = 'اسم المستخدم أو كلمة المرور غير صحيحة'; f.classList.remove('shake'); void f.offsetWidth; f.classList.add('shake'); b.disabled = false; b.textContent = 'دخول'; return; }
+    if (subExpired(r.entry)) { subBlock(r.entry); return; }
+    window.__SUBENT = r.entry;
     if (!(await enforceDevice(r.entry.i, document.getElementById('u').value))) { er.textContent = 'هذا الحساب مُستخدم على جهاز آخر. راجع الإدارة لتحريره.'; f.classList.remove('shake'); void f.offsetWidth; f.classList.add('shake'); b.disabled = false; b.textContent = 'دخول'; return; }
     __st.set({ k: AX.bu(r.raw), i: r.entry.i }, document.getElementById('r').checked || r.entry.d === 1);
     await openWith(r.raw);
