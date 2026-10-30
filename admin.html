@@ -119,8 +119,8 @@ ol.steps{margin:6px 0 0;padding-inline-start:20px;color:var(--mu);font-size:13px
 <form class="card" id="lock" hidden>
   <h2>🔒 <span id="lockName"></span></h2>
   <p class="hint">كلمة المرور اللي دخلت بيها ما فتحت هذا الكتاب. اكتب حساب المدير الخاص بيه.</p>
-  <label for="ku">اسم المستخدم</label><input class="ltr" id="ku" type="text" autocomplete="username" autocapitalize="none" required>
-  <label for="kp">كلمة المرور</label><input class="ltr" id="kp" type="password" autocomplete="current-password" required>
+  <label for="ku">اسم المستخدم</label><input class="ltr" id="ku" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" required>
+  <label for="kp">كلمة المرور</label><div class="row"><input class="ltr" id="kp" type="password" autocomplete="new-password" autocapitalize="none" spellcheck="false" required><button class="ghost" type="button" id="keye" title="إظهار">👁</button></div>
   <button id="kb" type="submit">فتح الكتاب</button><div class="msg" id="km"></div>
 </form>
 
@@ -294,9 +294,10 @@ $('#login').onsubmit = async (e) => {
   if (!res.includes('ok')) { $('#le').textContent = res.every((x) => x === 'net') ? 'تعذّر الاتصال، تأكد من الإنترنت' : res.includes('noadmin') ? 'هذا الحساب ما عنده صلاحية إدارة' : 'اسم المستخدم أو كلمة المرور غير صحيحة'; return; }
   $('#lp').value = ''; await openPanel();
 };
+$('#keye').onclick = () => { const i = $('#kp'); i.type = i.type === 'password' ? 'text' : 'password'; };
 $('#lock').onsubmit = async (e) => {
   e.preventDefault(); const b = $('#kb'), bk = bookOf(CUR); b.disabled = true; b.textContent = 'جارِ التحقق…';
-  const r = await unlock(bk, $('#ku').value, $('#kp').value, true);
+  const r = await unlock(bk, $('#ku').value.trim(), $('#kp').value.trim(), true);
   b.disabled = false; b.textContent = 'فتح الكتاب';
   if (r !== 'ok') return msg($('#km'), r === 'net' ? 'تعذّر الاتصال' : r === 'noadmin' ? 'هذا الحساب ما عنده صلاحية إدارة' : 'اسم المستخدم أو كلمة المرور غير صحيحة');
   $('#kp').value = ''; $('#km').textContent = ''; await pick(CUR);
@@ -326,7 +327,7 @@ async function pick(r) {
   $$('.bn').forEach((x) => x.textContent = bk.l); $('#openSite').href = ROOT + bk.r + '/'; $('#lockName').textContent = bk.n;
   $('#lock').hidden = !!B; $('#bookUi').hidden = !B; $('#scrf').hidden = !bk.ins;
   $('#cred').classList.remove('on'); $('#scred').classList.remove('on'); $('#am').textContent = ''; $('#smsg').textContent = '';
-  if (!B) { const m = Object.values(S).map((b) => b.metas.get(b.ME)).find(Boolean); if (m && !$('#ku').value) $('#ku').value = m.u; drawBooks(); drawBar(); return; }
+  if (!B) { const m = Object.values(S).map((b) => b.metas.get(b.ME)).find(Boolean); $('#ku').value = m ? m.u : ''; $('#kp').value = ''; $('#kp').type = 'password'; $('#km').textContent = ''; drawBooks(); drawBar(); return; }
   drawTok(); fillScreen(); await render();
 }
 
