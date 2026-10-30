@@ -117,8 +117,9 @@ function subBadge(html) {
   var x = window.__SUBENT, d = subEnd(x), b = '', k = JSON.stringify(SK).replace(/"/g, '&quot;');
   if (d) {
     var ms = subMs(d) - subNow(), n = Math.max(1, Math.ceil(ms / 864e5)), w = n <= 5;
-    b = '<div id="__sub" onclick="var s=this.lastChild;s.hidden=!s.hidden" style="color:#fff;background:' + (w ? 'rgba(220,60,80,.95)' : 'rgba(23,26,48,.85)') + ';border-radius:14px;padding:3px 12px;box-shadow:0 4px 14px rgba(0,0,0,.3);cursor:pointer;user-select:none">⏳ ' + (x.tr ? 'تجريبي · ' : '') + 'باقي ' + subDays(n)
-      + '<span' + (w ? '' : ' hidden') + '> · ينتهي <span dir="ltr">' + d + '</span> · للتجديد <b dir="ltr">' + SUB_PHONE + '</b></span></div>'
+    // العدّاد يظهر فقط بآخر 5 أيام من الاشتراك
+    b = (w ? '<div id="__sub" onclick="var s=this.lastChild;s.hidden=!s.hidden" style="color:#fff;background:' + (w ? 'rgba(220,60,80,.95)' : 'rgba(23,26,48,.85)') + ';border-radius:14px;padding:3px 12px;box-shadow:0 4px 14px rgba(0,0,0,.3);cursor:pointer;user-select:none">⏳ ' + (x.tr ? 'تجريبي · ' : '') + 'باقي ' + subDays(n)
+      + '<span' + (w ? '' : ' hidden') + '> · ينتهي <span dir="ltr">' + d + '</span> · للتجديد <b dir="ltr">' + SUB_PHONE + '</b></span></div>' : '')
       + '<script>(function(){var end=' + Math.round(Date.now() + ms) + ';setInterval(function(){if(Date.now()>=end)location.reload();},60000);})();<\/script>';
   }
   // زر تسجيل الخروج: يمسح الجلسة من هذا الجهاز ويرجع لصفحة الدخول
