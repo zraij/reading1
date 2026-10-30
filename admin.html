@@ -26,7 +26,7 @@ button.ghost{background:var(--p2);color:var(--ink);border:1px solid var(--ln)}bu
 button:disabled{opacity:.55;cursor:wait}
 .err{min-height:22px;margin-top:12px;text-align:center;color:var(--c4);font-size:14px}.ok{color:var(--c6)}
 .shake{animation:sh .35s}@keyframes sh{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
-</style>
+.pwbox{position:relative}.pwbox input{padding-right:50px!important}.pwbox .eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:40px!important;height:40px;margin:0!important;padding:0!important;border:0!important;border-radius:10px;background:transparent!important;box-shadow:none!important;color:inherit;opacity:.6;cursor:pointer;display:grid;place-items:center}.pwbox .eye:hover,.pwbox .eye.on{opacity:1}.pwbox .eye svg{width:22px;height:22px}.pwbox .eye .sl{display:none}.pwbox .eye.on .sl{display:inline}</style>
 <script>
 const AU = (() => {
   const enc = new TextEncoder(), dec = new TextDecoder();
@@ -107,7 +107,7 @@ ol.steps{margin:6px 0 0;padding-inline-start:20px;color:var(--mu);font-size:13px
 <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="8" width="20" height="48" rx="3" fill="#A58DFF"/><rect x="33" y="8" width="20" height="48" rx="3" fill="#33C6C6"/><path d="M15 18h10M15 24h10M38 18h10M38 24h10" stroke="#0E1020" stroke-width="3" stroke-linecap="round"/><circle cx="50" cy="50" r="10" fill="#F0A93E"/><path d="M50 44v6l4 3" stroke="#0E1020" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
 <h1>لوحة إدارة الكتب</h1><p class="s">كل الكتب من مكان واحد · خاصة بصاحب الموقع</p>
 <label for="lu">اسم المستخدم</label><input class="ltr" id="lu" type="text" autocomplete="username" autocapitalize="none" required>
-<label for="lp">كلمة المرور</label><input class="ltr" id="lp" type="password" autocomplete="current-password" required>
+<label for="lp">كلمة المرور</label><div class="pwbox"><input class="ltr" id="lp" type="password" autocomplete="current-password" required><button type="button" class="eye" tabindex="-1" aria-label="إظهار كلمة المرور" title="إظهار كلمة المرور" onclick="var i=this.previousElementSibling,s=i.type==='password';i.type=s?'text':'password';this.classList.toggle('on',s);this.title=s?'إخفاء كلمة المرور':'إظهار كلمة المرور';i.focus()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="sl" d="M4 4l16 16"/></svg></button></div>
 <label class="rem"><input type="checkbox" id="lr" checked> تذكّرني على هذا الجهاز</label>
 <button id="lb" type="submit">دخول</button><div class="err" id="le"></div>
 </form>
@@ -120,7 +120,7 @@ ol.steps{margin:6px 0 0;padding-inline-start:20px;color:var(--mu);font-size:13px
   <h2>🔒 <span id="lockName"></span></h2>
   <p class="hint">كلمة المرور اللي دخلت بيها ما فتحت هذا الكتاب. اكتب حساب المدير الخاص بيه.</p>
   <label for="ku">اسم المستخدم</label><input class="ltr" id="ku" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" required>
-  <label for="kp">كلمة المرور</label><div class="row"><input class="ltr" id="kp" type="password" autocomplete="new-password" autocapitalize="none" spellcheck="false" required><button class="ghost" type="button" id="keye" title="إظهار">👁</button></div>
+  <label for="kp">كلمة المرور</label><div class="pwbox"><input class="ltr" id="kp" type="password" autocomplete="new-password" autocapitalize="none" spellcheck="false" required><button type="button" class="eye" tabindex="-1" aria-label="إظهار كلمة المرور" title="إظهار كلمة المرور" onclick="var i=this.previousElementSibling,s=i.type==='password';i.type=s?'text':'password';this.classList.toggle('on',s);this.title=s?'إخفاء كلمة المرور':'إظهار كلمة المرور';i.focus()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="sl" d="M4 4l16 16"/></svg></button></div>
   <button id="kb" type="submit">فتح الكتاب</button><div class="msg" id="km"></div>
 </form>
 
@@ -160,7 +160,7 @@ ol.steps{margin:6px 0 0;padding-inline-start:20px;color:var(--mu);font-size:13px
     </div>
     <div class="msg" id="tm"></div>
     <h2 style="margin-top:18px">تغيير كلمة مروري</h2>
-    <div class="row" style="margin-top:8px"><input class="ltr" id="np" type="password" placeholder="كلمة المرور الجديدة" minlength="8"><button class="ghost" type="button" id="npb">تغيير</button></div>
+    <div class="row" style="margin-top:8px"><div class="pwbox" style="flex:1"><input class="ltr" id="np" type="password" placeholder="كلمة المرور الجديدة" minlength="8"><button type="button" class="eye" tabindex="-1" aria-label="إظهار كلمة المرور" title="إظهار كلمة المرور" onclick="var i=this.previousElementSibling,s=i.type==='password';i.type=s?'text':'password';this.classList.toggle('on',s);this.title=s?'إخفاء كلمة المرور':'إظهار كلمة المرور';i.focus()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="sl" d="M4 4l16 16"/></svg></button></div><button class="ghost" type="button" id="npb">تغيير</button></div>
     <label class="rem"><input type="checkbox" id="npall" checked> بكل الكتب المفتوحة</label>
     <div class="msg" id="nm"></div>
   </div>
@@ -294,7 +294,6 @@ $('#login').onsubmit = async (e) => {
   if (!res.includes('ok')) { $('#le').textContent = res.every((x) => x === 'net') ? 'تعذّر الاتصال، تأكد من الإنترنت' : res.includes('noadmin') ? 'هذا الحساب ما عنده صلاحية إدارة' : 'اسم المستخدم أو كلمة المرور غير صحيحة'; return; }
   $('#lp').value = ''; await openPanel();
 };
-$('#keye').onclick = () => { const i = $('#kp'); i.type = i.type === 'password' ? 'text' : 'password'; };
 $('#lock').onsubmit = async (e) => {
   e.preventDefault(); const b = $('#kb'), bk = bookOf(CUR); b.disabled = true; b.textContent = 'جارِ التحقق…';
   const r = await unlock(bk, $('#ku').value.trim(), $('#kp').value.trim(), true);
@@ -327,7 +326,7 @@ async function pick(r) {
   $$('.bn').forEach((x) => x.textContent = bk.l); $('#openSite').href = ROOT + bk.r + '/'; $('#lockName').textContent = bk.n;
   $('#lock').hidden = !!B; $('#bookUi').hidden = !B; $('#scrf').hidden = !bk.ins;
   $('#cred').classList.remove('on'); $('#scred').classList.remove('on'); $('#am').textContent = ''; $('#smsg').textContent = '';
-  if (!B) { const m = Object.values(S).map((b) => b.metas.get(b.ME)).find(Boolean); $('#ku').value = m ? m.u : ''; $('#kp').value = ''; $('#kp').type = 'password'; $('#km').textContent = ''; drawBooks(); drawBar(); return; }
+  if (!B) { const m = Object.values(S).map((b) => b.metas.get(b.ME)).find(Boolean); $('#ku').value = m ? m.u : ''; $('#kp').value = ''; $('#kp').type = 'password'; $('#kp').nextElementSibling.classList.remove('on'); $('#km').textContent = ''; drawBooks(); drawBar(); return; }
   drawTok(); fillScreen(); await render();
 }
 
