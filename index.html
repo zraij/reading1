@@ -122,9 +122,9 @@ function subBadge(html) {
       + '<span' + (w ? '' : ' hidden') + '> · ينتهي <span dir="ltr">' + d + '</span> · للتجديد <b dir="ltr">' + SUB_PHONE + '</b></span></div>' : '')
       + '<script>(function(){var end=' + Math.round(Date.now() + ms) + ';setInterval(function(){if(Date.now()>=end)location.reload();},60000);})();<\/script>';
   }
-  // زر تسجيل الخروج: يمسح الجلسة من هذا الجهاز ويرجع لصفحة الدخول
-  var o = '<button id="__out" type="button" onclick="if(confirm(\'تسجيل الخروج من هذا الجهاز؟\')){try{localStorage.removeItem(' + k + ');sessionStorage.removeItem(' + k + ')}catch(e){}location.reload()}" style="font:inherit;color:#fff;background:rgba(23,26,48,.85);border:0;border-radius:14px;padding:3px 12px;margin:0;box-shadow:0 4px 14px rgba(0,0,0,.3);cursor:pointer;white-space:nowrap">🚪 تسجيل خروج</button>';
-  b = '<div id="__subw" style="position:fixed;left:8px;bottom:34px;z-index:2147483646;max-width:calc(100% - 16px);display:flex;gap:6px;align-items:flex-start;font:12px/1.7 Cairo,Tahoma,sans-serif;direction:rtl">' + o + b + '</div>';
+  // زر تسجيل الخروج (أيقونة باب أعلى اليسار): يمسح الجلسة من هذا الجهاز ويرجع لصفحة الدخول
+  var o = '<button id="__out" type="button" onclick="if(confirm(\'تسجيل الخروج من هذا الجهاز؟\')){try{localStorage.removeItem(' + k + ');sessionStorage.removeItem(' + k + ')}catch(e){}location.reload()}" title="تسجيل خروج" aria-label="تسجيل خروج" style="position:fixed;left:8px;top:8px;z-index:2147483646;width:42px;height:42px;padding:0;margin:0;display:grid;place-items:center;color:#fff;background:rgba(23,26,48,.85);border:0;border-radius:50%;box-shadow:0 4px 14px rgba(0,0,0,.3);cursor:pointer"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M6 21V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17"/><circle cx="14.5" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg></button>';
+  b = o + '<div id="__subw" style="position:fixed;left:8px;bottom:34px;z-index:2147483646;max-width:calc(100% - 16px);display:flex;gap:6px;align-items:flex-start;font:12px/1.7 Cairo,Tahoma,sans-serif;direction:rtl">' + b + '</div>';
   return html.indexOf('</body>') > -1 ? html.replace('</body>', b + '</body>') : html + b;
 }
 
