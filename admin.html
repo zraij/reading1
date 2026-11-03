@@ -98,6 +98,10 @@ ol.steps{margin:6px 0 0;padding-inline-start:20px;color:var(--mu);font-size:13px
 .okline{color:var(--c6);font-size:14px;margin:8px 0}
 .g3{display:grid;grid-template-columns:1.3fr 1fr 1.2fr 1fr;gap:0 12px}@media(max-width:760px){.g3,.g2{grid-template-columns:1fr}}
 #scrf button[type=submit]{margin-top:14px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--mu);margin-inline-end:6px;vertical-align:middle}.dot.on{background:var(--c6);box-shadow:0 0 0 3px #3FCB8A33}
+td small.d{display:block;color:var(--mu);font-size:12px;direction:ltr;text-align:right;font-family:"Segoe UI",Tahoma,sans-serif}
+.try{margin-top:4px;font-size:12px;color:var(--c3)}.try button{padding:3px 8px;font-size:12px;margin-inline-start:6px}
+#devc h3{margin:18px 0 6px;font-size:16px}#lkcode{width:100%;height:120px;margin-top:8px;direction:ltr;font:12px/1.5 Consolas,monospace;background:var(--p2);color:var(--ink);border:1px solid var(--ln);border-radius:12px;padding:8px}
 #lock{max-width:420px;margin:30px auto}#lock button{width:100%;margin-top:14px}
 @media(max-width:600px){thead{display:none}table,tbody,tr,td{display:block}tr{border-bottom:1px solid var(--ln);padding:10px 0}td{border:0;padding:3px 0}td.u{text-align:right}td.pwc{white-space:normal;display:flex;flex-wrap:wrap;gap:6px;align-items:center}td.pwc .pwin{flex:1 1 100%;width:100%}.card{padding:16px}header h1{font-size:20px}.bar{flex-direction:column;align-items:stretch}.bar .row{justify-content:stretch}.bar .row button{flex:1}}
 </style>
@@ -184,6 +188,31 @@ ol.steps{margin:6px 0 0;padding-inline-start:20px;color:var(--mu);font-size:13px
   <p class="hint">لما ينتهي الاشتراك ينقفل الحساب وتظهر لصاحبه رسالة بيها رقمك حتى يتصل بيك. «تجديد» يضيف المدة من تاريخ الانتهاء (أو من اليوم إذا كان منتهي). حذف الحساب يمنع دخوله بعد ما ينحفظ التغيير.</p>
   <table><thead><tr><th>الاسم</th><th>اسم المستخدم</th><th>الاشتراك</th><th>كلمة المرور</th><th></th></tr></thead><tbody id="list"></tbody></table>
 </div>
+<div class="card" id="devc" style="margin-top:14px">
+  <h2>📱 الأجهزة والجلسات — <span class="bn"></span></h2>
+  <div id="lkSetup">
+    <p class="hint">حتى تشوف الجلسات النشطة لكل كتاب وتكدر تطلّع أو تحظر أي جهاز، نحتاج خادم القفل الجديد (مجاني على حساب Google مالتك). مرة وحدة بس:</p>
+    <ol class="steps">
+      <li>اضغط «نسخ كود الخادم».</li>
+      <li>افتح <a href="https://script.google.com/home/projects/create" target="_blank" rel="noopener">مشروع Apps Script جديد</a>، امسح الموجود والصق الكود، واحفظ (Ctrl+S).</li>
+      <li>Deploy ← New deployment ← ⚙️ اختار <b>Web app</b> ← Execute as: <b>Me</b> ← Who has access: <b>Anyone</b> ← Deploy، ووافق على الصلاحيات.</li>
+      <li>انسخ رابط Web app (ينتهي بـ <span dir="ltr">/exec</span>) والصقه هنا واضغط «ربط».</li>
+    </ol>
+    <div class="row" style="margin-top:10px"><button class="ghost" type="button" id="lkCopy">نسخ كود الخادم</button><a href="https://github.com/zraij/reading1/blob/main/lock-server.gs" target="_blank" rel="noopener" style="font-size:13px">عرض الكود</a></div>
+    <textarea id="lkcode" readonly hidden></textarea>
+    <div class="row" style="margin-top:10px"><input class="ltr" id="lkUrl" type="text" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off" spellcheck="false"><button type="button" id="lkSave">ربط</button></div>
+    <p class="hint" style="margin-top:8px">بعد الربط كل الكتب تتحول للخادم الجديد، وكل حساب ينربط من جديد بأول جهاز يفتح عليه.</p>
+  </div>
+  <div id="lkMain" hidden>
+    <div class="row" style="flex-wrap:wrap;justify-content:space-between"><div class="sum" id="lkSum" style="margin:0"></div><div class="row"><label class="rem" style="margin:0"><input type="checkbox" id="lkAct"> النشطة الآن فقط</label><button class="ghost" type="button" id="lkRef">تحديث</button></div></div>
+    <p class="hint">«تسجيل خروج» يطلّع الجهاز ويفك ربط الحساب (يكدر يدخل من جديد). «حذف وحظر» يطلّعه ويمنعه من هذا الكتاب لحد ما ترفع الحظر من القائمة الجوّه. إذا تريد تمنع الشخص نهائياً غيّر كلمة مرور الحساب هم.</p>
+    <table><thead><tr><th>الحساب</th><th>الجهاز</th><th>آخر ظهور</th><th></th></tr></thead><tbody id="lkList"></tbody></table>
+    <h3>🚫 الأجهزة المحظورة (<span id="lkBn">0</span>)</h3>
+    <table><thead><tr><th>الحساب</th><th>الجهاز</th><th>تاريخ الحظر</th><th></th></tr></thead><tbody id="lkBlk"></tbody></table>
+    <div style="margin-top:12px"><button class="ghost" type="button" id="lkChange" style="font-size:13px;padding:6px 12px">تغيير رابط الخادم</button></div>
+  </div>
+  <div class="msg" id="lkm"></div>
+</div>
 </div>
 <div class="bar" id="bar"><span id="pendTxt"></span><div class="row"><button class="ghost" type="button" id="dl">تنزيل ملف هذا الكتاب</button><button type="button" id="save">حفظ التغييرات على الموقع</button></div><div class="msg" id="sm" style="width:100%"></div></div>
 </main>
@@ -250,7 +279,7 @@ const setTok = (v) => { try { v ? localStorage.setItem(TK, v) : localStorage.rem
 if (!tok()) { try { for (const bk of BOOKS) { const v = localStorage.getItem(bk.t); if (v) { setTok(v); break; } } } catch (_) {} }
 const gh = (url, opt = {}) => fetch(url, { ...opt, headers: { Authorization: 'Bearer ' + tok(), Accept: 'application/vnd.github+json', ...(opt.headers || {}) } });
 async function pullTok(b) { if (tok() || !b.AK || !b.U.gt) return; try { setTok(td.decode(await unseal(await akKey(b, ['decrypt']), b.U.gt, 'gt'))); } catch (_) {} }
-async function sealTok(b) { if (b.AK && tok()) b.U.gt = await seal(await akKey(b, ['encrypt']), te.encode(tok()), 'gt'); }
+async function sealTok(b) { if (b.AK && tok()) b.U.gt = await seal(await akKey(b, ['encrypt']), te.encode(tok()), 'gt'); await sealLk(b); }
 
 // ---- حالة كل كتاب ----
 const S = {}; // r → { U, K, AK, ME, metas, pend }
@@ -270,7 +299,7 @@ async function unlock(bk, user, pw, keep) {
   const b = { U, K: r.raw, ME: r.entry.i, AK: null, metas: new Map(), pend: 0 }, lu = AU.norm(user);
   if (r.entry.x) { try { b.AK = await unseal(await wk(b, lu, pw, r.entry, 'decrypt'), r.entry.x, r.entry.i + ':x'); } catch (_) {} }
   else if (!U.u.some((x) => x.p)) { b.AK = AU.rnd(32); await wrapAK(b, r.entry, lu, pw); b.pend++; }
-  S[bk.r] = b; sessOf(bk).set({ k: AU.bu(b.K), a: b.AK ? AU.bu(b.AK) : '', i: b.ME }, keep); await pullTok(b);
+  S[bk.r] = b; sessOf(bk).set({ k: AU.bu(b.K), a: b.AK ? AU.bu(b.AK) : '', i: b.ME }, keep); await pullTok(b); await pullLk(b);
   return 'ok';
 }
 async function restore(bk) {
@@ -281,7 +310,7 @@ async function restore(bk) {
     const b = { U, K: AU.ub(st.k), ME: e.i, AK: st.a ? AU.ub(st.a) : null, metas: new Map(), pend: 0 };
     b.metas.set(e.i, await AU.meta(b.K, e));
     const probe = U.u.find((x) => x.p); if (b.AK && probe && (await getPw(b, probe)) === null) b.AK = null;
-    S[bk.r] = b; await pullTok(b); return true;
+    S[bk.r] = b; await pullTok(b); await pullLk(b); return true;
   } catch (_) { sessOf(bk).clear(); return false; }
 }
 
@@ -327,7 +356,7 @@ async function pick(r) {
   $('#lock').hidden = !!B; $('#bookUi').hidden = !B; $('#scrf').hidden = !bk.ins;
   $('#cred').classList.remove('on'); $('#scred').classList.remove('on'); $('#am').textContent = ''; $('#smsg').textContent = '';
   if (!B) { const m = Object.values(S).map((b) => b.metas.get(b.ME)).find(Boolean); $('#ku').value = m ? m.u : ''; $('#kp').value = ''; $('#kp').type = 'password'; $('#kp').nextElementSibling.classList.remove('on'); $('#km').textContent = ''; drawBooks(); drawBar(); return; }
-  drawTok(); fillScreen(); await render();
+  drawTok(); fillScreen(); lkSync(); await render(); lkDraw(true);
 }
 
 // ---- الجدول ----
@@ -449,6 +478,108 @@ $('#npb').onclick = async () => {
   }
   await render(); $('#np').value = ''; msg($('#nm'), `تغيّرت بـ ${list.length} ${list.length === 1 ? 'كتاب' : 'كتب'}، اضغط «حفظ التغييرات» حتى تتفعّل`, true);
 };
+
+// ---- الأجهزة والجلسات (خادم القفل الجديد) ----
+// LK = { u: رابط الخادم, k: مفتاح الإدارة }. الرابط ينحفظ بـ users.json (lk) حتى تقراه صفحات الكتب، والمفتاح مشفّر بمفتاح المدير (lkk).
+const LKK = 'zraij.lk.admin', LKRE = /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/;
+let LK = (() => { try { const v = JSON.parse(localStorage.getItem(LKK)); return v && LKRE.test(v.u) && v.k ? v : null; } catch (_) { return null; } })();
+const setLK = (v) => { LK = v; try { v ? localStorage.setItem(LKK, JSON.stringify(v)) : localStorage.removeItem(LKK); } catch (_) {} };
+async function pullLk(b) { if (LK || !b.AK || !b.U.lkk || !LKRE.test(b.U.lk || '')) return; try { setLK({ u: b.U.lk, k: td.decode(await unseal(await akKey(b, ['decrypt']), b.U.lkk, 'lkk')) }); } catch (_) {} }
+async function sealLk(b) { if (!LK) return; b.U.lk = LK.u; if (b.AK) b.U.lkk = await seal(await akKey(b, ['encrypt']), te.encode(LK.k), 'lkk'); }
+// الكتاب اللي ما بيه رابط الخادم (أو رابط قديم) يتعلّم للحفظ
+function lkSync() { if (LK && B && B.U.lk !== LK.u) { B.U.lk = LK.u; bump(); } }
+function jsonp(url, p, ms = 20000) {
+  return new Promise((resolve) => {
+    const cb = '__lk' + Date.now() + Math.floor(Math.random() * 1e4), s = document.createElement('script'); let done = false;
+    const fin = (r) => { if (done) return; done = true; clearTimeout(t); try { delete window[cb]; } catch (_) {} s.remove(); resolve(r); };
+    const t = setTimeout(() => fin({ ok: false, status: 'timeout' }), ms);
+    window[cb] = (r) => fin(r || { ok: false, status: 'empty' }); s.onerror = () => fin({ ok: false, status: 'neterr' });
+    s.src = url + '?callback=' + cb + Object.entries(p).map(([k, v]) => '&' + k + '=' + encodeURIComponent(v ?? '')).join('');
+    document.head.appendChild(s);
+  });
+}
+const lkErr = (r) => r.status === 'badkey' ? 'مفتاح الإدارة ما يطابق الخادم' : r.status === 'timeout' || r.status === 'neterr' ? 'تعذّر الوصول للخادم، تأكد من الإنترنت ومن الرابط (Who has access: Anyone)' : 'خطأ: ' + (r.error || r.status);
+function uaText(ua) {
+  ua = ua || ''; if (!ua) return 'غير معروف';
+  const os = /Android/i.test(ua) ? 'أندرويد' : /iPhone|iPod/i.test(ua) ? 'آيفون' : /iPad/i.test(ua) ? 'آيباد' : /Windows/i.test(ua) ? 'ويندوز' : /Mac OS/i.test(ua) ? 'ماك' : /CrOS/i.test(ua) ? 'كروم بوك' : /Linux/i.test(ua) ? 'لينكس' : 'جهاز';
+  const br = /EdgA?\//.test(ua) ? 'Edge' : /SamsungBrowser/.test(ua) ? 'Samsung' : /OPR\/|Opera/.test(ua) ? 'Opera' : /Firefox|FxiOS/.test(ua) ? 'Firefox' : /CriOS|Chrome/.test(ua) ? 'Chrome' : /Safari/.test(ua) ? 'Safari' : '';
+  const tv = /\bTV\b|SmartTV|AFT|BRAVIA/i.test(ua) ? ' (شاشة)' : '';
+  return os + (br ? ' · ' + br : '') + tv;
+}
+function ago(ms) { const m = Math.round(ms / 6e4); if (m < 1) return 'هسه'; if (m < 60) return `قبل ${m} دقيقة`; const h = Math.round(m / 60); if (h < 24) return `قبل ${h} ساعة`; const d = Math.round(h / 24); return `قبل ${dayW(d)}`; }
+const fmtD = (t) => t ? new Date(t).toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
+const ACTIVE_MS = 10 * 6e4;
+let lkData = null, lkBusy = false, lkFor = null;
+async function lkLoad() {
+  if (!LK || !B || lkBusy || $('#bookUi').hidden) return;
+  lkBusy = true; const r0 = CUR, r = await jsonp(LK.u, { op: 'list', book: r0, key: LK.k }); lkBusy = false;
+  if (r0 !== CUR) return;
+  if (!r.ok) { msg($('#lkm'), lkErr(r)); return; }
+  lkData = r; lkFor = r0; if ($('#lkm').classList.contains('bad')) $('#lkm').textContent = ''; lkRender();
+}
+function lkDraw(load) {
+  $('#lkSetup').hidden = !!LK; $('#lkMain').hidden = !LK; $('#lkm').textContent = '';
+  if (!LK) { $('#lkUrl').value = ''; return; }
+  if (lkFor !== CUR) { lkData = null; $('#lkList').innerHTML = '<tr><td colspan="4" class="empty">جارِ التحميل…</td></tr>'; $('#lkBlk').innerHTML = ''; $('#lkSum').innerHTML = ''; }
+  if (load) lkLoad();
+}
+function lkWho(id, label) {
+  const m = id && B.metas.get(id), e = id && B.U.u.find((x) => x.i === id);
+  if (m && e) return `${esc(m.n)}${e.d ? ' <span class="tag scr">شاشة</span>' : ''}<small class="d">${esc(m.u)}</small>`;
+  return `<span style="color:var(--mu)">${label ? esc(label) : 'حساب محذوف'}</span>${id ? `<small class="d">${esc(id.slice(0, 8))}</small>` : ''}`;
+}
+function lkRender() {
+  const d = lkData; if (!d || !B) return;
+  const now = d.now || Date.now(), act = (x) => now - (x.t || 0) < ACTIVE_MS;
+  const all = d.sessions.slice().sort((a, b) => (act(b) - act(a)) || ((b.t || 0) - (a.t || 0)));
+  const list = $('#lkAct').checked ? all.filter(act) : all;
+  $('#lkSum').innerHTML = `<span class="st ok">نشط الآن ${all.filter(act).length}</span><span class="st inf">أجهزة مربوطة ${all.length}</span><span class="st bad">محظور ${d.blocked.length}</span>`;
+  $('#lkList').innerHTML = list.map((x) => {
+    const on = act(x), tr = x.try && now - x.try.t < 864e5 ? `<div class="try">⚠️ محاولة دخول من جهاز ثاني (${esc(uaText(x.try.ua))}${x.try.ip ? ' · <span dir="ltr">' + esc(x.try.ip) + '</span>' : ''}) ${ago(now - x.try.t)}<button class="danger" data-lb2="${esc(x.try.d)}" data-li="${esc(x.id)}">حظر ذاك الجهاز</button></div>` : '';
+    return `<tr><td>${lkWho(x.id, x.l)}${x.x ? ' <span class="tag">مدير</span>' : ''}${tr}</td><td>${esc(uaText(x.ua))}<small class="d">${x.ip ? esc(x.ip) + ' · ' : ''}#${esc(String(x.d).slice(0, 6))}</small></td><td><span class="dot ${on ? 'on' : ''}"></span>${on ? '<b style="color:var(--c6)">نشط الآن</b>' : ago(now - (x.t || 0))}<small class="d">أول دخول ${fmtD(x.f)}</small></td><td class="pwc"><button class="ghost" data-lk="${esc(x.d)}" data-li="${esc(x.id)}">تسجيل خروج</button> <button class="danger" data-lb="${esc(x.d)}" data-li="${esc(x.id)}">حذف وحظر</button></td></tr>`;
+  }).join('') || `<tr><td colspan="4" class="empty">${$('#lkAct').checked ? 'ماكو جلسات نشطة هسه' : 'ماكو أجهزة مسجّلة لهذا الكتاب بعد (تظهر لما يفتح أحد الكتاب)'}</td></tr>`;
+  $('#lkBn').textContent = d.blocked.length;
+  $('#lkBlk').innerHTML = d.blocked.slice().sort((a, b) => (b.t || 0) - (a.t || 0)).map((x) => `<tr><td>${lkWho(x.id, x.l)}</td><td>${esc(uaText(x.ua))}<small class="d">${x.ip ? esc(x.ip) + ' · ' : ''}#${esc(String(x.d).slice(0, 6))}</small></td><td><small class="d" style="font-size:13px">${fmtD(x.t)}</small></td><td><button data-lu="${esc(x.d)}">رفع الحظر</button></td></tr>`).join('') || '<tr><td colspan="4" class="empty">ماكو أجهزة محظورة</td></tr>';
+  const act2 = async (btn, op, dev, id) => {
+    btn.disabled = true; const r = await jsonp(LK.u, { op, book: CUR, device: dev, id: id || '', key: LK.k }); btn.disabled = false;
+    if (!r.ok) return msg($('#lkm'), lkErr(r));
+    msg($('#lkm'), op === 'unblock' ? 'انرفع الحظر ✓ الجهاز يكدر يدخل من جديد' : op === 'block' ? 'انحظر الجهاز ✓ راح يطلع من الكتاب خلال دقائق (أو أول ما يفتحه)' : 'تم ✓ الجهاز راح يرجع لصفحة الدخول خلال دقائق (أو أول ما يفتح الكتاب)', true);
+    await lkLoad();
+  };
+  const twice = (x, t) => { if (x.dataset.k) return true; x.dataset.k = 1; x.textContent = t; setTimeout(() => { if (x.isConnected) { delete x.dataset.k; lkRender(); } }, 4000); return false; };
+  $$('[data-lk]').forEach((x) => x.onclick = () => twice(x, 'متأكد؟') && act2(x, 'kick', x.dataset.lk, x.dataset.li));
+  $$('[data-lb]').forEach((x) => x.onclick = () => twice(x, 'تأكيد الحظر؟') && act2(x, 'block', x.dataset.lb, x.dataset.li));
+  $$('[data-lb2]').forEach((x) => x.onclick = () => twice(x, 'تأكيد الحظر؟') && act2(x, 'block', x.dataset.lb2, x.dataset.li));
+  $$('[data-lu]').forEach((x) => x.onclick = () => act2(x, 'unblock', x.dataset.lu));
+}
+$('#lkAct').onchange = lkRender;
+$('#lkRef').onclick = () => lkLoad();
+$('#lkChange').onclick = () => { $('#lkSetup').hidden = false; $('#lkMain').hidden = true; $('#lkUrl').value = LK ? LK.u : ''; $('#lkUrl').focus(); };
+$('#lkCopy').onclick = async () => {
+  const x = $('#lkCopy'); x.textContent = 'جارِ التحميل…';
+  let code = ''; try { const r = await fetch(ROOT + 'reading1/lock-server.gs?t=' + Date.now(), { cache: 'no-store' }); if (r.ok) code = await r.text(); } catch (_) {}
+  if (!code) { x.textContent = 'تعذّر التحميل — افتح «عرض الكود»'; return; }
+  $('#lkcode').value = code; $('#lkcode').hidden = false;
+  x.textContent = (await copyText(code)) ? 'انتسخ الكود ✓' : 'انسخه من المربع'; if (x.textContent !== 'انتسخ الكود ✓') { $('#lkcode').focus(); $('#lkcode').select(); }
+};
+$('#lkSave').onclick = async () => {
+  const u = $('#lkUrl').value.trim().replace(/\?.*$/, ''), x = $('#lkSave');
+  if (!LKRE.test(u)) return msg($('#lkm'), 'الرابط لازم يكون رابط Web app من script.google.com وينتهي بـ /exec');
+  let k = LK && LK.k; if (!k) { const r = AU.rnd(24); k = AU.bu(r).replace(/[+/=]/g, (c) => ({ '+': '-', '/': '_', '=': '' }[c])); }
+  x.disabled = true; msg($('#lkm'), 'جارِ الربط…', true);
+  const r = await jsonp(u, { op: 'setup', key: k }); x.disabled = false;
+  if (!r.ok) return msg($('#lkm'), r.status === 'badkey' ? 'هذا الخادم مربوط بمفتاح إدارة ثاني. سوّ نشر (Deploy) جديد بمشروع جديد، أو امسح خاصية ADMIN_KEY من إعدادات المشروع' : lkErr(r));
+  setLK({ u, k });
+  // نحفظ الرابط بكل كتاب مفتوح: الكتب اللي ما بيها تغييرات تنحفظ هسه، والباقي ويّا «حفظ التغييرات»
+  const done = [], later = [];
+  for (const bk of BOOKS) { const b = S[bk.r]; if (!b) continue; await sealLk(b);
+    if (!b.pend && tok()) { try { await saveBook(bk, 'Connect device-lock server'); done.push(bk.l); continue; } catch (_) {} }
+    b.pend++; later.push(bk.l); }
+  const locked = BOOKS.filter((bk) => !S[bk.r]).map((bk) => bk.l);
+  msg($('#lkm'), 'تم الربط ✓' + (done.length ? ' وانحفظ بـ: ' + done.join('، ') : '') + (later.length ? ' · اضغط «حفظ التغييرات» لـ: ' + later.join('، ') : '') + (locked.length ? ' · الكتب المقفولة (' + locked.join('، ') + ') تنربط لما تفتحها' : ''), true);
+  drawBooks(); drawBar(); const m = $('#lkm').textContent; lkDraw(true); msg($('#lkm'), m, true);
+};
+setInterval(() => { if (!document.hidden && LK && B && !$('#lkMain').hidden) lkLoad(); }, 30000);
 
 // ---- الحفظ ----
 async function saveBook(bk, message = 'Update accounts') {

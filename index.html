@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-title" content="قراءتي الجديدة">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<script>(function(){if(!('serviceWorker' in navigator))return;var ua=navigator.userAgent,saf=/Safari/.test(ua)&&!/Chrome|Chromium|CriOS|Android|EdgiOS|FxiOS/.test(ua),ios=/iPhone|iPad|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);if(ios||saf){/* سفاري/آيفون: بلا عامل حفظ — يمنع مشاكل الصوت والصور */var had=!!navigator.serviceWorker.controller;navigator.serviceWorker.getRegistrations().then(function(rs){return Promise.all(rs.map(function(r){return r.unregister();}));}).then(function(){return window.caches?caches.keys().then(function(ks){return Promise.all(ks.map(function(k){return caches.delete(k);}));}):0;}).then(function(){try{if(had&&!sessionStorage.getItem('swgone')){sessionStorage.setItem('swgone','1');location.reload();}}catch(e){}});return;}addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});})();</script>
+<script>(function(){if(!('serviceWorker' in navigator))return;var ua=navigator.userAgent,saf=/Safari/.test(ua)&&!/Chrome|Chromium|CriOS|Android|EdgiOS|FxiOS/.test(ua),ios=/iPhone|iPad|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);if(ios||saf){/* سفاري/آيفون: بلا عامل حفظ — يمنع مشاكل الصوت والصور */var had=!!navigator.serviceWorker.controller;navigator.serviceWorker.getRegistrations().then(function(rs){return Promise.all(rs.map(function(r){return r.unregister();}));}).then(function(){return window.caches?caches.keys().then(function(ks){return Promise.all(ks.map(function(k){return caches.delete(k);}));}):0;}).then(function(){try{if(had&&!sessionStorage.getItem('swgone')){sessionStorage.setItem('swgone','1');location.reload();}}catch(e){}});return;}addEventListener('load',function(){navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(function(){});/* الصور والأصوات تنحفظ بالخلفية بعد ما تفتح الصفحة (ما توقفها) */setTimeout(function(){navigator.serviceWorker.ready.then(function(r){if(r.active)r.active.postMessage('warm');});},10000);});})();</script>
 
 <title>قراءتي الجديدة — الأول الابتدائي</title><meta name="robots" content="noindex">
 <style>
@@ -122,9 +122,9 @@ function subBadge(html) {
       + '<span' + (w ? '' : ' hidden') + '> · ينتهي <span dir="ltr">' + d + '</span> · للتجديد <b dir="ltr">' + SUB_PHONE + '</b></span></div>' : '')
       + '<script>(function(){var end=' + Math.round(Date.now() + ms) + ';setInterval(function(){if(Date.now()>=end)location.reload();},60000);})();<\/script>';
   }
-  // زر تسجيل الخروج: يمسح الجلسة من هذا الجهاز ويرجع لصفحة الدخول
-  var o = '<button id="__out" type="button" onclick="if(confirm(\'تسجيل الخروج من هذا الجهاز؟\')){try{localStorage.removeItem(' + k + ');sessionStorage.removeItem(' + k + ')}catch(e){}location.reload()}" style="font:inherit;color:#fff;background:rgba(23,26,48,.85);border:0;border-radius:14px;padding:3px 12px;margin:0;box-shadow:0 4px 14px rgba(0,0,0,.3);cursor:pointer;white-space:nowrap">🚪 تسجيل خروج</button>';
-  b = '<div id="__subw" style="position:fixed;left:8px;bottom:34px;z-index:2147483646;max-width:calc(100% - 16px);display:flex;gap:6px;align-items:flex-start;font:12px/1.7 Cairo,Tahoma,sans-serif;direction:rtl">' + o + b + '</div>';
+  // زر تسجيل الخروج (أيقونة باب أعلى اليسار): يمسح الجلسة من هذا الجهاز ويرجع لصفحة الدخول
+  var o = '<button id="__out" type="button" onclick="if(confirm(\'تسجيل الخروج من هذا الجهاز؟\')){try{localStorage.removeItem(' + k + ');sessionStorage.removeItem(' + k + ')}catch(e){}location.reload()}" title="تسجيل خروج" aria-label="تسجيل خروج" style="position:fixed;left:8px;top:8px;z-index:2147483646;width:42px;height:42px;padding:0;margin:0;display:grid;place-items:center;color:#fff;background:rgba(23,26,48,.85);border:0;border-radius:50%;box-shadow:0 4px 14px rgba(0,0,0,.3);cursor:pointer"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M6 21V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17"/><circle cx="14.5" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg></button>';
+  b = o + '<div id="__subw" style="position:fixed;left:8px;bottom:34px;z-index:2147483646;max-width:calc(100% - 16px);display:flex;gap:6px;align-items:flex-start;font:12px/1.7 Cairo,Tahoma,sans-serif;direction:rtl">' + b + '</div>';
   return html.indexOf('</body>') > -1 ? html.replace('</body>', b + '</body>') : html + b;
 }
 
@@ -132,25 +132,63 @@ var LOCK_URL = 'https://script.google.com/macros/s/AKfycbxth4wUujAKFdXIE6ity7lV-
 var EXEMPT_IDS = ["9ed7c9459879cfc7f8e5a63a"];
 function deviceId(){ try{ var k='reading1_dev', v=localStorage.getItem(k); if(!v){ v=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():(Date.now().toString(36)+'-'+Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2)); localStorage.setItem(k,v); } return v; }catch(_){ return 'nostore-'+Math.random().toString(36).slice(2); } }
 async function getIP(){ try{ var c=new AbortController(), t=setTimeout(function(){c.abort();},4000); var r=await fetch('https://api.ipify.org?format=json',{signal:c.signal}); clearTimeout(t); var j=await r.json(); return (j&&j.ip)||''; }catch(_){ return ''; } }
-function deviceGate(id, dev, label, ip){
-  return new Promise(function(resolve){
-    if(!LOCK_URL || LOCK_URL.indexOf('http')!==0){ resolve({ok:true,status:'off'}); return; }
-    var cb='__dg'+Date.now()+Math.floor(Math.random()*1e4), s=document.createElement('script'), done=false;
-    var t=setTimeout(function(){ fin({ok:true,status:'timeout'}); },8000);
-    function fin(r){ if(done)return; done=true; clearTimeout(t); try{delete window[cb];}catch(_){ window[cb]=void 0; } if(s.parentNode)s.parentNode.removeChild(s); resolve(r); }
-    window[cb]=function(r){ fin(r||{ok:true,status:'empty'}); };
-    s.onerror=function(){ fin({ok:true,status:'neterr'}); };
-    s.src=LOCK_URL+'?callback='+cb+'&id='+encodeURIComponent(id)+'&device='+encodeURIComponent(dev)+'&label='+encodeURIComponent(label||'')+'&ip='+encodeURIComponent(ip||'');
-    (document.body||document.documentElement).appendChild(s);
+// ---- قفل الأجهزة والجلسات (v2) ----
+// الخادم الجديد يتحدد من لوحة الإدارة (users.json ← lk)؛ إذا ما متحدد يشتغل الخادم القديم LOCK_URL مثل قبل.
+// الجهاز اللي تأكّد قبل يفتح الكتاب فوراً، والفحص يكمل بالخلفية داخل الكتاب (حتى بطء Google ما يأخّر الفتح).
+var LOCK_BOOK = 'reading1', LOCK_MSG = { locked: 'هذا الحساب مُستخدم على جهاز آخر. راجع الإدارة لتحريره.', blocked: '⛔ هذا الجهاز محظور من الإدارة. للمراجعة: 07746451098', kicked: 'تم تسجيل خروجك من الإدارة، سجّل الدخول مرة ثانية.' };
+var __IPP = getIP(), __LKIP = ''; __IPP.then(function (v) { __LKIP = v || ''; });
+function lsGet(k) { try { return localStorage.getItem(k); } catch (_) { return null; } }
+function lsSet(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (_) {} }
+function lockUrl(U) {
+  var u = U && U.lk;
+  if (U && U !== EMB) lsSet('zraij.lk', u || null); else if (!u) u = lsGet('zraij.lk');
+  return /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(u || '') ? u : '';
+}
+function lockCall(url, p, ms) {
+  return new Promise(function (resolve) {
+    var cb = '__dg' + Date.now() + Math.floor(Math.random() * 1e4), s = document.createElement('script'), done = false;
+    var t = setTimeout(function () { fin({ ok: true, status: 'timeout' }); }, ms);
+    function fin(r) { if (done) return; done = true; clearTimeout(t); try { delete window[cb]; } catch (_) { window[cb] = void 0; } if (s.parentNode) s.parentNode.removeChild(s); resolve(r); }
+    window[cb] = function (r) { fin(r || { ok: true, status: 'empty' }); };
+    s.onerror = function () { fin({ ok: true, status: 'neterr' }); };
+    s.src = url + '?callback=' + cb + Object.keys(p).map(function (k) { return '&' + k + '=' + encodeURIComponent(p[k] == null ? '' : p[k]); }).join('');
+    (document.body || document.documentElement).appendChild(s);
   });
 }
-async function enforceDevice(id, label){ if(EXEMPT_IDS.indexOf(id)>-1) return true; var r=await deviceGate(id, deviceId(), label, await getIP()); return !(r && r.ok===false && r.status==='locked'); }
+function deviceGate(id, dev, label, ip) { return LOCK_URL && LOCK_URL.indexOf('http') === 0 ? lockCall(LOCK_URL, { id: id, device: dev, label: label || '', ip: ip || '' }, 8000) : Promise.resolve({ ok: true, status: 'off' }); }
+var __LK = null;
+async function enforceDevice(id, label, U, fast) {
+  var x = EXEMPT_IDS.indexOf(id) > -1, url = lockUrl(U), dev = deviceId(), blk = 'zraij.blk.' + LOCK_BOOK, okk = 'zraij.lkok.' + LOCK_BOOK;
+  window.__LKMSG = ''; __LK = null;
+  if (!url) { if (x) return true; var o = await deviceGate(id, dev, label, await Promise.race([__IPP, new Promise(function (r) { setTimeout(function () { r(''); }, 1500); })])); if (o && o.ok === false && o.status === 'locked') { window.__LKMSG = LOCK_MSG.locked; return false; } return true; }
+  __LK = { u: url, p: { book: LOCK_BOOK, id: id, device: dev, x: x ? 1 : '' } };
+  var bad = lsGet(blk);
+  if (fast && !bad && lsGet(okk) === id + '|' + dev) return true;
+  var ip = await Promise.race([__IPP, new Promise(function (r) { setTimeout(function () { r(''); }, 1500); })]);
+  var r = await lockCall(url, { book: LOCK_BOOK, id: id, device: dev, x: x ? 1 : '', label: label || '', ip: ip, ua: navigator.userAgent.slice(0, 300) }, 9000);
+  if (r && r.ok === false && LOCK_MSG[r.status]) { window.__LKMSG = LOCK_MSG[r.status]; if (r.status === 'blocked') lsSet(blk, '1'); lsSet(okk, null); return false; }
+  if (r && r.ok && (r.status === 'ok' || r.status === 'new')) { lsSet(blk, null); lsSet(okk, id + '|' + dev); return true; }
+  if (bad) { window.__LKMSG = LOCK_MSG.blocked; return false; } // جهاز محظور: ما يفتح حتى لو الخادم ما رد
+  return true;
+}
+// نبضة كل 4 دقائق من داخل الكتاب: تخلي الجلسة «نشطة» بلوحة الإدارة، وإذا الإدارة طلّعت/حظرت الجهاز يرجع لصفحة الدخول
+function lockBeat(html) {
+  if (!__LK) return html;
+  var cfg = JSON.stringify({ u: __LK.u, p: __LK.p, ip: __LKIP, sk: SK, m: LOCK_MSG, b: LOCK_BOOK }).replace(/</g, '\\u003c');
+  var js = '<script>(function(){var C=' + cfg + ',last=0;function go(st){try{localStorage.removeItem(C.sk);sessionStorage.removeItem(C.sk);localStorage.removeItem("zraij.lkok."+C.b);if(st==="blocked")localStorage.setItem("zraij.blk."+C.b,"1");sessionStorage.setItem("zraij.lkmsg",C.m[st]);}catch(e){}top.location.reload();}'
+    + 'function beat(){if(document.hidden)return;var n=Date.now();if(n-last<60000)return;last=n;var cb="__lb"+n,s=document.createElement("script"),t=setTimeout(fin,20000);function fin(){clearTimeout(t);try{delete window[cb]}catch(e){window[cb]=void 0}if(s.parentNode)s.parentNode.removeChild(s);}'
+    + 'window[cb]=function(r){fin();if(r&&r.ok===false&&C.m[r.status])go(r.status);else if(r&&r.ok&&(r.status==="ok"||r.status==="new")){try{localStorage.setItem("zraij.lkok."+C.b,C.p.id+"|"+C.p.device);localStorage.removeItem("zraij.blk."+C.b)}catch(e){}}};s.onerror=fin;'
+    + 'var q="";for(var k in C.p)q+="&"+k+"="+encodeURIComponent(C.p[k]);s.src=C.u+"?callback="+cb+q+"&beat=1&ip="+encodeURIComponent(C.ip||"")+"&ua="+encodeURIComponent(navigator.userAgent.slice(0,300));(document.head||document.documentElement).appendChild(s);}'
+    + 'setTimeout(beat,1500);setInterval(beat,240000);document.addEventListener("visibilitychange",function(){if(!document.hidden)beat();});})();<\/script>';
+  return html.indexOf('</body>') > -1 ? html.replace('</body>', function () { return js + '</body>'; }) : html + js;
+}
+try { var __m = sessionStorage.getItem('zraij.lkmsg'); if (__m) { sessionStorage.removeItem('zraij.lkmsg'); document.getElementById('e').textContent = __m; } } catch (_) {}
 async function openWith(raw) {
   const z = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: AX.ub(CT.iv) }, await AX.kimp(raw, ['decrypt']), AX.ub(CT.d));
   const html = await new Response(new Blob([z]).stream().pipeThrough(new DecompressionStream('deflate'))).text();
   var __CR='<div style="position:fixed;left:8px;bottom:4px;z-index:2147483647;font:11px/1.6 Tahoma,sans-serif;color:#6d6890;background:rgba(255,255,255,.75);border-radius:8px;padding:1px 8px;direction:rtl;pointer-events:none">تصميم وبرمجة: <b style=\"color:#e63973\">حسام عبدالمنعم</b> · <span dir=\"ltr\">07746451098</span> · © 2026</div>';
   var __out = html.indexOf('</body>') > -1 ? html.replace('</body>', __CR + '</body>') : html + __CR;
-  __out = subBadge(__out);
+  __out = lockBeat(subBadge(__out));
   // PWA: نعيد روابط التطبيق (الأيقونة والـ manifest) للصفحة بعد فتح المحتوى حتى يبقى التثبيت متاحاً
   var __PWA = Array.prototype.map.call(document.querySelectorAll('link[rel="manifest"],link[rel="icon"],link[rel="apple-touch-icon"],meta[name="theme-color"],meta[name="mobile-web-app-capable"],meta[name^="apple-mobile-web-app"]'), function (n) { return n.outerHTML; }).join('');
   if (__PWA) __out = /<head[^>]*>/i.test(__out) ? __out.replace(/<head[^>]*>/i, function (h) { return h + __PWA; }) : __PWA + __out;
@@ -165,7 +203,7 @@ const __usersP = subFetch(EMB);
     if (__ent) {
       if (subExpired(__ent)) { subBlock(__ent); return; }
       window.__SUBENT = __ent;
-      if (!(await enforceDevice(s.i, ''))) { __st.clear(); document.getElementById('e').textContent = 'هذا الحساب مُستخدم على جهاز آخر. راجع الإدارة لتحريره.'; document.getElementById('u').focus(); return; }
+      if (!(await enforceDevice(s.i, '', U, 1))) { __st.clear(); document.getElementById('e').textContent = window.__LKMSG || 'هذا الحساب مُستخدم على جهاز آخر. راجع الإدارة لتحريره.'; document.getElementById('u').focus(); return; }
       try { await openWith(AX.ub(s.k)); return; } catch (_) {}
     }
     __st.clear();
@@ -181,7 +219,7 @@ document.getElementById('f').onsubmit = async (ev) => {
     if (!r) { er.textContent = 'اسم المستخدم أو كلمة المرور غير صحيحة'; f.classList.remove('shake'); void f.offsetWidth; f.classList.add('shake'); b.disabled = false; b.textContent = 'دخول'; return; }
     if (subExpired(r.entry)) { subBlock(r.entry); return; }
     window.__SUBENT = r.entry;
-    if (!(await enforceDevice(r.entry.i, document.getElementById('u').value))) { er.textContent = 'هذا الحساب مُستخدم على جهاز آخر. راجع الإدارة لتحريره.'; f.classList.remove('shake'); void f.offsetWidth; f.classList.add('shake'); b.disabled = false; b.textContent = 'دخول'; return; }
+    if (!(await enforceDevice(r.entry.i, document.getElementById('u').value, await __usersP))) { er.textContent = window.__LKMSG || 'هذا الحساب مُستخدم على جهاز آخر. راجع الإدارة لتحريره.'; f.classList.remove('shake'); void f.offsetWidth; f.classList.add('shake'); b.disabled = false; b.textContent = 'دخول'; return; }
     __st.set({ k: AX.bu(r.raw), i: r.entry.i }, document.getElementById('r').checked || r.entry.d === 1);
     await openWith(r.raw);
   } catch (x) { er.textContent = 'تعذّر فتح الصفحة على هذا المتصفح، جرّب متصفحاً أحدث.'; b.disabled = false; b.textContent = 'دخول'; }
