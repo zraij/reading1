@@ -135,14 +135,15 @@ async function getIP(){ try{ var c=new AbortController(), t=setTimeout(function(
 // ---- قفل الأجهزة والجلسات (v2) ----
 // الخادم الجديد يتحدد من لوحة الإدارة (users.json ← lk)؛ إذا ما متحدد يشتغل الخادم القديم LOCK_URL مثل قبل.
 // الجهاز اللي تأكّد قبل يفتح الكتاب فوراً، والفحص يكمل بالخلفية داخل الكتاب (حتى بطء Google ما يأخّر الفتح).
-var LOCK_BOOK = 'reading1', LOCK_MSG = { locked: 'هذا الحساب مُستخدم على جهاز آخر. راجع الإدارة لتحريره.', blocked: '⛔ هذا الجهاز محظور من الإدارة. للمراجعة: 07746451098', kicked: 'تم تسجيل خروجك من الإدارة، سجّل الدخول مرة ثانية.' };
+// اسم الكتاب = اسم المستودع من الرابط (zraij.github.io/<الكتاب>/)، حتى لو انتسخ هذا الكود لكتاب جديد يشتغل بدون تعديل
+var LOCK_BOOK = (location.pathname.split('/').filter(Boolean)[0] || 'reading1').replace(/[^\w.-]/g, ''), LOCK2_URL = 'https://script.google.com/macros/s/AKfycbx4irPXEPfkpdwV0mF1gTPQBT0tggu_cviNSBr3UWgwfScs4awM-4b-Pv0VJdsolw-s/exec', LOCK_MSG = { locked: 'هذا الحساب مُستخدم على جهاز آخر. راجع الإدارة لتحريره.', blocked: '⛔ هذا الجهاز محظور من الإدارة. للمراجعة: 07746451098', kicked: 'تم تسجيل خروجك من الإدارة، سجّل الدخول مرة ثانية.' };
 var __IPP = getIP(), __LKIP = ''; __IPP.then(function (v) { __LKIP = v || ''; });
 function lsGet(k) { try { return localStorage.getItem(k); } catch (_) { return null; } }
 function lsSet(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (_) {} }
 function lockUrl(U) {
   var u = U && U.lk;
   if (U && U !== EMB) lsSet('zraij.lk', u || null); else if (!u) u = lsGet('zraij.lk');
-  return /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(u || '') ? u : '';
+  return /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(u || '') ? u : LOCK2_URL; // الخادم الجديد افتراضياً
 }
 function lockCall(url, p, ms) {
   return new Promise(function (resolve) {
