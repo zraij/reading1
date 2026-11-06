@@ -200,7 +200,7 @@ td small.d{display:block;color:var(--mu);font-size:12px;direction:ltr;text-align
     </ol>
     <div class="row" style="margin-top:10px"><button class="ghost" type="button" id="lkCopy">نسخ كود الخادم</button><a href="https://github.com/zraij/reading1/blob/main/lock-server.gs" target="_blank" rel="noopener" style="font-size:13px">عرض الكود</a></div>
     <textarea id="lkcode" readonly hidden></textarea>
-    <div class="row" style="margin-top:10px"><input class="ltr" id="lkUrl" type="text" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off" spellcheck="false"><button type="button" id="lkSave">ربط</button></div>
+    <div class="row" style="margin-top:10px"><input class="ltr" id="lkUrl" type="text" value="https://script.google.com/macros/s/AKfycbx4irPXEPfkpdwV0mF1gTPQBT0tggu_cviNSBr3UWgwfScs4awM-4b-Pv0VJdsolw-s/exec" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off" spellcheck="false"><button type="button" id="lkSave">ربط</button></div>
     <p class="hint" style="margin-top:8px">بعد الربط كل الكتب تتحول للخادم الجديد، وكل حساب ينربط من جديد بأول جهاز يفتح عليه.</p>
   </div>
   <div id="lkMain" hidden>
@@ -331,7 +331,7 @@ $('#lock').onsubmit = async (e) => {
   $('#kp').value = ''; $('#km').textContent = ''; await pick(CUR);
 };
 async function openPanel() {
-  $('#login').hidden = true; $('#panel').hidden = false;
+  $('#login').hidden = true; $('#panel').hidden = false; await lkAuto();
   const here = (location.pathname.split('/').filter(Boolean)[0] || '').toLowerCase();
   let last = ''; try { last = localStorage.getItem(CK) || ''; } catch (_) {}
   const want = [last, here].map((x) => BOOKS.find((bk) => bk.r.toLowerCase() === x.toLowerCase())).find((bk) => bk && S[bk.r]);
@@ -482,6 +482,8 @@ $('#npb').onclick = async () => {
 // ---- الأجهزة والجلسات (خادم القفل الجديد) ----
 // LK = { u: رابط الخادم, k: مفتاح الإدارة }. الرابط ينحفظ بـ users.json (lk) حتى تقراه صفحات الكتب، والمفتاح مشفّر بمفتاح المدير (lkk).
 const LKK = 'zraij.lk.admin', LKRE = /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/;
+// الخادم الافتراضي لكل الكتب (نفس الرابط مكتوب بـ index.html لكل كتاب)
+const LK_DEFAULT = 'https://script.google.com/macros/s/AKfycbx4irPXEPfkpdwV0mF1gTPQBT0tggu_cviNSBr3UWgwfScs4awM-4b-Pv0VJdsolw-s/exec';
 let LK = (() => { try { const v = JSON.parse(localStorage.getItem(LKK)); return v && LKRE.test(v.u) && v.k ? v : null; } catch (_) { return null; } })();
 const setLK = (v) => { LK = v; try { v ? localStorage.setItem(LKK, JSON.stringify(v)) : localStorage.removeItem(LKK); } catch (_) {} };
 async function pullLk(b) { if (LK || !b.AK || !b.U.lkk || !LKRE.test(b.U.lk || '')) return; try { setLK({ u: b.U.lk, k: td.decode(await unseal(await akKey(b, ['decrypt']), b.U.lkk, 'lkk')) }); } catch (_) {} }
@@ -518,7 +520,7 @@ async function lkLoad() {
   lkData = r; lkFor = r0; if ($('#lkm').classList.contains('bad')) $('#lkm').textContent = ''; lkRender();
 }
 function lkDraw(load) {
-  $('#lkSetup').hidden = !!LK; $('#lkMain').hidden = !LK; $('#lkm').textContent = '';
+  $('#lkSetup').hidden = !!LK; $('#lkMain').hidden = !LK; if (lkNote) { msg($('#lkm'), lkNote, true); lkNote = ''; } else if (!$('#lkm').classList.contains('bad') || LK) $('#lkm').textContent = '';
   if (!LK) { $('#lkUrl').value = ''; return; }
   if (lkFor !== CUR) { lkData = null; $('#lkList').innerHTML = '<tr><td colspan="4" class="empty">جارِ التحميل…</td></tr>'; $('#lkBlk').innerHTML = ''; $('#lkSum').innerHTML = ''; }
   if (load) lkLoad();
@@ -562,22 +564,33 @@ $('#lkCopy').onclick = async () => {
   $('#lkcode').value = code; $('#lkcode').hidden = false;
   x.textContent = (await copyText(code)) ? 'انتسخ الكود ✓' : 'انسخه من المربع'; if (x.textContent !== 'انتسخ الكود ✓') { $('#lkcode').focus(); $('#lkcode').select(); }
 };
-$('#lkSave').onclick = async () => {
-  const u = $('#lkUrl').value.trim().replace(/\?.*$/, ''), x = $('#lkSave');
-  if (!LKRE.test(u)) return msg($('#lkm'), 'الرابط لازم يكون رابط Web app من script.google.com وينتهي بـ /exec');
+// أول مرة تنفتح اللوحة: ترتبط تلقائياً بالخادم الافتراضي (أو رابط lk من users.json) بمفتاح إدارة جديد
+let lkTried = false;
+async function lkAuto() {
+  if (LK || lkTried) return; lkTried = true;
+  const u = (Object.values(S).map((b) => b.U.lk).find((v) => LKRE.test(v || ''))) || LK_DEFAULT;
+  if (LKRE.test(u)) await lkConnect(u, true);
+}
+async function lkConnect(u, auto) {
   let k = LK && LK.k; if (!k) { const r = AU.rnd(24); k = AU.bu(r).replace(/[+/=]/g, (c) => ({ '+': '-', '/': '_', '=': '' }[c])); }
-  x.disabled = true; msg($('#lkm'), 'جارِ الربط…', true);
-  const r = await jsonp(u, { op: 'setup', key: k }); x.disabled = false;
-  if (!r.ok) return msg($('#lkm'), r.status === 'badkey' ? 'هذا الخادم مربوط بمفتاح إدارة ثاني. سوّ نشر (Deploy) جديد بمشروع جديد، أو امسح خاصية ADMIN_KEY من إعدادات المشروع' : lkErr(r));
+  const r = await jsonp(u, { op: 'setup', key: k });
+  if (!r.ok) { if (!auto || r.status === 'badkey') msg($('#lkm'), r.status === 'badkey' ? 'الخادم مربوط بمفتاح إدارة ثاني (ربما من جهاز ثاني ما انحفظ مفتاحه). امسح خاصية ADMIN_KEY من إعدادات مشروع Apps Script (⚙️ ← خصائص النص البرمجي) واضغط «ربط» مرة ثانية' : lkErr(r)); return false; }
   setLK({ u, k });
-  // نحفظ الرابط بكل كتاب مفتوح: الكتب اللي ما بيها تغييرات تنحفظ هسه، والباقي ويّا «حفظ التغييرات»
   const done = [], later = [];
   for (const bk of BOOKS) { const b = S[bk.r]; if (!b) continue; await sealLk(b);
     if (!b.pend && tok()) { try { await saveBook(bk, 'Connect device-lock server'); done.push(bk.l); continue; } catch (_) {} }
     b.pend++; later.push(bk.l); }
   const locked = BOOKS.filter((bk) => !S[bk.r]).map((bk) => bk.l);
-  msg($('#lkm'), 'تم الربط ✓' + (done.length ? ' وانحفظ بـ: ' + done.join('، ') : '') + (later.length ? ' · اضغط «حفظ التغييرات» لـ: ' + later.join('، ') : '') + (locked.length ? ' · الكتب المقفولة (' + locked.join('، ') + ') تنربط لما تفتحها' : ''), true);
-  drawBooks(); drawBar(); const m = $('#lkm').textContent; lkDraw(true); msg($('#lkm'), m, true);
+  lkNote = 'تم الربط بخادم الأجهزة ✓' + (done.length ? ' وانحفظ بـ: ' + done.join('، ') : '') + (later.length ? ' · اضغط «حفظ التغييرات» لـ: ' + later.join('، ') : '') + (locked.length ? ' · الكتب المقفولة (' + locked.join('، ') + ') تنربط لما تفتحها' : '');
+  return true;
+}
+let lkNote = '';
+$('#lkSave').onclick = async () => {
+  const u = $('#lkUrl').value.trim().replace(/\?.*$/, ''), x = $('#lkSave');
+  if (!LKRE.test(u)) return msg($('#lkm'), 'الرابط لازم يكون رابط Web app من script.google.com وينتهي بـ /exec');
+  x.disabled = true; msg($('#lkm'), 'جارِ الربط…', true);
+  const ok = await lkConnect(u); x.disabled = false; if (!ok) return;
+  drawBooks(); drawBar(); lkDraw(true); msg($('#lkm'), lkNote, true); lkNote = '';
 };
 setInterval(() => { if (!document.hidden && LK && B && !$('#lkMain').hidden) lkLoad(); }, 30000);
 
